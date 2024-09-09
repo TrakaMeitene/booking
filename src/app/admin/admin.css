@@ -1,0 +1,58 @@
+.select *button{
+    border: none;
+}
+
+.select *button:focus{
+    border: none;
+    offset: none;
+    box-shadow: none;
+    --tw-ring-color: none;
+}
+
+.focus\:ring-ring:focus {
+    --tw-ring-color: none;
+}
+
+main{
+    transform: translate(65px, 10px);
+     width: auto;
+overflow: auto; 
+width: 95vw;
+padding: 20px;
+}
+
+.cardheader{
+    justify-content: center;
+    align-items: center;
+}
+
+.button{
+    text-decoration-line: underline;
+}
+
+.rbc-today{
+    background-color: white !important;
+}
+
+.rbc-event{
+    background-color: hsl(220 14.3% 95.9%) !important;
+}
+
+.rbc-event-content, .rbc-event-label{
+    color: black !important;
+  line-height: normal !important;
+}
+
+.p-3{
+    background-color: white !important;
+    border-radius: 8px !important;
+    border: 1px solid gray !important;
+}
+
+@media screen and (max-width: 600px){
+main{
+    transform: translate(0,0);
+}
+
+}
+    

@@ -1,0 +1,90 @@
+'use client'
+import React, { useState } from "react";
+import Aside from "../partscomponents/aside";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
+import "../../admin/admin.css"
+import { Switch } from "@/components/ui/switch"
+import { Button } from "@/components/ui/button";
+import { Service } from "../services/page"; "../services/page"
+
+export default function Settings() {
+    const [workingdays, setWorkingdays] = useState([{ day: "Pirmdiena", statuss: true, from:"12:12", to: "17:00", breakfrom: "11:00", breakto: "12:00"  }, { day: "Otrdiena", statuss: true, from: "07:45", to: "17:00", breakfrom: "11:00",  breakto: "12:00"   }, { day: "Trešdiena", statuss: true, from: "11:00", to: "17:00", breakfrom: "11:00",  breakto: "12:00"  }, { day: "Cetturtdiena", statuss: true, from: "10:00", to: "17:00", breakfrom: "11:00",  breakto: "12:00"   }, { day: "Piektdiena", statuss: true, from: "12:00", to: "17:00", breakfrom: "11:00",  breakto: "12:00"  }, { day: "Sestdiena", statuss: false, from: "00:00", to: "17:00", breakfrom: "11:00" ,  breakto: "12:00"  }, { day: "Svētdiena", statuss: false, from: "09:00", to: "17:00", breakfrom: "11:00",  breakto: "12:00" }])
+
+    const data: Service[] = [
+        {
+            id: 1,
+            name: "Manikīrs sausias",
+            price: "20 €",
+            time: 1,
+            description: "saturs"
+        },
+        {
+            id: 2,
+            name: "Slapjais manikīrs",
+            price: "20  € ",
+            time: 1,
+            description: "saturs liels garš saturs ar banānanmaizisaturs liels garš saturs ar banānanmaizisaturs liels garš saturs ar banānanmaizisaturs liels garš saturs ar banānanmaizisaturs liels garš saturs ar banānanmaizisaturs liels garš saturs ar banānanmaizisaturs liels garš saturs ar banānanmaizisaturs liels garš saturs ar banānanmaizisaturs liels garš saturs ar banānanmaizi "
+        }
+    ]
+
+    const [selectedOption, setSelectedOption] = useState(data[0].name)
+
+  
+    const saveweeksettings = ()=>{
+console.log(workingdays)
+    }
+
+    return (
+        <>
+            <Aside />
+            <main>
+
+                <h1 className="text-3xl w-full border-b-2">Uzstādījumi</h1>
+                <p>Uzstādiet darba laiku un pārtraukumus darba nedēļai!</p>
+                <Button onClick={saveweeksettings} className="mr-2">Saglabāt</Button>     
+                <Button variant="outline" className="mt-4" >Darba laiks datumiem</Button>
+
+                <div className="flex row mt-2">
+                    {workingdays.map((x, index) =>
+                        <Card key={x.day} className="mr-4 ">
+                            <CardHeader className=" flex items-center">
+                                <CardTitle>{x.day}</CardTitle>
+                                <Switch checked={x.statuss} onCheckedChange={(e) => setWorkingdays(workingdays => workingdays.with(index, { ...workingdays[index], statuss: e }))} />
+                            </CardHeader>
+                            <CardContent>
+                                <div className="flex row m-2">
+                                    <label htmlFor="from" className="mr-2">No:</label>
+                                    <input type="time" id="from" name="from" defaultValue={x.from} onChange={(e) => setWorkingdays(workingdays => workingdays.with(index, { ...workingdays[index], from: e.target.value }))}disabled={!x.statuss} style={{ border: "1px solid hsl(220 13% 91%)", borderRadius: "10px", padding: 4 }} className="mb-2" />
+                                </div>
+                                <div>
+                                    <label htmlFor="to" className="mr-2">Līdz:</label>
+                                    <input type="time" id="to" name="to" defaultValue={x.to} disabled={!x.statuss} onChange={(e) => setWorkingdays(workingdays => workingdays.with(index, { ...workingdays[index], to: e.target.value }))}style={{ border: "1px solid hsl(220 13% 91%)", borderRadius: "10px", padding: 4 }} />
+                                </div>
+                                <h3 className="mt-4">Pārtraukums</h3>
+                                <div className="flex row m-2">
+                                    <label htmlFor="from" className="mr-2" >No:</label>
+                                    <input type="time" id="from" name="from" defaultValue={x.breakfrom} disabled={!x.statuss} onChange={(e) => setWorkingdays(workingdays => workingdays.with(index, { ...workingdays[index], breakfrom: e.target.value }))}style={{ border: "1px solid hsl(220 13% 91%)", borderRadius: "10px", padding: 4 }} className="mb-2" />
+                                </div>
+                                <div>
+                                    <label htmlFor="to" className="mr-2">Līdz:</label>
+                                    <input type="time" id="to" name="to" defaultValue={x.breakto} disabled={!x.statuss} onChange={(e) => setWorkingdays(workingdays => workingdays.with(index, { ...workingdays[index], breakto: e.target.value }))}style={{ border: "1px solid hsl(220 13% 91%)", borderRadius: "10px", padding: 4 }} />
+                                </div>
+
+                            </CardContent>
+                        </Card>
+
+                    )}
+
+                </div>
+
+            </main>
+        </>
+    )
+}
