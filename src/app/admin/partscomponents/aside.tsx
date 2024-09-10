@@ -83,7 +83,7 @@ export default function Aside(){
           <Tooltip>
             <TooltipTrigger asChild>
               <Link
-                href="#"
+                href="/admin/settings"
                 className={pathname === "/admin/settings" ? active : base}
               >
                 <Settings className="h-5 w-5" />
@@ -136,7 +136,7 @@ export default function Aside(){
                 </Link>
    
                 <Link
-                  href="#"
+                  href="/admin/settings"
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                 >
                   <LineChart className="h-5 w-5" />
