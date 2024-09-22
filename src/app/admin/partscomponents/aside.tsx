@@ -21,11 +21,25 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import Header from "./header";
 import { usePathname } from 'next/navigation'
+import Image from "next/image";
+
+export type Usermodel = {
+  id: BigInteger,
+  name: string,
+  email: string,
+  email_verified_at: Date,
+  creatd_at: Date,
+  picture: string,
+  updated_at: Date
+}
+
+export interface User {
+  user : Usermodel
+}
 
 export default function Aside(){
   const pathname = usePathname()
 
-  console.log(pathname)
   const base = "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
   const active = "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8 bg-accent text-accent-foreground transition-colors"
     return(
@@ -37,7 +51,13 @@ export default function Aside(){
             href="/admin/calendar"
             className= "group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base "
           >
-            <Package2 className="h-4 w-4 transition-all group-hover:scale-110" />
+            <Image
+            src="/logo1.png"
+            height={25}
+            width={25}
+            alt="logo"
+            style={{transform: "translate(1px, -1px)"}}
+            />
             <span className="sr-only">Acme Inc</span>
           </Link>
           <Tooltip>

@@ -12,7 +12,8 @@ import {
 import "../../admin/admin.css"
 import { Switch } from "@/components/ui/switch"
 import { Button } from "@/components/ui/button";
-import { Service } from "../services/page"; "../services/page"
+import { Service } from "../services/page";import Layout from "../layout";
+ "../services/page"
 
 export default function Settings() {
     const [workingdays, setWorkingdays] = useState([{ day: "Pirmdiena", statuss: true, from:"12:12", to: "17:00", breakfrom: "11:00", breakto: "12:00"  }, { day: "Otrdiena", statuss: true, from: "07:45", to: "17:00", breakfrom: "11:00",  breakto: "12:00"   }, { day: "Trešdiena", statuss: true, from: "11:00", to: "17:00", breakfrom: "11:00",  breakto: "12:00"  }, { day: "Cetturtdiena", statuss: true, from: "10:00", to: "17:00", breakfrom: "11:00",  breakto: "12:00"   }, { day: "Piektdiena", statuss: true, from: "12:00", to: "17:00", breakfrom: "11:00",  breakto: "12:00"  }, { day: "Sestdiena", statuss: false, from: "00:00", to: "17:00", breakfrom: "11:00" ,  breakto: "12:00"  }, { day: "Svētdiena", statuss: false, from: "09:00", to: "17:00", breakfrom: "11:00",  breakto: "12:00" }])
@@ -42,8 +43,6 @@ console.log(workingdays)
     }
 
     return (
-        <>
-            <Aside />
             <main>
 
                 <h1 className="text-3xl w-full border-b-2">Uzstādījumi</h1>
@@ -79,12 +78,8 @@ console.log(workingdays)
 
                             </CardContent>
                         </Card>
-
                     )}
-
                 </div>
-
             </main>
-        </>
     )
 }

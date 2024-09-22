@@ -1,6 +1,6 @@
 'use client'
 import React, { useCallback, useEffect, useState, useRef } from "react";
-import { Calendar, momentLocalizer } from 'react-big-calendar'
+import { Calendar, momentLocalizer, Views } from 'react-big-calendar'
 import moment from 'moment'
 import "react-big-calendar/lib/css/react-big-calendar.css"
 import {
@@ -54,6 +54,7 @@ let content = <p></p>
 
 
   }, [])
+ // let views= Object.keys(Views).map((k) => Views[k])
 
   return (
     <div style={{ height: "700px" }} className="w-full mb-4">
@@ -65,13 +66,14 @@ let content = <p></p>
         showMultiDayTimes
         startAccessor="date"
         endAccessor="end"
-        onSelectEvent={handleSelectEvent}
-        selectable
-        onSelectSlot={onSelectSlot}
+       // onSelectEvent={handleSelectEvent}
+      //  selectable
+      //  onSelectSlot={onSelectSlot}
+       // views={views}
 
       />
       <Dialog open={open} onOpenChange={(event) => setOpen(event)}> <Bookingdetails data={item} /> </Dialog>
-      <Dialog open={addevent} onOpenChange={(event) => setaddevenetopen(event)}><Addbreak data={slotitems}/></Dialog>
+      {/* <Dialog open={addevent} onOpenChange={(event) => setaddevenetopen(event)}><Addbreak data={slotitems}/></Dialog> */}
     </div>
   )
 }

@@ -14,7 +14,7 @@
 }
 
 main{
-    transform: translate(65px, 10px);
+    transform: translate(65px, 10px) !important;
      width: auto;
 overflow: auto; 
 width: 95vw;

@@ -1,4 +1,5 @@
-import react from "react"
+'use client'
+import React, {useState} from "react"
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,8 +10,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import Link from "next/link"
 
 export default function Nav(){
+
+  const [isLoggedin, setLoggedin] = useState(false)
+
     return(
         <nav className="homenav">
         <Image
@@ -21,9 +26,9 @@ export default function Nav(){
         />
         <div>
         <Button>
-  Biznesam
+          <Link href="/business">Biznesam</Link>
         </Button>
-        <DropdownMenu>
+       {isLoggedin ? <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="outline"
@@ -48,6 +53,7 @@ export default function Nav(){
                 <DropdownMenuItem>Logout</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
+            : <Button><Link href="/login">Ielogoties</Link></Button>}
             </div>
       </nav>
     )

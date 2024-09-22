@@ -41,9 +41,7 @@ export default function Clients(){
     ]
     
     return(
-        <>
-        <Aside/>
-        <main>
+ <main>
         <h1 className="text-3xl w-full border-b-2">Klienti</h1>
         <Dialog>
             <Newclient/>
@@ -73,6 +71,5 @@ export default function Clients(){
   </TableBody>
         </Table>
         </main>
-        </>
     )
 }

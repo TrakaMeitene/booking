@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react"
 import { DialogTrigger, Dialog } from "@/components/ui/dialog";
 import Newcservice from "./newservice";
+import Layout from "../layout";
 
   export interface Service {
     id: number, name: string, price: string, time: number, description: string
@@ -39,8 +40,6 @@ description: "saturs liels garš saturs ar banānanmaizisaturs liels garš satur
     ]
     
     return(
-        <>
-        <Aside/>
         <main>
         <h1 className="text-3xl w-full border-b-2">Pakalpojumi</h1>
         <Dialog>
@@ -70,6 +69,5 @@ description: "saturs liels garš saturs ar banānanmaizisaturs liels garš satur
         </Table>
         </Dialog>
         </main>
-        </>
-    )
+            )
 }
