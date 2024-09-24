@@ -28,7 +28,13 @@ export interface User {
   email_verified_at: Date,
   creatd_at: Date,
   picture: string,
-  updated_at: Date
+  updated_at: Date,
+  bio: string,
+  adress: string, 
+  phone: string,
+  description: string,
+  scope: string,
+  occupation: string
 }
 
 export default function Header() {

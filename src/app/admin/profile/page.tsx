@@ -3,8 +3,6 @@ import React, { useEffect, useState, useRef } from "react";
 import {
     Card,
     CardContent,
-    CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
@@ -13,13 +11,21 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
 import { useForm } from "react-hook-form";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { User } from "../partscomponents/header"
 import { useRouter } from 'next/navigation'
-
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
+import { useToast } from "@/components/ui/use-toast";
 interface FormValues {
     name: string
     email: string,
@@ -30,17 +36,14 @@ interface FormValues {
     File: File
 }
 
-
-
 export default function Profile() {
-
-
-
     const [user, setUser] = useState<User>()
     const [userimg, setUserimg] = useState("")
     const [image, setImage] = useState<File>()
     const router = useRouter()
     const hiddenFileInput = useRef(null);
+    const [occupations, setOccupations] = useState(["Frizieris", "Vizāžists", "Manikīrs", "Kosmetologs", "Skropst meistars", "Masieris", "Stilists", "Lāzerepilācija", "Tetovēšana/pīrsingi", "Fitness", "Masāža"])
+    const [selectedOccupation, setSelectedOccuption] = useState("")
     const { register, handleSubmit, formState: { isDirty, dirtyFields } } = useForm<FormValues>();
 
     useEffect(() => {
@@ -56,6 +59,7 @@ export default function Profile() {
             .then(response => {
                 setUser(response.data)
                 setUserimg(`http://localhost:8000/storage/${response.data.avatar}`)
+                setSelectedOccuption(response.data.occupation)
             })
             .catch(function (error) {
                 if (error.response.status == 401) {
@@ -67,8 +71,6 @@ export default function Profile() {
     const handleClick = (event: any) => {
         hiddenFileInput?.current?.click();
     };
-
-    const body = new FormData();
 
     const handleChange = (event: any) => {
 
@@ -90,12 +92,13 @@ export default function Profile() {
             ])
         );
         { image && formData.append('file', image) }
+        formData.append('occupation', selectedOccupation)
 
         let token = Cookies.get('token')
         const headers = { 'Authorization': 'Bearer ' + token };
 
         axios.post('http://localhost:8000/api/updateuser', formData, { headers })
-            .then(response => console.log(response))
+            .then(response => console.log(response)) //te uztaisīt ka izmetas ziņojums
             .catch(function (error) {
                 if (error.response.status == 401) {
                     return router.push('/login')
@@ -103,7 +106,6 @@ export default function Profile() {
             })
     }
 
-    console.log("isdirty", isDirty, dirtyFields)
     return (
         <main>
             <h1 className="text-3xl w-full border-b-2">Profils</h1>
@@ -115,7 +117,7 @@ export default function Profile() {
                 <CardContent>
                     <div className="flex w-full justify-center  align-center">
                         <Avatar className="h-[100px] w-[100px] cursor-pointer" onClick={handleClick}>
-                            <AvatarImage src={userimg}  />
+                            <AvatarImage src={userimg} />
                             <AvatarFallback>CN</AvatarFallback>
                         </Avatar>
                         <input type="file"
@@ -163,7 +165,6 @@ export default function Profile() {
                                     placeholder="+371 xxxxxxx"
                                     required
                                     defaultValue={user?.phone}
-
                                     {...register('phone')}
                                 />
                             </div>
@@ -185,7 +186,7 @@ export default function Profile() {
                         <div className="grid gap-4 mt-2">
                             <div className="grid gap-2">
                                 <Label htmlFor="occupation">Nozare,nodarbošanās</Label>
-                                <Input
+                                {/* <Input
                                     id="occupation"
                                     type="text"
                                     placeholder="Nodarbošanās"
@@ -193,7 +194,21 @@ export default function Profile() {
                                     defaultValue={user?.occupation}
 
                                     {...register('occupation')}
-                                />
+                                /> */}
+                                <Select value={selectedOccupation} onValueChange={(value) => {
+                                    setSelectedOccuption(value)
+                                }} >
+                                    <SelectTrigger className="w-full">
+                                        <SelectValue placeholder="Izvēlies nodarbošanos" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            <SelectLabel>Fruits</SelectLabel>
+                                            {occupations.map(x => <SelectItem key={x} value={x}>{x}</SelectItem>)}
+
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
                             </div>
                         </div>
                         <div className="grid gap-4 mt-2">

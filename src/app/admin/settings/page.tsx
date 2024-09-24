@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Aside from "../partscomponents/aside";
 import {
     Card,
@@ -12,11 +12,15 @@ import {
 import "../../admin/admin.css"
 import { Switch } from "@/components/ui/switch"
 import { Button } from "@/components/ui/button";
-import { Service } from "../services/page";import Layout from "../layout";
- "../services/page"
+import { Service } from "../services/page";
+import Cookies from "js-cookie";
+import axios from "axios";
+import { useRouter } from 'next/navigation'
+import Link from "next/link";
 
 export default function Settings() {
-    const [workingdays, setWorkingdays] = useState([{ day: "Pirmdiena", statuss: true, from:"12:12", to: "17:00", breakfrom: "11:00", breakto: "12:00"  }, { day: "Otrdiena", statuss: true, from: "07:45", to: "17:00", breakfrom: "11:00",  breakto: "12:00"   }, { day: "Trešdiena", statuss: true, from: "11:00", to: "17:00", breakfrom: "11:00",  breakto: "12:00"  }, { day: "Cetturtdiena", statuss: true, from: "10:00", to: "17:00", breakfrom: "11:00",  breakto: "12:00"   }, { day: "Piektdiena", statuss: true, from: "12:00", to: "17:00", breakfrom: "11:00",  breakto: "12:00"  }, { day: "Sestdiena", statuss: false, from: "00:00", to: "17:00", breakfrom: "11:00" ,  breakto: "12:00"  }, { day: "Svētdiena", statuss: false, from: "09:00", to: "17:00", breakfrom: "11:00",  breakto: "12:00" }])
+    const [workingdays, setWorkingdays] = useState([{ day: "Pirmdiena", statuss: true, from:"08:00", to: "17:00", breakfrom: "12:00", breakto: "13:00"  }, { day: "Otrdiena", statuss: true, from: "08:00", to: "17:00", breakfrom: "12:00",  breakto: "13:00"   }, { day: "Trešdiena", statuss: true, from: "08:00", to: "17:00", breakfrom: "12:00",  breakto: "13:00"  }, { day: "Cetturtdiena", statuss: true, from: "08:00", to: "17:00", breakfrom: "12:00",  breakto: "13:00"   }, { day: "Piektdiena", statuss: true, from: "08:00", to: "17:00", breakfrom: "12:00",  breakto: "13:00"  }, { day: "Sestdiena", statuss: false, from: "08:00", to: "17:00", breakfrom: "12:00" ,  breakto: "13:00"  }, { day: "Svētdiena", statuss: false, from: "08:00", to: "17:00", breakfrom: "12:00",  breakto: "13:00" }])
+    const router = useRouter()
 
     const data: Service[] = [
         {
@@ -35,12 +39,35 @@ export default function Settings() {
         }
     ]
 
-    const [selectedOption, setSelectedOption] = useState(data[0].name)
-
+    useEffect(()=>{
+        getdata()
+    }, [])
   
     const saveweeksettings = ()=>{
-console.log(workingdays)
-    }
+let token = Cookies.get('token')
+const headers = { 'Authorization': 'Bearer ' + token };
+
+axios.post('http://localhost:8000/api/addsettings', workingdays, { headers })
+    .then(response => console.log(response)) //te jauztaisa iznirstosāis ziņojums
+    .catch(function (error) {
+        if (error.response.status == 401) {
+            return router.push('/login')
+        }
+    })
+}
+
+const getdata=()=>{
+    let token = Cookies.get('token')
+const headers = { 'Authorization': 'Bearer ' + token };
+
+axios.get('http://localhost:8000/api/getsettings', { headers })
+    .then(response => setWorkingdays(response.data)) 
+    .catch(function (error) {
+        if (error.response.status == 401) {
+            return router.push('/login')
+        }
+    })
+}
 
     return (
             <main>
@@ -48,7 +75,7 @@ console.log(workingdays)
                 <h1 className="text-3xl w-full border-b-2">Uzstādījumi</h1>
                 <p>Uzstādiet darba laiku un pārtraukumus darba nedēļai!</p>
                 <Button onClick={saveweeksettings} className="mr-2">Saglabāt</Button>     
-                <Button variant="outline" className="mt-4" >Darba laiks datumiem</Button>
+                <Button variant="outline" className="mt-4" ><Link href="/admin/settings/calendar">Darba laiks datumiem</Link></Button>
 
                 <div className="flex row mt-2">
                     {workingdays.map((x, index) =>

@@ -8,10 +8,13 @@ import { Button } from "@/components/ui/button";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { TimePickerInput } from "@/components/ui/time-picker-input";
-import { Service } from "./page";
+import axios from "axios"
+import { useRouter } from 'next/navigation'
+import Cookies from "js-cookie";
 
 export default function Newcservice(){
     const [date, setDate] = useState<any>()
+    const router = useRouter()
 
     type Inputs = {
         name: string,
@@ -28,7 +31,20 @@ export default function Newcservice(){
     } = useForm<Inputs>()
 
     const saveservice: SubmitHandler<Inputs> = (data)=>{
-console.log(data, "laiks:",  date)
+data.time = date.getHours() * 60 +  date.getMinutes()
+let token = Cookies.get('token')
+
+const headers = { 'Authorization': 'Bearer ' + token };
+axios.post('http://localhost:8000/api/addservice', data, { headers })
+    .then(response => {
+       console.log(response)
+    })
+    .catch(function (error) {
+        if (error.response.status == 401) {
+            return router.push('/login')
+        }
+    })
+
     }
 
     return(

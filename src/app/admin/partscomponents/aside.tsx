@@ -8,7 +8,8 @@ import {
   Package2,
   Settings,
   ShoppingCart,
-  PanelLeft
+  PanelLeft,
+  CalendarDays
 } from "lucide-react"
 
 import {
@@ -34,29 +35,29 @@ export type Usermodel = {
 }
 
 export interface User {
-  user : Usermodel
+  user: Usermodel
 }
 
-export default function Aside(){
+export default function Aside() {
   const pathname = usePathname()
 
   const base = "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
   const active = "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8 bg-accent text-accent-foreground transition-colors"
-    return(
-      <TooltipProvider>
+  return (
+    <TooltipProvider>
 
-        <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
+      <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
         <nav className="flex flex-col items-center gap-4 px-2 py-4">
           <Link
             href="/admin/calendar"
-            className= "group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base "
+            className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base "
           >
             <Image
-            src="/logo1.png"
-            height={25}
-            width={25}
-            alt="logo"
-            style={{transform: "translate(1px, -1px)"}}
+              src="/logo1.png"
+              height={25}
+              width={25}
+              alt="logo"
+              style={{ transform: "translate(1px, -1px)" }}
             />
             <span className="sr-only">Acme Inc</span>
           </Link>
@@ -66,7 +67,7 @@ export default function Aside(){
                 href="/admin/calendar"
                 className={pathname === "/admin/calendar" ? active : base}
               >
-                <Home className="h-5 w-5" />
+                <CalendarDays className="h-5 w-5" />
                 <span className="sr-only">Kalendārs</span>
               </Link>
             </TooltipTrigger>
@@ -96,8 +97,8 @@ export default function Aside(){
             </TooltipTrigger>
             <TooltipContent side="right">Pakalpojumi</TooltipContent>
           </Tooltip>
-      
-   
+
+
         </nav>
         <nav className="mt-auto flex flex-col items-center gap-4 px-2 py-4">
           <Tooltip>
@@ -130,14 +131,20 @@ export default function Aside(){
                   href="/admin/calendar"
                   className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
                 >
-                  <Package2 className="h-5 w-5 transition-all group-hover:scale-110" />
+                  <Image
+                    src="/logo1.png"
+                    height={25}
+                    width={25}
+                    alt="logo"
+                    style={{ transform: "translate(1px, -1px)" }}
+                  />
                   <span className="sr-only">Acme Inc</span>
                 </Link>
                 <Link
                   href="/admin/calendar"
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                 >
-                  <Home className="h-5 w-5" />
+                  <CalendarDays className="h-5 w-5" />
                   Kalendārs
                 </Link>
                 <Link
@@ -145,7 +152,7 @@ export default function Aside(){
                   className="flex items-center gap-4 px-2.5 text-foreground"
                 >
                   <ShoppingCart className="h-5 w-5" />
-                 Klienti
+                  Klienti
                 </Link>
                 <Link
                   href="/admin/services"
@@ -154,7 +161,7 @@ export default function Aside(){
                   <Package className="h-5 w-5" />
                   Pakalpojumi
                 </Link>
-   
+
                 <Link
                   href="/admin/settings"
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
@@ -165,9 +172,9 @@ export default function Aside(){
               </nav>
             </SheetContent>
           </Sheet>
-</header>
-</div>
-      </TooltipProvider>
+        </header>
+      </div>
+    </TooltipProvider>
 
-    )
+  )
 }

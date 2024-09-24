@@ -135,6 +135,10 @@ flex-direction: column;
   clip-path: inset(0 100% 0 0);
   animation: l1 1s steps(4) infinite;
 }
+
+.red{
+  background-color: red;
+}
 @keyframes l1 {to{clip-path: inset(0 -34% 0 0)}}
 
 main{
