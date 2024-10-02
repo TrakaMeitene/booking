@@ -68,6 +68,15 @@
   }
 }
 
+body{
+  height: 100vh;
+}
+
+#personpage{
+  padding-top:120px;
+}
+
+
 .homenav{
   padding: 10px 40px;
   position: fixed;

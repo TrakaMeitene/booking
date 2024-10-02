@@ -1,7 +1,6 @@
 'use client'
 import React, { useState } from "react"
 import Image from "next/image"
-import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -23,21 +22,23 @@ interface FormValues {
     Name: string
     Email: string,
     Password: string,
-    scope: string
+    scope: string,
+    urlname: string
 }
 
 export default function Register() {
 
-  const searchParams = useSearchParams()
- 
-  const type  = searchParams.get('type')
+    const searchParams = useSearchParams()
+
+    const type = searchParams.get('type')
 
     const [success, setSuccess] = useState({ type: "", message: "" })
     const [selectedOption, setSelectedOption] = useState(type || "all")
 
     const registeruser = (data: FormValues) => {
         data.scope = selectedOption
-
+        data.urlname = data.Name.toLocaleLowerCase('tr').replace(/ /g, "-")
+        
         try {
             axios.post('http://localhost:8000/api/register', data)
                 .then(response => {
@@ -54,8 +55,8 @@ export default function Register() {
     }
     const { register, handleSubmit } = useForm<FormValues>();
 
- 
-  
+
+
     return (
         <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
             <div className="flex items-center justify-center py-12">
@@ -109,9 +110,9 @@ export default function Register() {
                                     {...register('Password')}
                                 />
                             </div>
-                       
+
                             <Select
-                            defaultValue={selectedOption}
+                                defaultValue={selectedOption}
                                 onValueChange={(value) => {
                                     setSelectedOption(value)
                                 }}>

@@ -21,11 +21,10 @@ import {
     SelectContent,
     SelectGroup,
     SelectItem,
-    SelectLabel,
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { useToast } from "@/components/ui/use-toast";
+import Alertcomp from "../partscomponents/alert";
 interface FormValues {
     name: string
     email: string,
@@ -33,8 +32,13 @@ interface FormValues {
     bio: string,
     adress: String,
     occupation: string,
-    File: File
+    File: File,
+    city: string
 }
+ export interface Message{
+    message: string, 
+    type:  string
+ }
 
 export default function Profile() {
     const [user, setUser] = useState<User>()
@@ -42,9 +46,12 @@ export default function Profile() {
     const [image, setImage] = useState<File>()
     const router = useRouter()
     const hiddenFileInput = useRef(null);
-    const [occupations, setOccupations] = useState(["Frizieris", "Vizāžists", "Manikīrs", "Kosmetologs", "Skropst meistars", "Masieris", "Stilists", "Lāzerepilācija", "Tetovēšana/pīrsingi", "Fitness", "Masāža"])
+    const [occupations] = useState(["Frizieris", "Vizāžists", "Manikīrs", "Kosmetologs", "Skropst meistars", "Masieris", "Stilists", "Lāzerepilācija", "Tetovēšana/pīrsingi", "Fitness", "Masāža"])
     const [selectedOccupation, setSelectedOccuption] = useState("")
     const { register, handleSubmit, formState: { isDirty, dirtyFields } } = useForm<FormValues>();
+    const [selectedcity, setSelectedcity] = useState("Rīga")
+    const [cities] = useState(["Rīga", "Daugavpils", "Jelgava", "Jēkabpils", "Jūrmala", "Liepāja", "Rēzekne", "Valmiera", "Ventspils", "Aizkraukles rajons", "Alūksnes rajons", "Balvu rajons", "Bauskas rajons", "Cēsu rajons", "Daugavpils rajons", "Dobeles rajons", "Gulbenes rajons", "Jēkabpils rajons", "Jelgavas rajons", "Krāslavas rajons", "Kuldīgas rajons", "Liepājas rajons", "Limbažu rajons", "Ludzas rajons", "Madonas rajons", "Ogres rajons", "Preiļu rajons", "Rēzeknes rajons", "Rīgas rajons", "Saldus rajons", "Talsu rajons", "Tukuma rajons", "Valkas rajons", "Valmieras rajons", "Ventspils rajons", "Ārpus Latvijas"])
+    const [message, setMessage] = useState<Message>()
 
     useEffect(() => {
         let token = Cookies.get('token')
@@ -93,12 +100,17 @@ export default function Profile() {
         );
         { image && formData.append('file', image) }
         formData.append('occupation', selectedOccupation)
+        formData.append('city', selectedcity)
 
         let token = Cookies.get('token')
         const headers = { 'Authorization': 'Bearer ' + token };
 
         axios.post('http://localhost:8000/api/updateuser', formData, { headers })
-            .then(response => console.log(response)) //te uztaisīt ka izmetas ziņojums
+            .then(response => {if(response.data.id) {
+                setMessage({ message: "Dati atjaunināti veiksmīgi", type: "success" })
+            }else{
+                setMessage({ message: "Neizdevās atjaunināt datus. Mēģini vēlreiz!", type: "error" })
+            }}) 
             .catch(function (error) {
                 if (error.response.status == 401) {
                     return router.push('/login')
@@ -109,6 +121,7 @@ export default function Profile() {
     return (
         <main>
             <h1 className="text-3xl w-full border-b-2">Profils</h1>
+            {message && <Alertcomp success={message}/>}
 
             <Card className="w-[350px] mt-2">
                 <CardHeader>
@@ -171,6 +184,25 @@ export default function Profile() {
                         </div>
                         <div className="grid gap-4 mt-2">
                             <div className="grid gap-2">
+                                <Label htmlFor="city">Pilsēta, rajons</Label>
+                                <Select value={selectedcity} onValueChange={(value) => {
+                                    setSelectedcity(value)
+                                }} >
+                                    <SelectTrigger className="w-full">
+                                        <SelectValue placeholder="Izvēlies nodarbošanos" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+
+                                            {cities.map(x => <SelectItem key={x} value={x}>{x}</SelectItem>)}
+
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                        </div>
+                        <div className="grid gap-4 mt-2">
+                            <div className="grid gap-2">
                                 <Label htmlFor="adress">Adrese</Label>
                                 <Input
                                     id="adress"
@@ -186,15 +218,7 @@ export default function Profile() {
                         <div className="grid gap-4 mt-2">
                             <div className="grid gap-2">
                                 <Label htmlFor="occupation">Nozare,nodarbošanās</Label>
-                                {/* <Input
-                                    id="occupation"
-                                    type="text"
-                                    placeholder="Nodarbošanās"
-                                    required
-                                    defaultValue={user?.occupation}
 
-                                    {...register('occupation')}
-                                /> */}
                                 <Select value={selectedOccupation} onValueChange={(value) => {
                                     setSelectedOccuption(value)
                                 }} >
@@ -203,9 +227,7 @@ export default function Profile() {
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectGroup>
-                                            <SelectLabel>Fruits</SelectLabel>
                                             {occupations.map(x => <SelectItem key={x} value={x}>{x}</SelectItem>)}
-
                                         </SelectGroup>
                                     </SelectContent>
                                 </Select>

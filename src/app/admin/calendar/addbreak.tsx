@@ -11,15 +11,19 @@ import axios from "axios"
 import Cookies from "js-cookie";
 import { useRouter } from 'next/navigation'
 
-export default function Addbreak({ data }: { data: Date[] | undefined }) {
+export default function Addbreak({data ,close}) {
+
     const router = useRouter()
     let token = Cookies.get('token')
+
 
     const savevacation = () => {
 
         const headers = { 'Authorization': 'Bearer ' + token };
         axios.post('http://localhost:8000/api/savevacation', data, { headers })
-            .then(response => console.log(response))
+            .then(response =>{ if(response.data.length > 0){
+                close()
+            }}) //jaieleik tosat ka ir success
             .catch(function (error) {
                 if (error.response.status == 401) {
                     return router.push('/login')
@@ -28,6 +32,7 @@ export default function Addbreak({ data }: { data: Date[] | undefined }) {
     }
 
     return (
+        <>
         <DialogContent className="max-w-[450px] flex items-center justify-center flex-col ">
             <DialogHeader className="text-center sm:text-center">
                 <DialogTitle>Atzīmēt kā brīvdienas</DialogTitle>
@@ -36,10 +41,13 @@ export default function Addbreak({ data }: { data: Date[] | undefined }) {
                 {data && data.map(x => <div>{moment(x).format('dddd, Do MMMM YYYY')}</div>)}
             </div>
             <DialogFooter>
-                <Button variant="outline" >Atcelt</Button>
-                <Button type="submit" onClick={savevacation}>Saglabāt</Button>
+                <Button variant="outline" onClick={close}>Atcelt</Button>
+                <Button type="submit" 
+                onClick={savevacation}
+                >Saglabāt</Button>
             </DialogFooter>
         </DialogContent>
+        </>
     )
 
 }

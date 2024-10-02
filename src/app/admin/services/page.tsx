@@ -1,6 +1,5 @@
 'use client'
 import React, { useEffect, useState } from "react";
-import Aside from "../partscomponents/aside";
 import {
   Table,
   TableBody,
@@ -87,7 +86,7 @@ if(!services)
             </TableRow>
           </TableHeader>
           <TableBody>
-            {services?.map(x => <TableRow key={x.id} >
+            {services?.map((x: Service) => <TableRow key={x.id} >
               <TableCell>{x.name}</TableCell>
               <TableCell >{x.price} Eur</TableCell>
               <TableCell >{x.time} min</TableCell>

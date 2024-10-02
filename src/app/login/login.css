@@ -13,12 +13,16 @@ padding: 20px;
 }
 
 .card:hover{
-    transform: scale(0.98);
+    transform: scale(0.98) !important;
     background-color: white;
     color: black;
 }
 
-h2{
+.card h2{
     font-size: 1.5em;
     font-weight: 500;
+}
+
+.card p{
+    font-size:  0.875rem !important;
 }

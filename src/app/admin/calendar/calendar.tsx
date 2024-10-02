@@ -5,16 +5,20 @@ import moment from 'moment'
 import "react-big-calendar/lib/css/react-big-calendar.css"
 import {
   Dialog,
-
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog"
 import Bookingdetails from "./bookingdetails";
 import Eventform from "./eventform";
 import Addbreak from "./addbreak";
-import { useToast } from "@/components/ui/use-toast";
 import axios from "axios"
 import Cookies from "js-cookie";
 import { useRouter } from 'next/navigation'
-import Loading from "../partscomponents/loading";
+import { Plus } from "lucide-react"
+import { Button } from "@/components/ui/button";
+import { Booking } from "./page";
 
 export default function Calendarview({ data }: any) {
   const [item, setItem] = useState()
@@ -22,6 +26,9 @@ export default function Calendarview({ data }: any) {
 const [addevent, setaddevenetopen ] = useState(false)
 const [slotitems, setslotitems] = useState()
 const [vacation, setvacation] = useState()
+const [range, setrange] = useState()
+const [bookings, setbookings] = useState([])
+const [openaddbooking, setOpenaddbooking] = useState(false)
 
 const router = useRouter()
 
@@ -29,6 +36,7 @@ const router = useRouter()
   if(item){
     setOpen(true)
   }  
+  getdata()
   }, [item])
 
   const localizer = momentLocalizer(moment)
@@ -60,22 +68,12 @@ let content = <p></p>
     setslotitems(slotInfo.slots)
   }, [])
 
-  // const dayPropGetter = useCallback(
-  //   (date) => {
+  const closedialog=()=>{
+    setaddevenetopen(false)
+  }
 
-  //    // console.log( slotitems, date)
-  //     return {
-  //       style: {
-  //         backgroundColor: '#88C9E8', 
-  //         border: '1px solid gray',
-  //         margin: 0,
-  //         padding: 0
-  //       }
-  //     }
-  //   }
-  // , [])
-
-  const onRangeChange =  useCallback((range) => {
+  const onRangeChange =  useCallback((range:any) => {
+    setrange(range)
     let token = Cookies.get('token')
     const headers = { 'Authorization': 'Bearer ' + token };
      axios.post('http://localhost:8000/api/getvacation', range, { headers })
@@ -85,33 +83,65 @@ let content = <p></p>
                 return router.push('/login')
             }
         })
-   console.log(range.start, range.end)
-
   }, [])
 
-  const dayPropGetter = useCallback(
-      (date) => {
- 
-       // console.log( slotitems, date)
-        return {
-          style: {
-            backgroundColor: '#88C9E8', 
-            border: '1px solid gray',
-            margin: 0,
-            padding: 0
-          }
+const getdata=()=>{
+  let token = Cookies.get('token')
+  const headers = { 'Authorization': 'Bearer ' + token };
+    // Using Map to represent the `range` (assuming range is previously defined as an object)
+    const range = new Map();
+    // Example: range.set('startDate', '2024-09-01'); range.set('endDate', '2024-09-30');
+  
+    axios.post('http://localhost:8000/api/getbookings', Object.fromEntries(range), { headers })
+      .then(response => {
+        // Convert date strings to JavaScript Date objects in the response data
+        const bookingsWithDates = response.data.map((booking:Booking) => ({
+          ...booking,
+          // Assuming `bookingDate` is a field in the response that needs conversion
+          date: new Date(booking.date)
+        }));
+  
+        setbookings(bookingsWithDates);
+      })
+      .catch(function (error) {
+        if (error.response.status === 401) {
+          return router.push('/login');
         }
-      }
-    , [])
+      });
+}
 
-console.log(vacation)
-  return (
-    <div style={{ height: "700px" }} className="w-full mb-4">
+const closeaddbooking=()=>{
+  setOpenaddbooking(false)
+}
+
+return (
+    <div style={{ height: "800px" }} className="w-full mb-4">
+       <Dialog open={openaddbooking} onOpenChange={(event) => setOpenaddbooking(event)} >
+                        <DialogContent className="sm:max-w-[425px] sm:text-center">
+                          <DialogHeader>
+                            <DialogTitle className="sm:text-center">Jauns pieraksts</DialogTitle>
+
+                          </DialogHeader>
+                          <Eventform  close={closeaddbooking} getdata={getdata}/>
+
+                        </DialogContent>
+
+                        <DialogTrigger asChild >
+                          <Button
+                            variant="default"
+                           className="mb-2"
+                           onClick={()=>setOpenaddbooking(true)}
+                          >
+                            <Plus size={20} /> Jauns pieraksts
+                          </Button>
+                        </DialogTrigger>
+
+                      </Dialog>
       <Calendar
         messages={lang}
         localizer={localizer}
         defaultView="day"
-        events={data}
+        events={bookings}
         showMultiDayTimes
         startAccessor="date"
         endAccessor="end"
@@ -120,17 +150,19 @@ console.log(vacation)
      onSelectSlot={onSelectSlot}
      //dayPropGetter={dayPropGetter}
      onRangeChange={onRangeChange}
+
      dayPropGetter={(event) => {
-      const hasTodo = vacation?.find((item) => new Date(item.date).getDate() == new Date(event).getDate())
+      const hasTodo = vacation?.find((item:any) => new Date(item.date).toLocaleDateString() == new Date(event).toLocaleDateString())
       return {
         style: {
-          backgroundColor: hasTodo ? "#b64fc8" : "white",
+          backgroundColor: hasTodo ? "hsl(115, 100%, 90%)" : "white",
         },
       }
     }}
       />
       <Dialog open={open} onOpenChange={(event) => setOpen(event)}> <Bookingdetails data={item} /> </Dialog>
-      <Dialog open={addevent} onOpenChange={(event) => setaddevenetopen(event)}><Addbreak data={slotitems}/></Dialog>
+      <Dialog open={addevent} onOpenChange={(event) => setaddevenetopen(event)}><Addbreak data={slotitems} close={closedialog} /></Dialog>
+
     </div>
   )
 }

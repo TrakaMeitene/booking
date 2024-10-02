@@ -1,0 +1,65 @@
+'use client'
+import React, { useEffect, useState } from "react";
+import Nav from "../components/nav"
+import Searchspecialist from "../components/search";
+import axios from "axios";
+import { useSearchParams } from 'next/navigation'
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { useRouter, usePathname} from 'next/navigation'
+import { User } from "../admin/calendar/page";
+
+export default function Specialists() {
+    const searchParams = useSearchParams()
+const router = useRouter()
+    let city = searchParams.get('city')
+    let occupation = searchParams.get('occupation')
+    let date = searchParams.get('date')
+    const pathname = usePathname();
+
+    const [specialsist, setSpecialists] = useState<User[]>([])
+
+    useEffect(() => {
+        getdata(city, occupation, date)
+    }, [])
+
+    const getdata = (city:string|null, occupation:string|null, date:string|null) => {
+        const data = { 'city': city, 'occupation': occupation, 'date': date }
+
+        axios.post('http://localhost:8000/api/getspecialists', data)
+            .then(response => setSpecialists(response.data))
+    }
+
+    const topersonalpage=(x: User)=>{
+        history.pushState({ id: x.id}, "",  `/${x.name.toLocaleLowerCase('tr').replace(/ /g,"-")}`);
+
+        router.push(`${x.name.toLocaleLowerCase('tr').replace(/ /g,"-")}`);
+    }
+    return (
+        <>
+            <Nav />
+            <section id="homefirst" className="justify-center">
+                <Searchspecialist getdata={getdata} />
+                <div className="flex flex-wrap flex-row">
+                    {specialsist.length > 0 && specialsist?.map(x =>
+                            <div className="flex border flex-row rounded-2xl bg-white p-5 cursor-pointer hover:scale-105" key={x.id} onClick={()=>topersonalpage(x)}>
+                                <Avatar className="h-[100px] w-[100px]" >
+                                    <AvatarImage src={`http://localhost:8000/storage/${x.avatar}`} />
+                                    <AvatarFallback>CN</AvatarFallback>
+                                </Avatar>
+                                <div className="p-5 text-left">
+                                    <h4 className="font-bold">{x.name}</h4>
+                                    <p className="text-sm">{x.bio.slice(0, 20) + "..."}</p>
+                                    <p className="text-stone-400 text-sm">{x.occupation}</p>
+                                    <div className="flex flex-row text-left">
+                                    <p className="text-stone-400 text-sm">{x.city},</p>
+                                    <p className="text-stone-400 text-sm">{x.adress}</p> 
+                                    </div>
+                                </div>
+                            </div>
+                    )}
+                </div >
+
+            </section>
+        </>
+    )
+}

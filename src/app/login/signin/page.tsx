@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -10,6 +10,8 @@ import { useForm } from "react-hook-form";
 import Cookies from "js-cookie";
 import { useRouter } from 'next/navigation'
 import { useSearchParams } from 'next/navigation'
+import Alertcomp from "@/app/admin/partscomponents/alert";
+
 
 export const description =
   "A login page with two columns. The first column has the login form with email and password. There's a Forgot your passwork link and a link to sign up if you do not have an account. The second column has a cover image."
@@ -17,9 +19,12 @@ export const description =
 export default function Signin() {
   type FormValues = {
     email: string,
-    password: string
+    password: string,
+    scope: string|null
   }
   const { register, handleSubmit } = useForm<FormValues>();
+  const [message, setMessage] = useState()
+
   const router = useRouter()
 
   const searchParams = useSearchParams()
@@ -27,6 +32,7 @@ export default function Signin() {
   const type  = searchParams.get('type')
 
   const login = (data: FormValues) => {
+   data.scope = type
     axios.post('http://localhost:8000/api/logins', data, {
       headers: {
         "Content-Type": "multipart/form-data"
@@ -34,17 +40,20 @@ export default function Signin() {
     })
       .then(response => {
         if (response.data.token) {
-          console.log(response)
           Cookies.set("token", response.data.token);
+          router.push('/admin/calendar')
+        } else{
+setMessage(response.data)
         }
       })
-      .then(response => router.push('/admin/calendar'))
+     // .then(response => router.push('/admin/calendar'))
   }
 
   return (
-    <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
+    <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px] h-full">
       <div className="flex items-center justify-center py-12">
         <div className="mx-auto grid w-[350px] gap-6">
+          {message && <Alertcomp success={message}/>}
           <div className="grid gap-2 text-center">
             <h1 className="text-3xl font-bold">Pieslēdzies "Pieraksts pie" </h1>
             <p className="text-balance text-muted-foreground">

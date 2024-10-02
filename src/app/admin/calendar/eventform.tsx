@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from "react";
+import React, { useActionState, useEffect, useState } from "react";
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
@@ -15,13 +15,49 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { Textarea } from "@/components/ui/textarea"
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
+import Cookies from "js-cookie";
+import axios from "axios";
+import { useRouter } from 'next/navigation'
+import {
+    Alert,
+    AlertDescription,
+    AlertTitle,
+  } from "@/components/ui/alert"
+import Alertcomp from "../partscomponents/alert";
+   
+export default function Eventform({close, getdata}) {
 
-export default function Eventform({ dateexiting }: any) {
+    const [date, setDate] = useState<any>(new Date())
+    const [services, setservices] = useState([])
+    const [selectedservice, setSelectedservices] = useState("")
+    const [message, setMessage] = useState(undefined)
+    const router = useRouter()
 
-    const [date, setDate] = useState<any>(new Date(dateexiting))
+    useEffect(()=>{
+        let token = Cookies.get('token')
+        const headers = { 'Authorization': 'Bearer ' + token };
+        axios.get('http://localhost:8000/api/getservices', { headers })
+            .then(response => {
+               setservices(response.data)
+            })
+            .catch(function (error) {
+                if (error.response.status == 401) {
+                    return router.push('/login')
+                }
+            })
+    }, [])
 
     type Inputs = {
-        client: string,
+        title: string,
         phone: string,
         email: string,
         description: string,
@@ -34,26 +70,48 @@ export default function Eventform({ dateexiting }: any) {
         formState: { errors },
     } = useForm<Inputs>()
 
-    const onSubmit: SubmitHandler<Inputs> = (data) => {
+    const onSubmit: SubmitHandler<Inputs> =  (data) => {
+
         const itemtosave = {
-            client: data.client,
+            title: data.title,
             email: data.email,
             phone: data.phone,
             date: date,
+            service: selectedservice,
             description: data.description
         }
         console.log(itemtosave)
+
+        let token = Cookies.get('token')
+        const headers = { 'Authorization': 'Bearer ' + token };
+        axios.post('http://localhost:8000/api/savebooking', itemtosave, { headers })
+            .then(response => {
+                if(typeof response.data === "string"){
+setMessage({message: response.data, type: "error"})
+                } else {
+                    console.log(response.data)
+                    setMessage({message: "Dati saglabāti veiksmīgi", type: "success"})
+                    close()
+                    getdata()
+                }
+            })
+            .catch(function (error) {
+                if (error.response.status == 401) {
+                    return router.push('/login')
+                }
+            })
     }
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
+            {message && <Alertcomp success={message}/>} 
             <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="name" className="text-right">
                         Klients
                     </Label>
                     <Input id="name" className="col-span-3"
-                        {...register("client")} />
+                        {...register("title")} />
 
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
@@ -121,8 +179,23 @@ export default function Eventform({ dateexiting }: any) {
 
                         />
                     </div>
-                  
-                </div>
+                    </div>
+                    <div className="flex items-center ">
+                    <Label htmlFor="minutes" className="text-xs mr-4 ml-5">Pakalpojums</Label>
+                    <Select value={selectedservice} onValueChange={(value) => {
+                                    setSelectedservices(value)
+                                }} >
+                                    <SelectTrigger className="w-full">
+                                        <SelectValue placeholder="Izvēlies nodarbošanos" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            {services.map(x => <SelectItem key={x.id} value={x.id.toString()}>{x.name}</SelectItem>)}
+
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+               </div>
                 <div className="flex items-center ">
                     <Label htmlFor="minutes" className="text-xs mr-4 ml-5">
                             Komentārs
@@ -132,6 +205,7 @@ export default function Eventform({ dateexiting }: any) {
                         
                     </div>
             </div>
+
             <DialogTrigger asChild>
                     <Button type="submit" >Saglabāt</Button>
             </DialogTrigger>
