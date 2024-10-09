@@ -18,9 +18,10 @@ import { Message } from "../profile/page";
 import Alertcomp from "../partscomponents/alert";
 
 export default function Settings() {
-    const [workingdays, setWorkingdays] = useState([{ day: "Pirmdiena", statuss: true, from: "08:00", to: "17:00", breakfrom: "12:00", breakto: "13:00" }, { day: "Otrdiena", statuss: true, from: "08:00", to: "17:00", breakfrom: "12:00", breakto: "13:00" }, { day: "Trešdiena", statuss: true, from: "08:00", to: "17:00", breakfrom: "12:00", breakto: "13:00" }, { day: "Cetturtdiena", statuss: true, from: "08:00", to: "17:00", breakfrom: "12:00", breakto: "13:00" }, { day: "Piektdiena", statuss: true, from: "08:00", to: "17:00", breakfrom: "12:00", breakto: "13:00" }, { day: "Sestdiena", statuss: false, from: "08:00", to: "17:00", breakfrom: "12:00", breakto: "13:00" }, { day: "Svētdiena", statuss: false, from: "08:00", to: "17:00", breakfrom: "12:00", breakto: "13:00" }])
+    const [workingdays, setWorkingdays] = useState([{ day: 1, statuss: true, from: "08:00", to: "17:00", breakfrom: "12:00", breakto: "13:00" }, { day: 2, statuss: true, from: "08:00", to: "17:00", breakfrom: "12:00", breakto: "13:00" }, { day: 3, statuss: true, from: "08:00", to: "17:00", breakfrom: "12:00", breakto: "13:00" }, { day: 4, statuss: true, from: "08:00", to: "17:00", breakfrom: "12:00", breakto: "13:00" }, { day: 5, statuss: true, from: "08:00", to: "17:00", breakfrom: "12:00", breakto: "13:00" }, { day: 6, statuss: false, from: "08:00", to: "17:00", breakfrom: "12:00", breakto: "13:00" }, { day: 7, statuss: false, from: "08:00", to: "17:00", breakfrom: "12:00", breakto: "13:00" }])
     const router = useRouter()
     const [message, setMessage] = useState<Message>()
+    const weekdays = ["P.", "O.", "T.", "C.", "Pk.", "S.", "Sv."]
 
     const data: Service[] = [
         {
@@ -78,13 +79,12 @@ export default function Settings() {
                 <h1 className="text-3xl w-full border-b-2">Uzstādījumi</h1>
                 <p>Uzstādiet darba laiku un pārtraukumus darba nedēļai!</p>
                 <Button onClick={saveweeksettings} className="mr-2">Saglabāt</Button>
-                <Button variant="outline" className="mt-4" ><Link href="/admin/settings/calendar">Darba laiks datumiem</Link></Button>
 
                 <div className="flex row mt-2">
                     {workingdays.map((x, index) =>
                         <Card key={x.day} className="mr-4 ">
                             <CardHeader className=" flex items-center">
-                                <CardTitle>{x.day}</CardTitle>
+                                <CardTitle>{weekdays[x.day -1]}</CardTitle>
                                 <Switch checked={x.statuss} onCheckedChange={(e) => setWorkingdays(workingdays => workingdays.with(index, { ...workingdays[index], statuss: e }))} />
                             </CardHeader>
                             <CardContent>

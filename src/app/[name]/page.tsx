@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/select"
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import moment from "moment";
 
 export default function Specialistpage() {
     const [specialist, setSpecialist] = useState<User[]>([])
@@ -26,6 +27,7 @@ export default function Specialistpage() {
     const [selectedservice, setselectedservice] = useState("")
     const [today, setToday] = useState(new Date())
     const [rangeEnd, setRangened] = useState(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 7))
+    const [times, setTimes] = useState([])
 
     const pathname = usePathname()
     let decodedstring = decodeURIComponent(pathname)
@@ -52,19 +54,23 @@ export default function Specialistpage() {
         }
     }
 
-    const gettimes = () => {
-        axios.post('http://localhost:8000/api/getspecialiststimes', { userid: specialist[0].id, service: selectedservice })
-            .then(response => console.log(response.data))
+    let days = []
+    for (let i = 0; i <= 7; i++) {
+        days.push(new Date(today.getFullYear(), today.getMonth(), today.getDate() + i))
     }
 
+    const gettimes = () => {
+        axios.post('http://localhost:8000/api/getspecialiststimes', { userid: specialist[0].id, service: selectedservice, range: days })
+            .then(response => setTimes(response.data))
+    }
+
+    const getDate=(y)=>{
+console.log(new Date(y))
+    }
 
     if (!specialist[0]) {
         return <Loading />
     }
-
-    // let today = new Date()
-    // let date = new Date()
-    // const rangeEnd = new Date(date.getFullYear(),date.getMonth(),date.getDate()+7);
     const months = ["Janvāris", "Februāris", "Marts", "Aprīlis", "Maijs", "Jūnijs", "Jūlijs", "Augusts", "Septembris", "Oktobris", "Novembris", "Decembris"]
     const weekdays = ["P.", "O.", "T.", "C.", "Pk.", "S.", "Sv."]
 
@@ -78,22 +84,18 @@ export default function Specialistpage() {
         setRangened(new Date(rangeEnd.getFullYear(), rangeEnd.getMonth(), rangeEnd.getDate() - 7))
     }
 
-    let days = []
-    for (let i = 0; i <= 7; i++) {
-        days.push(new Date(today.getFullYear(), today.getMonth(), today.getDate() + i))
-    }
 
-    console.log(days)
+    console.log(times)
     return (
         <>
             <Nav />
-            <section id="personpage" className="flex justify-center items-center flex-row">
-                <div className="flex w-[35%] h-[70vh] p-5 flex-col justify-center items-center border-2 ">
-                    <Avatar className="h-[150px] w-[150px]" >
+            <section id="personpage" className="flex justify-center items-center flex-col">
+                <div className="flex w-[80%]  p-5 flex-row items-center ">
+                    <Avatar className="h-[150px] w-[150px] mr-4" >
                         <AvatarImage src={`http://localhost:8000/storage/${specialist[0].avatar}`} />
                         <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
-                    <div className="p-5 ">
+                    <div >
                         <h4 className="font-bold text-xl">{specialist[0]?.name}</h4>
                         <p className="">{specialist[0].bio}</p>
                         <p className="text-stone-400 text-sm mt-2">{specialist[0].occupation}</p>
@@ -103,7 +105,7 @@ export default function Specialistpage() {
                         </div>
                     </div>
                 </div>
-                <div className="flex w-[40%] h-[70vh] p-5 flex-col justify-center items-center border-2 ">
+                <div className="flex w-[80%] h-[50vh] p-5 flex-col  items-center  ">
                     <div className="grid gap-2">
                         <Label htmlFor="city">Izvēlies pakalpojumu</Label>
                         <Select value={selectedservice} onValueChange={(value) => {
@@ -127,9 +129,12 @@ export default function Specialistpage() {
                         <p>{today.getDate()}  {months[today.getMonth()]} - {rangeEnd.getDate()} {months[rangeEnd.getMonth()]}</p>
                         <ChevronRight onClick={nextrange} className="cursor-pointer" />
                     </div>
-                    <div className="flex flex-row">
-                        {days.map(x => <div className="w-[50px] border-2 mr-2">{weekdays[x.getDay()]}</div>)}
+                    <div className="flex flex-row mt-4 w-full items-center justify-center">
+
+                        {times.map(x=> <div key={x.date} className="flex flex-col w-[70px] bg-stone-400 h-[30px] mr-2 text-center mb-4">{weekdays[new Date(x.date).getUTCDay()]}<div className="" >{x.interval.map(y => <div key={y} className="bg-stone-800 text-white mt-2" onClick={()=>getDate(y)}>{moment(y).format("HH:mm")}</div>)}</div></div> )}
+
                     </div>
+               
                 </div>
             </section>
         </>
