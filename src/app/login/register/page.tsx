@@ -42,8 +42,7 @@ export default function Register() {
         try {
             axios.post('http://localhost:8000/api/register', data)
                 .then(response => {
-                    console.log(response)
-                    if (response.data.user.id) {
+                    if (response.data.user?.id) {
                         setSuccess({ type: "success", message: "Reģistrācija veiksmīga!" })
                     } else {
                         setSuccess({ type: "error", message: "E-pasts jau ir reģistrēts!" })

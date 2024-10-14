@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from "react";
+import React, { use, useState, memo} from "react";
 import { Button } from "@/components/ui/button";
 
 import {
@@ -17,23 +17,23 @@ import { cn } from "@/lib/utils";
 import moment from 'moment';
 import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
 
-export default function Searchspecialist( getdata: (selectedcity: string, selectedoccupation: string, date: Date)=>void) {
+export default function Searchspecialist( ) {
   const [date, setDate] = useState<any>(new Date())
   const [cities] = useState(["Rīga", "Daugavpils", "Jelgava", "Jēkabpils", "Jūrmala", "Liepāja", "Rēzekne", "Valmiera", "Ventspils", "Aizkraukles rajons", "Alūksnes rajons", "Balvu rajons", "Bauskas rajons", "Cēsu rajons", "Daugavpils rajons", "Dobeles rajons", "Gulbenes rajons", "Jēkabpils rajons", "Jelgavas rajons", "Krāslavas rajons", "Kuldīgas rajons", "Liepājas rajons", "Limbažu rajons", "Ludzas rajons", "Madonas rajons", "Ogres rajons", "Preiļu rajons", "Rēzeknes rajons", "Rīgas rajons", "Saldus rajons", "Talsu rajons", "Tukuma rajons", "Valkas rajons", "Valmieras rajons", "Ventspils rajons", "Ārpus Latvijas"])
   const [occupations] = useState(["Frizieris", "Vizāžists", "Manikīrs", "Kosmetologs", "Skropst meistars", "Masieris", "Stilists", "Lāzerepilācija", "Tetovēšana/pīrsingi", "Fitness", "Masāža"])
   const [selectedcity, setSelectedcity] = useState("Rīga") //varbut var noteikt ierīces atrašanaš vietu
   const [selectedoccupation, setSelectedoccupation] = useState("")
+  
   const router = useRouter()
 
   const searchspecialsist = () => {
-    router.push(`/specialists?city=${selectedcity}&occupation=${selectedoccupation}&date=${date}`)
+    router.push(`/specialistslist?city=${selectedcity}&occupation=${selectedoccupation}&date=${date}`)
 
-    if (getdata)
-      getdata(selectedcity, selectedoccupation, date)
   }
 
+
   return (
-    <div className="search mb-20">
+    <div className="search mb-20 z-10">
       <Select value={selectedcity} onValueChange={(value) => {
         setSelectedcity(value)
       }} >

@@ -1,6 +1,6 @@
 'use client'
-import React, { useCallback, useEffect, useState, useRef, useActionState } from "react";
-import { Calendar, momentLocalizer, Views } from 'react-big-calendar'
+import React, { useCallback, useEffect, useState} from "react";
+import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
 import "react-big-calendar/lib/css/react-big-calendar.css"
 import {
@@ -23,20 +23,20 @@ import { Booking } from "./page";
 export default function Calendarview({ data }: any) {
   const [item, setItem] = useState()
   const [open, setOpen] = useState(false)
-const [addevent, setaddevenetopen ] = useState(false)
-const [slotitems, setslotitems] = useState()
-const [vacation, setvacation] = useState()
-const [range, setrange] = useState()
-const [bookings, setbookings] = useState([])
-const [openaddbooking, setOpenaddbooking] = useState(false)
+  const [addevent, setaddevenetopen] = useState(false)
+  const [slotitems, setslotitems] = useState()
+  const [vacation, setvacation] = useState()
+  const [range, setrange] = useState()
+  const [bookings, setbookings] = useState([])
+  const [openaddbooking, setOpenaddbooking] = useState(false)
 
-const router = useRouter()
+  const router = useRouter()
 
-  useEffect(()=>{
-  if(item){
-    setOpen(true)
-  }  
-  getdata()
+  useEffect(() => {
+    if (item) {
+      setOpen(true)
+    }
+    getdata()
   }, [item])
 
   const localizer = momentLocalizer(moment)
@@ -54,8 +54,8 @@ const router = useRouter()
   const handleSelectEvent = useCallback(
     (event: any) => setItem(event), []
   )
-let content = <p></p>
-  const onSelectSlot = useCallback((slotInfo : any) => {
+
+  const onSelectSlot = useCallback((slotInfo: any) => {
     /**
      * Here we are waiting 250 milliseconds prior to firing
      * our method. Why? Because both 'click' and 'doubleClick'
@@ -63,44 +63,43 @@ let content = <p></p>
      * this, the 'click' handler is overridden by the 'doubleClick'
      * action.
      */
-    console.log("te", slotInfo)
     setaddevenetopen(true)
     setslotitems(slotInfo.slots)
   }, [])
 
-  const closedialog=()=>{
+  const closedialog = () => {
     setaddevenetopen(false)
   }
 
-  const onRangeChange =  useCallback((range:any) => {
+  const onRangeChange = useCallback((range: any) => {
     setrange(range)
     let token = Cookies.get('token')
     const headers = { 'Authorization': 'Bearer ' + token };
-     axios.post('http://localhost:8000/api/getvacation', range, { headers })
-        .then(response => setvacation(response.data))
-        .catch(function (error) {
-            if (error.response.status == 401) {
-                return router.push('/login')
-            }
-        })
+    axios.post('http://localhost:8000/api/getvacation', range, { headers })
+      .then(response => setvacation(response.data))
+      .catch(function (error) {
+        if (error.response.status == 401) {
+          return router.push('/login')
+        }
+      })
   }, [])
 
-const getdata=()=>{
-  let token = Cookies.get('token')
-  const headers = { 'Authorization': 'Bearer ' + token };
+  const getdata = () => {
+    let token = Cookies.get('token')
+    const headers = { 'Authorization': 'Bearer ' + token };
     // Using Map to represent the `range` (assuming range is previously defined as an object)
     const range = new Map();
     // Example: range.set('startDate', '2024-09-01'); range.set('endDate', '2024-09-30');
-  
+
     axios.post('http://localhost:8000/api/getbookings', Object.fromEntries(range), { headers })
       .then(response => {
         // Convert date strings to JavaScript Date objects in the response data
-        const bookingsWithDates = response.data.map((booking:Booking) => ({
+        const bookingsWithDates = response.data.map((booking: Booking) => ({
           ...booking,
           // Assuming `bookingDate` is a field in the response that needs conversion
           date: new Date(booking.date)
         }));
-  
+
         setbookings(bookingsWithDates);
       })
       .catch(function (error) {
@@ -108,35 +107,35 @@ const getdata=()=>{
           return router.push('/login');
         }
       });
-}
+  }
 
-const closeaddbooking=()=>{
-  setOpenaddbooking(false)
-}
+  const closeaddbooking = () => {
+    setOpenaddbooking(false)
+  }
 
-return (
+  return (
     <div style={{ height: "800px" }} className="w-full mb-4">
-       <Dialog open={openaddbooking} onOpenChange={(event) => setOpenaddbooking(event)} >
-                        <DialogContent className="sm:max-w-[425px] sm:text-center">
-                          <DialogHeader>
-                            <DialogTitle className="sm:text-center">Jauns pieraksts</DialogTitle>
+      <Dialog open={openaddbooking} onOpenChange={(event) => setOpenaddbooking(event)} >
+        <DialogContent className="sm:max-w-[425px] sm:text-center">
+          <DialogHeader>
+            <DialogTitle className="sm:text-center">Jauns pieraksts</DialogTitle>
 
-                          </DialogHeader>
-                          <Eventform  close={closeaddbooking} getdata={getdata}/>
+          </DialogHeader>
+          <Eventform close={closeaddbooking} getdata={getdata} />
 
-                        </DialogContent>
+        </DialogContent>
 
-                        <DialogTrigger asChild >
-                          <Button
-                            variant="default"
-                           className="mb-2"
-                           onClick={()=>setOpenaddbooking(true)}
-                          >
-                            <Plus size={20} /> Jauns pieraksts
-                          </Button>
-                        </DialogTrigger>
+        <DialogTrigger asChild >
+          <Button
+            variant="default"
+            className="mb-2"
+            onClick={() => setOpenaddbooking(true)}
+          >
+            <Plus size={20} /> Jauns pieraksts
+          </Button>
+        </DialogTrigger>
 
-                      </Dialog>
+      </Dialog>
       <Calendar
         messages={lang}
         localizer={localizer}
@@ -146,19 +145,18 @@ return (
         startAccessor="date"
         endAccessor="end"
         onSelectEvent={handleSelectEvent}
-       selectable
-     onSelectSlot={onSelectSlot}
-     //dayPropGetter={dayPropGetter}
-     onRangeChange={onRangeChange}
+        selectable
+        onSelectSlot={onSelectSlot}
+        onRangeChange={onRangeChange}
 
-     dayPropGetter={(event) => {
-      const hasTodo = vacation?.find((item:any) => new Date(item.date).toLocaleDateString() == new Date(event).toLocaleDateString())
-      return {
-        style: {
-          backgroundColor: hasTodo ? "hsl(115, 100%, 90%)" : "white",
-        },
-      }
-    }}
+        dayPropGetter={(event) => {
+          const hasTodo = vacation?.find((item: any) => new Date(item.date).toLocaleDateString() == new Date(event).toLocaleDateString())
+          return {
+            style: {
+              backgroundColor: hasTodo ? "hsl(115, 100%, 90%)" : "white",
+            },
+          }
+        }}
       />
       <Dialog open={open} onOpenChange={(event) => setOpen(event)}> <Bookingdetails data={item} /> </Dialog>
       <Dialog open={addevent} onOpenChange={(event) => setaddevenetopen(event)}><Addbreak data={slotitems} close={closedialog} /></Dialog>

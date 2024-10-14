@@ -1,5 +1,5 @@
 'use client'
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image"
 
 import {
@@ -21,16 +21,17 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useRouter } from 'next/navigation'
 import Link from "next/link";
+import Loading from "./loading";
 export interface User {
   id: BigInteger,
   name: string,
   email: string,
   email_verified_at: Date,
   creatd_at: Date,
-  picture: string,
+  avatar: string,
   updated_at: Date,
   bio: string,
-  adress: string, 
+  adress: string,
   phone: string,
   description: string,
   scope: string,
@@ -39,35 +40,41 @@ export interface User {
 
 export default function Header() {
   const router = useRouter()
-const [user, setUser] = useState<User>()
+  const [user, setUser] = useState<User>()
 
-useEffect(() => {
-  let token = Cookies.get('token')
+  useEffect(() => {
+    let token = Cookies.get('token')
     getuser(token)
-  
+
   }, [])
 
-  const getuser = (token : any) => {
+  const getuser = (token: any) => {
 
     const headers = { 'Authorization': 'Bearer ' + token };
     axios.post('http://localhost:8000/api/user', {}, { headers })
-      .then(response => setUser(response.data))
-    .catch (function (error) {
-    if (error.response.status == 401) {
-      return router.push('/login')
-    }
-  })
-}
+      .then(response => { if (response.data.scope === 'business') { setUser(response.data) } else { router.push('/') } })
+      .catch(function (error) {
+        if (error.response.status == 401) {
+          return router.push('/login')
+        }
+      })
+  }
 
   const logout = () => {
     let token = Cookies.get('token')
-    const headers = { 'Authorization': 'Bearer '+token };
-    axios.post('http://localhost:8000/api/logout', {}, {  headers })
-      .then(response =>{ if(response.data === 'success')
-      Cookies.remove('token', { path: '/' })})
+    const headers = { 'Authorization': 'Bearer ' + token };
+    axios.post('http://localhost:8000/api/logout', {}, { headers })
+      .then(response => {
+        if (response.data === 'success')
+          Cookies.remove('token', { path: '/' })
+      })
       .then(response => router.push('/login'))
   }
 
+  if(!user){
+    return <Loading/>
+  }
+  
   return (
     <>
       <div className="flex flex-col  w-full" >

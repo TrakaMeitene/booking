@@ -31,10 +31,11 @@ import {
     Alert,
     AlertDescription,
     AlertTitle,
-  } from "@/components/ui/alert"
+} from "@/components/ui/alert"
 import Alertcomp from "../partscomponents/alert";
-   
-export default function Eventform({close, getdata}) {
+import { spec } from "node:test/reporters";
+
+export default function Eventform({ close, getdata, dateFrompage, user, service, allservices, specialist }) {
 
     const [date, setDate] = useState<any>(new Date())
     const [services, setservices] = useState([])
@@ -42,18 +43,32 @@ export default function Eventform({close, getdata}) {
     const [message, setMessage] = useState(undefined)
     const router = useRouter()
 
-    useEffect(()=>{
+    useEffect(() => {
         let token = Cookies.get('token')
         const headers = { 'Authorization': 'Bearer ' + token };
-        axios.get('http://localhost:8000/api/getservices', { headers })
-            .then(response => {
-               setservices(response.data)
-            })
-            .catch(function (error) {
-                if (error.response.status == 401) {
-                    return router.push('/login')
-                }
-            })
+
+
+        if (dateFrompage) {
+            setDate(dateFrompage)
+        }
+
+        if (allservices) {
+            setservices(allservices)
+        } else {
+            axios.get('http://localhost:8000/api/getservices', { headers })
+                .then(response => {
+                    setservices(response.data)
+                })
+                .catch(function (error) {
+                    if (error.response.status == 401) {
+                        return router.push('/login')
+                    }
+                })
+        }
+
+        if (service) {
+            setSelectedservices(service)
+        }
     }, [])
 
     type Inputs = {
@@ -70,27 +85,29 @@ export default function Eventform({close, getdata}) {
         formState: { errors },
     } = useForm<Inputs>()
 
-    const onSubmit: SubmitHandler<Inputs> =  (data) => {
-
+    const onSubmit: SubmitHandler<Inputs> = (data) => {
+console.log(specialist)
         const itemtosave = {
             title: data.title,
             email: data.email,
             phone: data.phone,
             date: date,
             service: selectedservice,
-            description: data.description
+            description: data.description,
         }
-        console.log(itemtosave)
+        if (specialist) {
+            itemtosave.specialist = specialist[0].id
+        }
 
         let token = Cookies.get('token')
         const headers = { 'Authorization': 'Bearer ' + token };
         axios.post('http://localhost:8000/api/savebooking', itemtosave, { headers })
             .then(response => {
-                if(typeof response.data === "string"){
-setMessage({message: response.data, type: "error"})
+                if (typeof response.data === "string") {
+                    setMessage({ message: response.data, type: "error" })
                 } else {
                     console.log(response.data)
-                    setMessage({message: "Dati saglabāti veiksmīgi", type: "success"})
+                    setMessage({ message: "Dati saglabāti veiksmīgi", type: "success" })
                     close()
                     getdata()
                 }
@@ -101,16 +118,16 @@ setMessage({message: response.data, type: "error"})
                 }
             })
     }
-
+    console.log(selectedservice, services)
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            {message && <Alertcomp success={message}/>} 
+            {message && <Alertcomp success={message} />}
             <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="name" className="text-right">
                         Klients
                     </Label>
-                    <Input id="name" className="col-span-3"
+                    <Input id="name" className="col-span-3" defaultValue={user?.name}
                         {...register("title")} />
 
                 </div>
@@ -118,13 +135,13 @@ setMessage({message: response.data, type: "error"})
                     <Label htmlFor="phone" className="text-right">
                         Telefona nr.
                     </Label>
-                    <Input id="phone" type="phone" className="col-span-3"  {...register("phone")} />
+                    <Input id="phone" type="phone" className="col-span-3"  {...register("phone")} defaultValue={user?.phone} />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="email" className="text-right">
                         E-pasts
                     </Label>
-                    <Input id="email" type="email" className="col-span-3"  {...register("email")} />
+                    <Input id="email" type="email" className="col-span-3"  {...register("email")} defaultValue={user?.email} />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="date" className="text-right">
@@ -137,7 +154,9 @@ setMessage({message: response.data, type: "error"})
                                 className={cn(
                                     "w-[280px] justify-start text-left font-normal",
                                     !date && "text-muted-foreground"
+
                                 )}
+                                disabled={dateFrompage}
                             >
                                 <CalendarIcon className="mr-2 h-4 w-4" />
                                 {date ? moment(date).format('dddd, Do MMMM YYYY') : <span>Pick a date</span>}
@@ -166,6 +185,7 @@ setMessage({message: response.data, type: "error"})
                             picker="hours"
                             date={date}
                             setDate={setDate}
+                            disabled={dateFrompage}
                         />
                     </div>
                     <div className="grid gap-1 ">
@@ -176,38 +196,41 @@ setMessage({message: response.data, type: "error"})
                             picker="minutes"
                             date={date}
                             setDate={setDate}
+                            disabled={dateFrompage}
 
                         />
                     </div>
-                    </div>
-                    <div className="flex items-center ">
+                </div>
+                <div className="flex items-center ">
                     <Label htmlFor="minutes" className="text-xs mr-4 ml-5">Pakalpojums</Label>
                     <Select value={selectedservice} onValueChange={(value) => {
-                                    setSelectedservices(value)
-                                }} >
-                                    <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Izvēlies nodarbošanos" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectGroup>
-                                            {services.map(x => <SelectItem key={x.id} value={x.id.toString()}>{x.name}</SelectItem>)}
+                        if (service) { setSelectedservices(service) } else {
+                            setSelectedservices(value)
+                        }
+                    }} disabled={service} >
+                        <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Izvēlies nodarbošanos" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup>
+                                {services.map(x => <SelectItem key={x.id} value={x.id.toString()}>{x.name}</SelectItem>)}
 
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
-               </div>
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                </div>
                 <div className="flex items-center ">
                     <Label htmlFor="minutes" className="text-xs mr-4 ml-5">
-                            Komentārs
-                        </Label>
-                    <Textarea  {...register("description")}/>
+                        Komentārs
+                    </Label>
+                    <Textarea  {...register("description")} />
 
-                        
-                    </div>
+
+                </div>
             </div>
 
             <DialogTrigger asChild>
-                    <Button type="submit" >Saglabāt</Button>
+                <Button type="submit" >Saglabāt</Button>
             </DialogTrigger>
         </form>
 

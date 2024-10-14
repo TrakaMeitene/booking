@@ -20,7 +20,7 @@ export default function Signin() {
   type FormValues = {
     email: string,
     password: string,
-    scope: string|null
+    scope: string | null
   }
   const { register, handleSubmit } = useForm<FormValues>();
   const [message, setMessage] = useState()
@@ -28,32 +28,36 @@ export default function Signin() {
   const router = useRouter()
 
   const searchParams = useSearchParams()
- 
-  const type  = searchParams.get('type')
+
+  const type = searchParams.get('type')
 
   const login = (data: FormValues) => {
-   data.scope = type
+    data.scope = type
     axios.post('http://localhost:8000/api/logins', data, {
       headers: {
         "Content-Type": "multipart/form-data"
       }
     })
       .then(response => {
+        console.log(response)
         if (response.data.token) {
           Cookies.set("token", response.data.token);
-          router.push('/admin/calendar')
-        } else{
-setMessage(response.data)
+          if (response.data.user.scope === "business") {
+            router.push('/admin/calendar')
+          } else {
+            router.push('/')
+          }
+        } else {
+          setMessage(response.data)
         }
       })
-     // .then(response => router.push('/admin/calendar'))
   }
 
   return (
     <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px] h-full">
       <div className="flex items-center justify-center py-12">
         <div className="mx-auto grid w-[350px] gap-6">
-          {message && <Alertcomp success={message}/>}
+          {message && <Alertcomp success={message} />}
           <div className="grid gap-2 text-center">
             <h1 className="text-3xl font-bold">Pieslēdzies "Pieraksts pie" </h1>
             <p className="text-balance text-muted-foreground">

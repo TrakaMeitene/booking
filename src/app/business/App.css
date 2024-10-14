@@ -25,9 +25,7 @@ nav span{
   align-items: center;
 }
 
-form button{
-  margin-left:20px;
-}
+
 
 nav ul{
   display: inline;
@@ -116,7 +114,7 @@ input {
 
 }
 
-button:hover:not(.search button), .button:hover {
+button:hover:not(.search button, #personpage button), .button:hover {
 
   transform: scale(0.9);
 }

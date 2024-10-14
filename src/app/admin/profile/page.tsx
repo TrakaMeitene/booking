@@ -25,7 +25,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import Alertcomp from "../partscomponents/alert";
-interface FormValues {
+export interface FormValues {
     name: string
     email: string,
     phone: string,

@@ -68,6 +68,10 @@
   }
 }
 
+ .bg-black\/80 {
+  background-color: rgb(0 0 0 / 0.2);
+}
+
 body{
   height: 100vh;
 }
