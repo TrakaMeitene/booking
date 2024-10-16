@@ -89,6 +89,8 @@ body{
   justify-content: space-between;
   width: 100%;
   align-items: center;
+  z-index: 5;
+  background-color: white;
 }
 
 .homenav div{
@@ -160,4 +162,20 @@ main{
 overflow: auto; 
 width: 95vw;
 padding: 20px;
+}
+
+@media only screen and (max-width: 390px) {
+  .homenav{
+    width: auto
+  }
+
+  .homenav div{
+    width: 50%;
+  }
+
+  .homenav button{
+    margin-right:10px;
+    width: 70px;
+    font-size: 11px;
+  }
 }

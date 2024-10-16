@@ -58,7 +58,7 @@ export default function Register() {
 
     return (
         <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
-            <div className="flex items-center justify-center py-12">
+            <div className="flex items-center justify-center py-12 px-12">
 
                 <div className="mx-auto grid w-[350px] gap-6">
                     {success.type != "" && <Alert style={{ border: "1px solid green" }} variant={success.type === "success" ? null : "destructive"}>

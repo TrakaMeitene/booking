@@ -31,7 +31,8 @@ import {
 import Link from "next/link";
 interface Times {
     date: Date
-    interval: []
+    interval: [],
+    key: Date
 }
 
 export default function Specialistpage() {
@@ -44,6 +45,7 @@ export default function Specialistpage() {
     const [user, setUser] = useState()
     const [eventFormOpen, setEventFormOpen] = useState(false)
     const [datetopass, setDatetopass] = useState(new Date())
+    const [windowWidth, setWindowWidth] = useState(0)
 
     const pathname = usePathname()
     let decodedstring = decodeURIComponent(pathname)
@@ -53,6 +55,7 @@ export default function Specialistpage() {
 
 
     useEffect(() => {
+        setWindowWidth(window.innerWidth)
         getdata()
         if (token) {
             getuser()
@@ -65,8 +68,11 @@ export default function Specialistpage() {
 
     }
 
+    let length = windowWidth > 390 ? 7 : 3
 
     useEffect(() => {
+
+        setRangened(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + length))
         getservices()
     }, [specialist[0]])
 
@@ -78,7 +84,7 @@ export default function Specialistpage() {
     }
 
     let days = []
-    for (let i = 0; i <= 7; i++) {
+    for (let i = 0; i <=  length ; i++) {
         days.push(new Date(today.getFullYear(), today.getMonth(), today.getDate() + i))
     }
 
@@ -134,12 +140,12 @@ export default function Specialistpage() {
         setEventFormOpen(false)
     }
 
-    console.log(times)
+    console.log(window.innerWidth)
     return (
         <>
             <Nav />
             <section id="personpage" className="flex justify-center items-center flex-col">
-                <div className="flex w-[80%]  p-5 flex-row items-center ">
+                <div className="flex w-[80%]  p-5 flex-row items-center max-[390px]:flex-col max-[390px]:w-[90%]">
                     <Avatar className="h-[150px] w-[150px] mr-4" >
                         <AvatarImage src={`http://localhost:8000/storage/${specialist[0].avatar}`} />
                         <AvatarFallback>CN</AvatarFallback>
@@ -154,8 +160,8 @@ export default function Specialistpage() {
                         </div>
                     </div>
                 </div>
-                <div className="flex w-[80%] h-[50vh] p-5 flex-col  items-center  ">
-                    <div className="grid gap-2 hover:scale-1">
+                <div className="flex w-[80%]  p-5 flex-col  items-center  ">
+                    <div className="grid gap-2 ">
                         <Label htmlFor="service">Izvēlies pakalpojumu</Label>
                         <Select value={selectedservice} onValueChange={(value) => {
                             setselectedservice(value)
@@ -178,30 +184,32 @@ export default function Specialistpage() {
                         <p>{today.getDate()}  {months[today.getMonth()]} - {rangeEnd.getDate()} {months[rangeEnd.getMonth()]}</p>
                         <ChevronRight onClick={nextrange} className="cursor-pointer" />
                     </div>
-                    <div className="flex flex-row mt-4 w-full items-center justify-center">
+                    <div className="max-[390px]:w-[90%] flex max-[390px]:items-start min-h-72 items-start">
+                        <div className="flex flex-row mt-4 w-full items-center justify-center max-[390px]:items-left">
 
-                        {times?.map(x =>
-                            <div key={x.date} className="flex flex-col w-[70px]  h-[30px] mr-2 text-center mb-4 font-bold">{weekdays[new Date(x.date).getUTCDay()]}
-                                <div className="font-light text-sm">{new Date(x.date).getDate()}.{new Date(x.date).getMonth() + 1}</div>
-                                <Dialog open={eventFormOpen} onOpenChange={(e) => setEventFormOpen(e)} >
-                                    <DialogContent className="sm:max-w-[425px] sm:text-center ">
-                                        <DialogHeader>
-                                            <DialogTitle className="sm:text-center">Jauns pieraksts</DialogTitle>
+                            {times?.map(x =>
+                                <div key={x.date} className={`flex flex-col w-[70px]  h-[30px] mr-2 text-center mb-4 font-bold ${x.isDayFree || x.isDayVacation ? "" : "text-red-600"}`}>{weekdays[new Date(x.date).getUTCDay()]}
+                                    <div className="font-light text-sm">{new Date(x.date).getDate()}.{new Date(x.date).getMonth() + 1}</div>
+                                    <Dialog open={eventFormOpen} onOpenChange={(e) => setEventFormOpen(e)} >
+                                        <DialogContent className="sm:max-w-[425px] sm:text-center ">
+                                            <DialogHeader>
+                                                <DialogTitle className="sm:text-center">Jauns pieraksts</DialogTitle>
 
-                                        </DialogHeader>
-                                        {user ? <Eventform getdata={getuser} close={close} dateFrompage={datetopass}  user={user} service={selectedservice} allservices={services} specialist={specialist}/> : <div className="flex flex-col"><p>Lai veiktu pierakstu, ielogojies sistēmā!</p><Link href="/login/signin?type=all"><Button className="mt-4">IELOGOTIES</Button></Link></div>}
+                                            </DialogHeader>
+                                            {user ? <Eventform getdata={getuser} close={close} dateFrompage={datetopass} user={user} service={selectedservice} allservices={services} specialist={specialist} /> : <div className="flex flex-col"><p>Lai veiktu pierakstu, ielogojies sistēmā!</p><Link href="/login/signin?type=all"><Button className="mt-4">IELOGOTIES</Button></Link></div>}
 
-                                    </DialogContent>
+                                        </DialogContent>
 
-                                    <DialogTrigger asChild >
+                                        <DialogTrigger asChild >
 
 
-                                        <div className="" >{x.interval.map(y => <button key={y} className="border-solid border-black border mt-2 p-1.5 rounded-md	w-[70px] hover:bg-stone-400 font-normal" onClick={() => getDate(y)}>{moment(y).format("HH:mm")}</button>)}
-                                        </div>
-                                    </DialogTrigger>
-                                </Dialog>
-                            </div>)}
+                                            <div className="" >{x.interval.map(y => <button key={y} className="border-solid border-black border mt-2 p-1.5 rounded-md	w-[70px] hover:bg-stone-400 font-normal" onClick={() => getDate(y)} disabled={!x.isDayFree }>{moment(y).format("HH:mm")}</button>)}
+                                            </div>
+                                        </DialogTrigger>
+                                    </Dialog>
+                                </div>)}
 
+                        </div>
                     </div>
 
                 </div>
