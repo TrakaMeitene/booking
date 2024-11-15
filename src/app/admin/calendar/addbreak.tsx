@@ -11,7 +11,7 @@ import axios from "axios"
 import Cookies from "js-cookie";
 import { useRouter } from 'next/navigation'
 
-export default function Addbreak({data ,close}) {
+export default function Addbreak({data ,close, getmessage}) {
 
     const router = useRouter()
     let token = Cookies.get('token')
@@ -22,6 +22,7 @@ export default function Addbreak({data ,close}) {
         const headers = { 'Authorization': 'Bearer ' + token };
         axios.post('http://localhost:8000/api/savevacation', data, { headers })
             .then(response =>{ if(response.data.length > 0){
+                getmessage({message: "Dati saglabāti veiksmīgi!"})
                 close()
             }}) //jaieleik tosat ka ir success
             .catch(function (error) {

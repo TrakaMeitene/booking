@@ -20,22 +20,16 @@ import {
     SelectContent,
     SelectGroup,
     SelectItem,
-    SelectLabel,
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
 import Cookies from "js-cookie";
 import axios from "axios";
 import { useRouter } from 'next/navigation'
-import {
-    Alert,
-    AlertDescription,
-    AlertTitle,
-} from "@/components/ui/alert"
-import Alertcomp from "../partscomponents/alert";
-import { spec } from "node:test/reporters";
 
-export default function Eventform({ close, getdata, dateFrompage, user, service, allservices, specialist }) {
+
+
+export default function Eventform({ close, getdata, dateFrompage, user, service, allservices, specialist, getmessage }) {
 
     const [date, setDate] = useState<any>(new Date())
     const [services, setservices] = useState([])
@@ -70,12 +64,14 @@ export default function Eventform({ close, getdata, dateFrompage, user, service,
             setSelectedservices(service)
         }
     }, [])
+    console.log(specialist)
 
     type Inputs = {
-        title: string,
+        name: string,
         phone: string,
         email: string,
         description: string,
+        bank: string
     }
 
     const {
@@ -86,14 +82,14 @@ export default function Eventform({ close, getdata, dateFrompage, user, service,
     } = useForm<Inputs>()
 
     const onSubmit: SubmitHandler<Inputs> = (data) => {
-console.log(specialist)
         const itemtosave = {
-            title: data.title,
+            name: data.name,
             email: data.email,
             phone: data.phone,
             date: date,
             service: selectedservice,
             description: data.description,
+            user: user ? user : 0
         }
         if (specialist) {
             itemtosave.specialist = specialist[0].id
@@ -102,33 +98,58 @@ console.log(specialist)
         let token = Cookies.get('token')
         const headers = { 'Authorization': 'Bearer ' + token };
         axios.post('http://localhost:8000/api/savebooking', itemtosave, { headers })
+    
             .then(response => {
+                console.log(response)
                 if (typeof response.data === "string") {
-                    setMessage({ message: response.data, type: "error" })
+                   getmessage(response.data)
                 } else {
-                    console.log(response.data)
-                    setMessage({ message: "Dati saglabāti veiksmīgi", type: "success" })
-                    close()
+                    getmessage("Dati saglabāti veiksmīgi")
+
+                    makeinvoice(itemtosave)
                     getdata()
                 }
             })
             .catch(function (error) {
-                if (error.response.status == 401) {
+                if (error?.response?.status == 401) {
                     return router.push('/login')
                 }
             })
     }
-    console.log(selectedservice, services)
+
+    const makeinvoice = (itemtosave) => {
+        let token = Cookies.get('token')
+        
+        const headers = { 'Authorization': 'Bearer ' + token, responseType: 'blob' };
+        axios.post('http://localhost:8000/api/makeinvoice', itemtosave, { headers })
+
+            .then(response => {
+
+                // const url = window.URL.createObjectURL(new Blob(response.data));
+                const link = document.createElement('a');
+                link.href = response.data;
+                link.setAttribute('download', `aa.pdf`);
+                document.body.appendChild(link);
+                link.click();
+            }
+            )
+    }
+
+    // if (message) {
+    //     console.log(getmessage)
+    //     getmessage(message)
+    // }
+
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            {message && <Alertcomp success={message} />}
-            <div className="grid gap-4 py-4">
+
+            <><div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="name" className="text-right">
                         Klients
                     </Label>
                     <Input id="name" className="col-span-3" defaultValue={user?.name}
-                        {...register("title")} />
+                        {...register("name")} />
 
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
@@ -229,9 +250,10 @@ console.log(specialist)
                 </div>
             </div>
 
-            <DialogTrigger asChild>
-                <Button type="submit" >Saglabāt</Button>
-            </DialogTrigger>
+                <DialogTrigger asChild>
+                    <Button type="submit" >Saglabāt</Button>
+                </DialogTrigger>
+            </>
         </form>
 
     )

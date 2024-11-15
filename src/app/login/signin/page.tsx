@@ -11,6 +11,7 @@ import Cookies from "js-cookie";
 import { useRouter } from 'next/navigation'
 import { useSearchParams } from 'next/navigation'
 import Alertcomp from "@/app/admin/partscomponents/alert";
+import { toast } from "sonner";
 
 
 export const description =
@@ -39,7 +40,6 @@ export default function Signin() {
       }
     })
       .then(response => {
-        console.log(response)
         if (response.data.token) {
           Cookies.set("token", response.data.token);
           if (response.data.user.scope === "business") {
@@ -49,6 +49,7 @@ export default function Signin() {
           }
         } else {
           setMessage(response.data)
+          toast.error(response.data.message)
         }
       })
   }
@@ -58,6 +59,7 @@ export default function Signin() {
       <div className="flex items-center justify-center py-12 px-12">
         <div className="mx-auto grid w-[350px] gap-6">
           {message && <Alertcomp success={message} />}
+
           <div className="grid gap-2 text-center">
             <h1 className="text-3xl font-bold">Pieslēdzies "Pieraksts pie" </h1>
             <p className="text-balance text-muted-foreground">

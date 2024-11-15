@@ -7,15 +7,15 @@ import "../login/login.css"
 
 export default function Loginbefore() {
   return (
-    <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px] h-full">
+    <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
       <div className="flex items-center justify-center py-12 px-12">
         <div className="mx-auto grid  gap-6">
           <div className="grid gap-2 text-center">
             <h1 className="text-3xl font-bold">Norādi savu virzienu</h1>
 
           </div>
-          <div className="grid gap-4 clienttype">
-            <div className="grid gap-2">
+          <div className=" clienttype flex flex-col justify-center items-center">
+            <div className="w-full">
               <Link href={{
                 pathname: 'login/signin',
                 query: { type: 'business' },
@@ -26,14 +26,14 @@ export default function Loginbefore() {
                 </Button>
               </Link>
             </div>
-            <div className="grid gap-2">
+            <div className="mt-4">
               <Link href={{
                 pathname: 'login/signin',
                 query: { type: 'all' },
               }}>
                 <Button className="card">
                   <h2>Visiem -></h2>
-                  <p>Meklē speciālistus, pieraksties ātri un ērti sev vēlamā laikā!</p>
+                  <p className="text-wrap text-left">Meklē speciālistus, pieraksties ātri un ērti sev vēlamā laikā!</p>
                 </Button>
               </Link>
             </div>
@@ -52,5 +52,6 @@ export default function Loginbefore() {
         />
       </div>
     </div>
+
   )
 }

@@ -29,6 +29,9 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import Link from "next/link";
+import { toast } from "sonner";
+import { spec } from "node:test/reporters";
+
 interface Times {
     date: Date
     interval: [],
@@ -46,6 +49,7 @@ export default function Specialistpage() {
     const [eventFormOpen, setEventFormOpen] = useState(false)
     const [datetopass, setDatetopass] = useState(new Date())
     const [windowWidth, setWindowWidth] = useState(0)
+    const [message, setMessage] = useState<String>()
 
     const pathname = usePathname()
     let decodedstring = decodeURIComponent(pathname)
@@ -60,6 +64,7 @@ export default function Specialistpage() {
         if (token) {
             getuser()
         }
+
     }, [token])
 
     const getdata = () => {
@@ -84,9 +89,10 @@ export default function Specialistpage() {
     }
 
     let days = []
-    for (let i = 0; i <=  length ; i++) {
+    for (let i = 0; i <= length; i++) {
         days.push(new Date(today.getFullYear(), today.getMonth(), today.getDate() + i))
     }
+
 
     const gettimes = () => {
         axios.post('http://localhost:8000/api/getspecialiststimes', { userid: specialist[0].id, service: selectedservice, range: days })
@@ -103,22 +109,14 @@ export default function Specialistpage() {
                     setUser(response.data)
                 }
             })
-            .catch(function (error) {
-                // if (error.response.status == 401) {
-                //   return router.push('/')
-                // }
-            })
+
     }
 
     const getDate = (y: Date) => {
-        console.log(new Date(y))
         setDatetopass(new Date(y))
         setEventFormOpen(true)
 
     }
-
-
-
 
     if (!specialist[0]) {
         return <Loading />
@@ -126,21 +124,29 @@ export default function Specialistpage() {
     const months = ["Janvāris", "Februāris", "Marts", "Aprīlis", "Maijs", "Jūnijs", "Jūlijs", "Augusts", "Septembris", "Oktobris", "Novembris", "Decembris"]
     const weekdays = ["P.", "O.", "T.", "C.", "Pk.", "S.", "Sv."]
 
+
+
     const nextrange = () => {
-        setToday(new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7))
-        setRangened(new Date(rangeEnd.getFullYear(), rangeEnd.getMonth(), rangeEnd.getDate() + 7))
+        setToday(new Date(today.getFullYear(), today.getMonth(), today.getDate() + length))
+        setRangened(new Date(rangeEnd.getFullYear(), rangeEnd.getMonth(), rangeEnd.getDate() + length))
+        gettimes()
     }
 
     const previousrange = () => {
-        setToday(new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7))
-        setRangened(new Date(rangeEnd.getFullYear(), rangeEnd.getMonth(), rangeEnd.getDate() - 7))
+        setToday(new Date(today.getFullYear(), today.getMonth(), today.getDate() - length))
+        setRangened(new Date(rangeEnd.getFullYear(), rangeEnd.getMonth(), rangeEnd.getDate() - length))
+        gettimes()
     }
 
     const close = () => {
         setEventFormOpen(false)
     }
 
-    console.log(window.innerWidth)
+    const getmessage = (message: string) => {
+        setMessage(message)
+        toast.success(message)
+    }
+
     return (
         <>
             <Nav />
@@ -152,14 +158,15 @@ export default function Specialistpage() {
                     </Avatar>
                     <div >
                         <h4 className="font-bold text-xl">{specialist[0]?.name}</h4>
-                        <p className="">{specialist[0].bio}</p>
-                        <p className="text-stone-400 text-sm mt-2">{specialist[0].occupation}</p>
+                        <p className="max-[390px]:text-sm">{specialist[0].bio}</p>
+                        <p className="text-stone-400 text-sm mt-2 text-left">{specialist[0].occupation}</p>
                         <div className="flex flex-row text-left">
                             <p className="text-stone-400 text-sm">{specialist[0].city},</p>
                             <p className="text-stone-400 text-sm">{specialist[0].adress}</p>
                         </div>
                     </div>
                 </div>
+
                 <div className="flex w-[80%]  p-5 flex-col  items-center  ">
                     <div className="grid gap-2 ">
                         <Label htmlFor="service">Izvēlies pakalpojumu</Label>
@@ -181,7 +188,7 @@ export default function Specialistpage() {
                     </div>
                     <div className="w-full flex flex-row items-center justify-center mt-4">
                         <ChevronLeft onClick={previousrange} className="cursor-pointer" />
-                        <p>{today.getDate()}  {months[today.getMonth()]} - {rangeEnd.getDate()} {months[rangeEnd.getMonth()]}</p>
+                        <p className="max-[390px]:text-sm">{today.getDate()}  {months[today.getMonth()]} - {rangeEnd.getDate()} {months[rangeEnd.getMonth()]}</p>
                         <ChevronRight onClick={nextrange} className="cursor-pointer" />
                     </div>
                     <div className="max-[390px]:w-[90%] flex max-[390px]:items-start min-h-72 items-start">
@@ -190,20 +197,24 @@ export default function Specialistpage() {
                             {times?.map(x =>
                                 <div key={x.date} className={`flex flex-col w-[70px]  h-[30px] mr-2 text-center mb-4 font-bold ${x.isDayFree || x.isDayVacation ? "" : "text-red-600"}`}>{weekdays[new Date(x.date).getUTCDay()]}
                                     <div className="font-light text-sm">{new Date(x.date).getDate()}.{new Date(x.date).getMonth() + 1}</div>
-                                    <Dialog open={eventFormOpen} onOpenChange={(e) => setEventFormOpen(e)} >
+                                    <Dialog open={eventFormOpen}
+                                        onOpenChange={(e) => setEventFormOpen(e)}
+                                    >
                                         <DialogContent className="sm:max-w-[425px] sm:text-center ">
                                             <DialogHeader>
                                                 <DialogTitle className="sm:text-center">Jauns pieraksts</DialogTitle>
 
                                             </DialogHeader>
-                                            {user ? <Eventform getdata={getuser} close={close} dateFrompage={datetopass} user={user} service={selectedservice} allservices={services} specialist={specialist} /> : <div className="flex flex-col"><p>Lai veiktu pierakstu, ielogojies sistēmā!</p><Link href="/login/signin?type=all"><Button className="mt-4">IELOGOTIES</Button></Link></div>}
+                                            {user ?
+                                                <Eventform getdata={getuser} close={close} dateFrompage={datetopass} user={user} service={selectedservice} allservices={services} specialist={specialist} getmessage={getmessage} />
+                                                : <div className="flex flex-col"><p>Lai veiktu pierakstu, ielogojies sistēmā!</p><Link href="/login/signin?type=all"><Button className="mt-4">IELOGOTIES</Button></Link></div>}
 
                                         </DialogContent>
 
                                         <DialogTrigger asChild >
 
 
-                                            <div className="" >{x.interval.map(y => <button key={y} className="border-solid border-black border mt-2 p-1.5 rounded-md	w-[70px] hover:bg-stone-400 font-normal" onClick={() => getDate(y)} disabled={!x.isDayFree }>{moment(y).format("HH:mm")}</button>)}
+                                            <div className="" >{x.interval.map(y => <button key={y} className="border-solid border-black border mt-2 p-1.5 rounded-md	w-[70px] hover:bg-stone-400 font-normal" onClick={() => getDate(y)} disabled={!x.isDayFree}>{moment(y).format("HH:mm")}</button>)}
                                             </div>
                                         </DialogTrigger>
                                     </Dialog>

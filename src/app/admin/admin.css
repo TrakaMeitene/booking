@@ -56,3 +56,8 @@ main{
 
 }
     
+@media only screen and (max-width: 390px) {
+main{
+    transform: translate(0,0) !important;
+}
+}

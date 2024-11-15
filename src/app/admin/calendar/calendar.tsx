@@ -19,6 +19,7 @@ import { useRouter } from 'next/navigation'
 import { Plus } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import { Booking } from "./page";
+import { toast } from "sonner";
 
 export default function Calendarview({ data }: any) {
   const [item, setItem] = useState()
@@ -29,6 +30,7 @@ export default function Calendarview({ data }: any) {
   const [range, setrange] = useState()
   const [bookings, setbookings] = useState([])
   const [openaddbooking, setOpenaddbooking] = useState(false)
+const [user, setUser] = useState()
 
   const router = useRouter()
 
@@ -37,6 +39,7 @@ export default function Calendarview({ data }: any) {
       setOpen(true)
     }
     getdata()
+    getuser()
   }, [item])
 
   const localizer = momentLocalizer(moment)
@@ -113,6 +116,26 @@ export default function Calendarview({ data }: any) {
     setOpenaddbooking(false)
   }
 
+
+  const getmessage = (message) => {
+    toast.success(message.message)
+}
+
+const getuser = () => {
+  let token = Cookies.get('token')
+
+  const headers = { 'Authorization': 'Bearer ' + token };
+  axios.post('http://localhost:8000/api/user', {}, { headers })
+      .then(response => {
+              setUser(response.data)
+      })
+      .catch(function (error) {
+          // if (error.response.status == 401) {
+          //   return router.push('/')
+          // }
+      })
+}
+
   return (
     <div style={{ height: "800px" }} className="w-full mb-4">
       <Dialog open={openaddbooking} onOpenChange={(event) => setOpenaddbooking(event)} >
@@ -121,7 +144,7 @@ export default function Calendarview({ data }: any) {
             <DialogTitle className="sm:text-center">Jauns pieraksts</DialogTitle>
 
           </DialogHeader>
-          <Eventform close={closeaddbooking} getdata={getdata} />
+          <Eventform close={closeaddbooking} getdata={getdata} getmessage={getmessage} specialist={[user]}/>
 
         </DialogContent>
 
@@ -159,7 +182,7 @@ export default function Calendarview({ data }: any) {
         }}
       />
       <Dialog open={open} onOpenChange={(event) => setOpen(event)}> <Bookingdetails data={item} /> </Dialog>
-      <Dialog open={addevent} onOpenChange={(event) => setaddevenetopen(event)}><Addbreak data={slotitems} close={closedialog} /></Dialog>
+      <Dialog open={addevent} onOpenChange={(event) => setaddevenetopen(event)}><Addbreak data={slotitems} close={closedialog} getmessage={getmessage} /></Dialog>
 
     </div>
   )

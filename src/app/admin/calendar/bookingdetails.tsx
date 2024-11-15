@@ -16,6 +16,7 @@ import moment from "moment";
 import axios from "axios"
 import Cookies from "js-cookie";
 import { useRouter } from 'next/navigation'
+import { toast } from "sonner";
 
 export default function Bookingdetails({ data }: { data: Booking | undefined }) {
     type Inputs = {
@@ -50,16 +51,27 @@ export default function Bookingdetails({ data }: { data: Booking | undefined }) 
 
         const headers = { 'Authorization': 'Bearer ' + token };
         axios.post('http://localhost:8000/api/user', {}, { headers })
-          .then(response => setUser(response.data))
-        .catch (function (error) {
-        if (error.response.status == 401) {
-          return router.push('/login')
-        }
-      })
+            .then(response => setUser(response.data))
+            .catch(function (error) {
+                if (error.response.status == 401) {
+                    return router.push('/login')
+                }
+            })
     }
 
-    const save: SubmitHandler<Inputs> = (data) => {
-        console.log(data)
+    const save: SubmitHandler<Inputs> = (cancellation) => {
+        const headers = { 'Authorization': 'Bearer ' + token };
+
+        cancellation.itemid = data?.id
+        axios.post('http://localhost:8000/api/cancelbooking', cancellation, { headers })
+            .then(response => {
+                if (response.statusText == "OK") {
+                    toast.success('Dati saglabāti veiksmīgi!')
+                } else{
+                    toast.error('Kaut kas nogāja greizi!')
+                }
+            }
+            )
     }
 
     return (

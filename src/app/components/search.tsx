@@ -33,11 +33,11 @@ export default function Searchspecialist( ) {
 
 
   return (
-    <div className="search mb-20 z-10">
+    <div className="search mb-9 z-10 flex-wrap">
       <Select value={selectedcity} onValueChange={(value) => {
         setSelectedcity(value)
       }} >
-        <SelectTrigger className="w-[180px]">
+        <SelectTrigger className="w-[180px] max-[390px]:w-full">
           <SelectValue placeholder="Atrašanās vieta" />
         </SelectTrigger>
         <SelectContent>
@@ -48,7 +48,7 @@ export default function Searchspecialist( ) {
       <Select value={selectedoccupation} onValueChange={(value) => {
         setSelectedoccupation(value)
       }} >
-        <SelectTrigger className="w-[180px]">
+        <SelectTrigger className="w-[180px] max-[390px]:w-full">
           <SelectValue placeholder="Pakalpojums" />
         </SelectTrigger>
         <SelectContent>
@@ -61,7 +61,7 @@ export default function Searchspecialist( ) {
           <Button
             variant={"outline"}
             className={cn(
-              "w-[280px] justify-start text-left font-normal",
+              "w-[280px] justify-start text-left font-normal max-[390px]:w-full",
               !date && "text-muted-foreground"
             )}
           >

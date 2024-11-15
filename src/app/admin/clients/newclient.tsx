@@ -6,8 +6,10 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button";
 import { DialogTrigger } from "@radix-ui/react-dialog";
+import Cookies from "js-cookie";
+import axios from "axios";
 
-export default function Newclient(){
+export default function Newclient({getmessage}){
 
     type Inputs = {
         name: string,
@@ -24,7 +26,15 @@ export default function Newclient(){
     } = useForm<Inputs>()
 
     const saveclient: SubmitHandler<Inputs> = (data)=>{
-console.log(data)
+        let token = Cookies.get('token')
+        const headers = { 'Authorization': 'Bearer ' + token };
+        axios.post('http://localhost:8000/api/saveclient', data, { headers })
+            .then(response => {
+                if(response.statusText == "OK"){
+                    getmessage("Dati saglabāti veiksmīgi")
+                }
+            })
+
     }
 
     return(

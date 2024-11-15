@@ -7,7 +7,8 @@ import {
   Settings,
   ShoppingCart,
   PanelLeft,
-  CalendarDays
+  CalendarDays,
+  ReceiptEuro 
 } from "lucide-react"
 
 import {
@@ -95,6 +96,18 @@ export default function Aside() {
             </TooltipTrigger>
             <TooltipContent side="right">Pakalpojumi</TooltipContent>
           </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Link
+                href="/admin/invoices"
+                className={pathname === "/admin/invoices" ? active : base}
+              >
+                <ReceiptEuro  className="h-5 w-5" />
+                <span className="sr-only">Rēķini</span>
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent side="right">Rēķini</TooltipContent>
+          </Tooltip>
 
 
         </nav>
@@ -158,6 +171,13 @@ export default function Aside() {
                 >
                   <Package className="h-5 w-5" />
                   Pakalpojumi
+                </Link>
+                <Link
+                  href="/admin/invoices"
+                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                >
+                  <Package className="h-5 w-5" />
+                  Rēķini
                 </Link>
 
                 <Link

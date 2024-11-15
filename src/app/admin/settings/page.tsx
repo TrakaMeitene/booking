@@ -13,9 +13,8 @@ import { Service } from "../services/page";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { useRouter } from 'next/navigation'
-import Link from "next/link";
 import { Message } from "../profile/page";
-import Alertcomp from "../partscomponents/alert";
+import {toast} from "sonner"
 
 export default function Settings() {
     const [workingdays, setWorkingdays] = useState([{ day: 1, statuss: true, from: "08:00", to: "17:00", breakfrom: "12:00", breakto: "13:00" }, { day: 2, statuss: true, from: "08:00", to: "17:00", breakfrom: "12:00", breakto: "13:00" }, { day: 3, statuss: true, from: "08:00", to: "17:00", breakfrom: "12:00", breakto: "13:00" }, { day: 4, statuss: true, from: "08:00", to: "17:00", breakfrom: "12:00", breakto: "13:00" }, { day: 5, statuss: true, from: "08:00", to: "17:00", breakfrom: "12:00", breakto: "13:00" }, { day: 6, statuss: false, from: "08:00", to: "17:00", breakfrom: "12:00", breakto: "13:00" }, { day: 7, statuss: false, from: "08:00", to: "17:00", breakfrom: "12:00", breakto: "13:00" }])
@@ -49,7 +48,12 @@ export default function Settings() {
         const headers = { 'Authorization': 'Bearer ' + token };
 
         axios.post('http://localhost:8000/api/addsettings', workingdays, { headers })
-            .then(response => { if (response.data.length > 0) { setMessage({ message: "Dati saglabāti veiksmīgi!", type: "success" }) } else { setMessage({ message: "Kļūda! Mēģini vēlreiz", type: "error" }) } }) //te jauztaisa iznirstosāis ziņojums
+            .then(response => { if (response.data.length > 0) { 
+                setMessage({ message: "Dati saglabāti veiksmīgi!", type: "success" }) 
+            toast.success("Dati saglabāti veiksmīgi!")
+            } else { 
+                    setMessage({ message: "Kļūda! Mēģini vēlreiz", type: "error" })
+                toast.error("Kļūda! Mēģini vēlreiz") } }) 
             .catch(function (error) {
                 if (error.response.status == 401) {
                     return router.push('/login')
@@ -74,7 +78,6 @@ export default function Settings() {
         <>
 
             <main>
-            {message && <Alertcomp success={message} />}
 
                 <h1 className="text-3xl w-full border-b-2">Uzstādījumi</h1>
                 <p>Uzstādiet darba laiku un pārtraukumus darba nedēļai!</p>

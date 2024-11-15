@@ -25,6 +25,7 @@ import Loading from "./loading";
 export interface User {
   id: BigInteger,
   name: string,
+  personalnr:string,
   email: string,
   email_verified_at: Date,
   creatd_at: Date,
@@ -35,7 +36,8 @@ export interface User {
   phone: string,
   description: string,
   scope: string,
-  occupation: string
+  occupation: string,
+  bank: string
 }
 
 export default function Header() {
@@ -77,7 +79,7 @@ export default function Header() {
   
   return (
     <>
-      <div className="flex flex-col  w-full" >
+      <div className="flex flex-col  w-full header" >
         <header className="sticky top-0 z-30 flex h-10 items-center gap-4 bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
           <div className="relative ml-auto flex-1 ">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />

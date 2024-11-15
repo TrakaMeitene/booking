@@ -25,15 +25,18 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import Alertcomp from "../partscomponents/alert";
+import { toast } from 'sonner'
 export interface FormValues {
-    name: string
+    name: string,
+    personalnr: string,
     email: string,
     phone: string,
     bio: string,
     adress: String,
     occupation: string,
     File: File,
-    city: string
+    city: string,
+    bank: string
 }
  export interface Message{
     message: string, 
@@ -108,8 +111,10 @@ export default function Profile() {
         axios.post('http://localhost:8000/api/updateuser', formData, { headers })
             .then(response => {if(response.data.id) {
                 setMessage({ message: "Dati atjaunināti veiksmīgi", type: "success" })
+                toast.success("Dati atjaunināti veiksmīgi")
             }else{
                 setMessage({ message: "Neizdevās atjaunināt datus. Mēģini vēlreiz!", type: "error" })
+                toast.error("Neizdevās atjaunināt datus. Mēģini vēlreiz!")
             }}) 
             .catch(function (error) {
                 if (error.response.status == 401) {
@@ -121,7 +126,6 @@ export default function Profile() {
     return (
         <main>
             <h1 className="text-3xl w-full border-b-2">Profils</h1>
-            {message && <Alertcomp success={message}/>}
 
             <Card className="w-[350px] mt-2">
                 <CardHeader>
@@ -152,6 +156,19 @@ export default function Profile() {
                                     required
                                     defaultValue={user?.name}
                                     {...register('name')}
+                                />
+                            </div>
+                        </div>
+                        <div className="grid gap-4 mt-2">
+                            <div className="grid gap-2">
+                                <Label htmlFor="name">Personas kods</Label>
+                                <Input
+                                    id="pk"
+                                    type="text"
+                                    placeholder="1xxxx-xxxx"
+                                    required
+                                    defaultValue={user?.personalnr}
+                                    {...register('personalnr')}
                                 />
                             </div>
                         </div>
@@ -212,6 +229,20 @@ export default function Profile() {
                                     defaultValue={user?.adress}
 
                                     {...register('adress')}
+                                />
+                            </div>
+                        </div>
+                        <div className="grid gap-4 mt-2">
+                            <div className="grid gap-2">
+                                <Label htmlFor="bank">Konta nr.</Label>
+                                <Input
+                                    id="bank"
+                                    type="text"
+                                    placeholder="Konta nr"
+                                    required
+                                    defaultValue={user?.bank}
+
+                                    {...register('bank')}
                                 />
                             </div>
                         </div>

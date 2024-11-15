@@ -34,16 +34,15 @@ export default function Nav(){
       const headers = { 'Authorization': 'Bearer ' + token };
       axios.post('http://localhost:8000/api/user', {}, { headers })
         .then(response => {
-          console.log(response)
           if(response.data.scope === "all"){
           setLoggedin(true)
           setUser(response.data)
           }
         })
       .catch (function (error) {
-      // if (error.response.status == 401) {
-      //   return router.push('/')
-      // }
+      if (error.response.status == 401) {
+        return router.push('/')
+      }
     })
   }
 

@@ -18,7 +18,7 @@ export default function Home() {
       <Nav />
 
       <section id="homefirst">
-        <h1 className={syne.className}>Atrodiet savu labsajūtas speciālistu jebkurā laikā, jebkurā vietā!</h1>
+        <h1 className={` ${syne.className}`}>Atrodiet savu labsajūtas speciālistu jebkurā laikā, jebkurā vietā!</h1>
        <Searchspecialist />
       </section>
       <Footer/>
