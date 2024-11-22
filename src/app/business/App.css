@@ -114,7 +114,7 @@ input {
 
 }
 
-button:hover:not(.search button, #personpage button), .button:hover {
+button:hover:not(.search button, #personpage button, .select button), .button:hover {
 
   transform: scale(0.9);
 }

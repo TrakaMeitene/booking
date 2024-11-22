@@ -11,13 +11,11 @@ import {
     TableBody,
     TableCaption,
     TableCell,
-    TableFooter,
     TableHead,
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
 import {toast} from "sonner"
-import { User } from "../admin/partscomponents/header"
 import Cookies from "js-cookie";
 import axios from "axios";
 import { useRouter } from 'next/navigation'
@@ -25,11 +23,8 @@ import moment from "moment";
 import {
     Pagination,
     PaginationContent,
-    PaginationEllipsis,
     PaginationItem,
     PaginationLink,
-    PaginationNext,
-    PaginationPrevious,
 } from "@/components/ui/pagination"
 import { Button } from "@/components/ui/button";
 

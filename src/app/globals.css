@@ -257,13 +257,18 @@ main{
   }
 }
 
-@media only screen and (min-width: 695px) and (max-width: 1460px){
+@media only screen and (min-width: 695px) and (max-width: 1425px){
   #homefirst{
     height:200vh;
   }
+
+  .home{
+    min-height: 100vh !important;
+    height:auto !important;
+  }
 }
 
-@media only screen and (min-width: 1462px) and (max-width: 2000px){
+@media only screen and (min-width: 1432px) and (max-width: 2000px){
   #homefirst{
     height:130vh;
   }

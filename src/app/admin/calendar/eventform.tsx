@@ -64,7 +64,6 @@ export default function Eventform({ close, getdata, dateFrompage, user, service,
             setSelectedservices(service)
         }
     }, [])
-    console.log(specialist)
 
     type Inputs = {
         name: string,
@@ -105,7 +104,7 @@ export default function Eventform({ close, getdata, dateFrompage, user, service,
                    getmessage(response.data)
                 } else {
                     getmessage("Dati saglabāti veiksmīgi")
-
+itemtosave.booking = response.data.id
                     makeinvoice(itemtosave)
                     getdata()
                 }
@@ -124,21 +123,13 @@ export default function Eventform({ close, getdata, dateFrompage, user, service,
         axios.post('http://localhost:8000/api/makeinvoice', itemtosave, { headers })
 
             .then(response => {
+                getmessage("Rēķins izsūtīts!")
 
-                // const url = window.URL.createObjectURL(new Blob(response.data));
-                const link = document.createElement('a');
-                link.href = response.data;
-                link.setAttribute('download', `aa.pdf`);
-                document.body.appendChild(link);
-                link.click();
             }
             )
     }
 
-    // if (message) {
-    //     console.log(getmessage)
-    //     getmessage(message)
-    // }
+
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>

@@ -186,7 +186,7 @@ export default function Prifileall() {
                                         />
                                     </div>
                                 </div>
-                                <div className="grid gap-4 mt-2">
+                                <div className="grid gap-4 mt-2 select">
                                     <div className="grid gap-2">
                                         <Label htmlFor="city">Pilsēta, rajons</Label>
                                         <Select value={selectedcity} onValueChange={(value) => {

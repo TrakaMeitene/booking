@@ -7,7 +7,6 @@ import {
     TableBody,
     TableCaption,
     TableCell,
-    TableFooter,
     TableHead,
     TableHeader,
     TableRow,
@@ -29,11 +28,8 @@ import {
 import {
     Pagination,
     PaginationContent,
-    PaginationEllipsis,
     PaginationItem,
     PaginationLink,
-    PaginationNext,
-    PaginationPrevious,
 } from "@/components/ui/pagination"
 
 import { Download } from "lucide-react";
@@ -46,14 +42,14 @@ export default function InvoiceTable({ scope }) {
 
     useEffect(() => {
         getdata()
-    }, [current])
+    }, [])
 
-    const getdata = (month) => {
+    const getdata = (month, prevmonth, type, prevType) => {
         let token = Cookies.get('token')
         const headers = { 'Authorization': 'Bearer ' + token };
         const endpoint = scope === "all" ? "getCustomerInvoices" : "getSpecialistInvoices"
 
-        axios.post(`http://localhost:8000/api/${endpoint}`, { month, current }, { headers })
+        axios.post(`http://localhost:8000/api/${endpoint}`, { month, current, prevmonth, type, prevType }, { headers })
             .then(response => {
                 setData(response.data)
             })
@@ -101,13 +97,13 @@ export default function InvoiceTable({ scope }) {
 
     return (
         <>
-            <Card className="w-[985px] mt-2 p-4 card">
+            <Card className="w-[1085px] mt-2 p-4 card">
                 <CardHeader>
 
                     <CardTitle>Tavi rēķini</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <Invoicefilters getdata={getdata} />
+                    <Invoicefilters getdata={getdata} scope={scope} page={current}/>
                     {/* te vajag arī serach by customer.name un serial_number */}
                     <Table className="max-h-[750px] mt-4">
                         <TableCaption>Saraksts ar Jums adresētiem rēķiniem.</TableCaption>
@@ -119,20 +115,24 @@ export default function InvoiceTable({ scope }) {
                                 <TableHead>Pakalpojums</TableHead>
                                 <TableHead className="text-right">Apmaksas datums</TableHead>
                                 <TableHead className="text-right">Cena</TableHead>
+                                <TableHead className="text-right">Statuss</TableHead>
+
                                 <TableHead>Iespējas</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                             {data?.data?.map((x) => (
-                                <TableRow key={x.id} >
+                                <TableRow key={x.id} className={x.status === "cancelled" ? "bg-amber-500" : ""}>
                                     <TableCell>{x.serial_number}</TableCell>
                                     <TableCell>{moment(x.created_at).format("DD.MM.yyyy HH:mm")}</TableCell>
                                     <TableCell className="font-medium">{scope === "all" ? x.specialist?.name : x.customer?.name}</TableCell>
                                     <TableCell>{x.service}</TableCell>
                                     <TableCell>{x.paid_date ? moment(x.paid_date).format("DD.MM.yyyy HH:mm") : ""}</TableCell>
                                     <TableCell className="text-right">{(x.price / 100)?.toFixed(2)} Eur</TableCell>
+                                    <TableCell className="text-right">{x.status === "cancelled" ? "Anulēts" : x.status === "paid" ? "Apmaksāts" : "Neapmaksāts"}</TableCell>
+
                                     <TableCell><div className="flex flex-row">
-                                        <TooltipProvider>
+                                       {x.invoice && <TooltipProvider>
                                             <Tooltip>
                                                 <TooltipTrigger onClick={() => { getinvoice(x) }}>
                                                     <Download />
@@ -141,7 +141,7 @@ export default function InvoiceTable({ scope }) {
                                                     <p>Lejupielādēt</p>
                                                 </TooltipContent>
                                             </Tooltip>
-                                        </TooltipProvider>
+                                        </TooltipProvider>}
                                         {scope === "business" && <Button className="ml-4" onClick={() => statusspaid(x)} disabled={x.paid_date}>Apmaksāts</Button>}</div></TableCell>
                                 </TableRow>
                             ))}
@@ -151,8 +151,8 @@ export default function InvoiceTable({ scope }) {
 
                     <Pagination>
                         <PaginationContent className="pagination flex-wrap w-full">
-                            {data?.links?.map(x => <PaginationItem key={x.label}>
-                                <PaginationLink isActive={data?.current_page == x.label} onClick={() => setCurrent(Number(x.label) ? Number(x.label) : x.label === "&laquo; Previous" ? prev : next)}>{x.label == "&laquo; Previous" ? "<" : x.label == "Next &raquo;" ? ">" : x.label}</PaginationLink>
+                            {data?.links?.map((x, index) => <PaginationItem key={index}>
+                                <PaginationLink isActive={data?.current_page == x.label}  onClick={() => setCurrent(Number(x.label) ? Number(x.label) : x.label === "&laquo; Previous" ? prev : next)}>{x.label == "&laquo; Previous" ? "<" : x.label == "Next &raquo;" ? ">" : x.label}</PaginationLink>
                             </PaginationItem>
                             )}
                         </PaginationContent>

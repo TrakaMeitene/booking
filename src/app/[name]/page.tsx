@@ -129,14 +129,14 @@ export default function Specialistpage() {
     const nextrange = () => {
         setToday(new Date(today.getFullYear(), today.getMonth(), today.getDate() + length))
         setRangened(new Date(rangeEnd.getFullYear(), rangeEnd.getMonth(), rangeEnd.getDate() + length))
-        gettimes()
+        if(selectedservice) gettimes()
     }
 
     const previousrange = () => {
         setToday(new Date(today.getFullYear(), today.getMonth(), today.getDate() - length))
         setRangened(new Date(rangeEnd.getFullYear(), rangeEnd.getMonth(), rangeEnd.getDate() - length))
-        gettimes()
-    }
+        if(selectedservice) gettimes()
+        }
 
     const close = () => {
         setEventFormOpen(false)
@@ -150,7 +150,7 @@ export default function Specialistpage() {
     return (
         <>
             <Nav />
-            <section id="personpage" className="flex justify-center items-center flex-col">
+            <section id="personpage" className="flex justify-center items-center flex-col ">
                 <div className="flex w-[80%]  p-5 flex-row items-center max-[390px]:flex-col max-[390px]:w-[90%]">
                     <Avatar className="h-[150px] w-[150px] mr-4" >
                         <AvatarImage src={`http://localhost:8000/storage/${specialist[0].avatar}`} />

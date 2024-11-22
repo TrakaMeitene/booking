@@ -108,7 +108,7 @@ export default function Header() {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel><Link href="/admin/profile">Profils</Link></DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
+              <DropdownMenuItem onClick={logout}>Izrakstīties</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
           <h2>{user?.name}</h2>

@@ -78,7 +78,7 @@ export default function Bookingdetails({ data }: { data: Booking | undefined }) 
         <DialogContent className="max-w-[450px] flex items-center justify-center flex-col ">
             <DialogHeader className="text-center sm:text-center">
                 <DialogTitle>Pieraksta detaļas</DialogTitle>
-                <DialogDescription>{moment(data?.date).format('HH:MM  dddd, Do MMMM YYYY')}</DialogDescription>
+                <DialogDescription>{moment(data?.date).format('HH:mm  dddd, Do MMMM YYYY')}</DialogDescription>
             </DialogHeader>
             <h1>{data?.title}</h1>
             <p>{service?.name}</p>

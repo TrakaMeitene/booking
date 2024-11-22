@@ -13,10 +13,13 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import Newinvoice from "./newinvoice";
+import { useRouter } from 'next/navigation'
 
 export default function Invoices() {
     const [data, setData] = useState({ tota: 0, unpaid: 0 })
     const [formopen, setOpen] = useState(false)
+    const [type, setType] = useState()
+    const router = useRouter()
 
     useEffect(() => {
         getdata()
@@ -32,7 +35,7 @@ export default function Invoices() {
             })
             .catch(function (error) {
                 if (error.response.status == 401) {
-                    //return router.push('/login')
+                    return router.push('/login')
                 }
             })
     }
@@ -79,17 +82,42 @@ export default function Invoices() {
 
                         </CardContent>
                     </Card>
+
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="text-4xl">{data[0]?.expenses.toFixed(2)} Eur</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <p >Kopējās izmaksas</p>
+
+                        </CardContent>
+                    </Card>
+
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="text-4xl">{data[0]?.thismonthexpenses.toFixed(2)}  Eur</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <p >Šī mēneša izmaksas</p>
+
+                        </CardContent>
+                    </Card>
                 </div>
                 <Dialog open={formopen} onOpenChange={(e) => setOpen(e)}>
-                    <DialogTrigger asChild>
-                        <Button className="w-[150px] mt-2">Jauns ieņēmums</Button>
-                    </DialogTrigger>
+                    <div className="flex flex-row ">
+                        <DialogTrigger asChild>
+                            <Button className="w-[150px] mt-2 mr-2" onClick={() => setType("ieņēmums")}>Jauns ieņēmums</Button>
+                        </DialogTrigger>
+                        <DialogTrigger asChild >
+                            <Button className="w-[150px] mt-2" onClick={() => setType("izdevums")}>Jauns izdevums</Button>
+                        </DialogTrigger>
+                    </div>
                     <DialogContent className="sm:max-w-[425px]">
                         <DialogHeader>
-                            <DialogTitle>Pievienot jaunu ieņēmumu</DialogTitle>
+                            <DialogTitle>{type === "ieņēmums" ? "Pievienot jaunu ieņēmumu" : "Pievienot jaunu izdevumu"}</DialogTitle>
 
                         </DialogHeader>
-                        <Newinvoice close={closeform}/>
+                        <Newinvoice close={closeform} />
 
                     </DialogContent>
                 </Dialog>

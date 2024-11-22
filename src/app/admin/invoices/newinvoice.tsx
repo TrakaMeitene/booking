@@ -25,7 +25,7 @@ export default function Newinvoice({ close }) {
     const [date, setDate] = useState<any>(new Date())
     const [paydate, setPaydate] = useState()
     const [file, setFile] = useState()
-    const [selectedservice, setSelectedservices] = useState()
+    const [selectedservice, setSelectedservices] = useState("")
     const {
         register,
         handleSubmit,
@@ -81,6 +81,7 @@ export default function Newinvoice({ close }) {
         formData.append('customer', data.partner)
         formData.append('partnerReg', data.partnerRegNr)
         formData.append('sumofbill', data.sumofbill * 100)
+        formData.append('service', selectedservice)
         { file && formData.append('file', file) }
 
         let token = Cookies.get('token')
@@ -96,7 +97,6 @@ export default function Newinvoice({ close }) {
             })
     }
 
-    console.log(file)
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col">

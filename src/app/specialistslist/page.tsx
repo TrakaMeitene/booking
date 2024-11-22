@@ -39,7 +39,7 @@ export default function Specialists() {
     return (
         <>
             <Nav />
-            <section id="homefirst" className="justify-center">
+            <section id="homefirst" className="justify-center home">
                 <Searchspecialist />
                 <div className="flex flex-wrap flex-row">
                     {specialsist.length > 0 && specialsist?.map(x =>
