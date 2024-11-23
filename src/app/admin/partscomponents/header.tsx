@@ -10,9 +10,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-
+import { Download } from "lucide-react";
 import { Button } from "@/components/ui/button"
-
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input"
 import {
   Search
@@ -22,10 +22,12 @@ import Cookies from "js-cookie";
 import { useRouter } from 'next/navigation'
 import Link from "next/link";
 import Loading from "./loading";
+import { toast } from "sonner";
+import Searchcard from "./searchcard";
 export interface User {
   id: BigInteger,
   name: string,
-  personalnr:string,
+  personalnr: string,
   email: string,
   email_verified_at: Date,
   creatd_at: Date,
@@ -43,6 +45,8 @@ export interface User {
 export default function Header() {
   const router = useRouter()
   const [user, setUser] = useState<User>()
+  const [searchvalue, setSearchvalue] = useState()
+  const [searchresponse, setSearchresponse] = useState([])
 
   useEffect(() => {
     let token = Cookies.get('token')
@@ -73,10 +77,19 @@ export default function Header() {
       .then(response => router.push('/login'))
   }
 
-  if(!user){
-    return <Loading/>
+  const searching = () => {
+    let token = Cookies.get('token')
+    const headers = { 'Authorization': 'Bearer ' + token };
+
+    axios.post('http://localhost:8000/api/search', { searchvalue }, { headers })
+      .then(response => setSearchresponse(response.data))
   }
-  
+
+  if (!user) {
+    return <Loading />
+  }
+
+console.log(searchresponse)
   return (
     <>
       <div className="flex flex-col  w-full header" >
@@ -87,8 +100,15 @@ export default function Header() {
               type="search"
               placeholder="Search..."
               className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[320px]"
+              onKeyDown={(e) => {
+                if (e.key === "Enter")
+                  searching()
+              }}
+              onChange={(e) => setSearchvalue(e.target.value)}
             />
           </div>
+          <Searchcard searchresponse={searchresponse} setSearchresponse={setSearchresponse}/>
+   
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
