@@ -43,7 +43,7 @@ getdata()
       let token = Cookies.get('token')
       const headers = { 'Authorization': 'Bearer ' + token };
 
-      axios.post(`http://localhost:8000/api/getclients`, {current}, { headers })
+      axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/getclients`, {current}, { headers })
           .then(response => {
               setData(response.data)
           })

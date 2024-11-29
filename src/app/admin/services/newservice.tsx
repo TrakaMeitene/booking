@@ -37,7 +37,7 @@ export default function Newcservice({getmessage}: {getmessage: ({message, type}:
         let token = Cookies.get('token')
         data.price = data.price * 100
         const headers = { 'Authorization': 'Bearer ' + token };
-        axios.post('http://localhost:8000/api/addservice', data, { headers })
+        axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/addservice`, data, { headers })
             .then(response => {
                 getmessage({message: "Dati saglabāti veiksmīgi!"})
 

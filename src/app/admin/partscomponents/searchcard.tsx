@@ -56,7 +56,7 @@ export default function Searchcard(props: props) {
         let token = Cookies.get('token')
         const headers = { 'Authorization': 'Bearer ' + token };
 
-        axios.post(`http://localhost:8000/api/updateInvoice`, invoice, { headers })
+        axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/updateInvoice`, invoice, { headers })
             .then(response => {
                 toast.success('Rēķina informācija atjaunota!')
             })

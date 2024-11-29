@@ -31,7 +31,7 @@ export default function Settings() {
         let token = Cookies.get('token')
         const headers = { 'Authorization': 'Bearer ' + token };
 
-        axios.post('http://localhost:8000/api/addsettings', workingdays, { headers })
+        axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/addsettings`, workingdays, { headers })
             .then(response => { if (response.data.length > 0) { 
                 setMessage({ message: "Dati saglabāti veiksmīgi!", type: "success" }) 
             toast.success("Dati saglabāti veiksmīgi!")
@@ -49,7 +49,7 @@ export default function Settings() {
         let token = Cookies.get('token')
         const headers = { 'Authorization': 'Bearer ' + token };
 
-        axios.get('http://localhost:8000/api/getsettings', { headers })
+        axios.get(`${process.env.NEXT_PUBLIC_REQUEST_URL}/getsettings`, { headers })
             .then(response => { if (response.data.length > 0) { setWorkingdays(response.data) } })
             .catch(function (error) {
                 if (error.response.status == 401) {

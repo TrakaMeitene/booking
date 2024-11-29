@@ -44,7 +44,7 @@ export default function LoginForm() {
     }
 
     const resetpassword: SubmitHandler<FormValues> = (data) => {
-        axios.post('http://localhost:8000/api/passwordreset', { 'password': password, 'email': data.email, 'token': token })
+        axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/passwordreset`, { 'password': password, 'email': data.email, 'token': token })
             .then(response => {
                 if (response.data === "") {
                     toast.error('Kaut kas nogāja greizi! Mēģini vēlreiz. ')

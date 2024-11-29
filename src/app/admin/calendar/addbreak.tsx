@@ -25,7 +25,7 @@ export default function Addbreak( props:type) {
     const savevacation = () => {
 
         const headers = { 'Authorization': 'Bearer ' + token };
-        axios.post('http://localhost:8000/api/savevacation', props.data, { headers })
+        axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/savevacation`, props.data, { headers })
             .then(response =>{ if(response.data.length > 0){
                 props.getmessage({message: "Dati saglabāti veiksmīgi!"})
                 props.close()

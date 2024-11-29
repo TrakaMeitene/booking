@@ -90,7 +90,7 @@ const [user, setUser] = useState<User>()
     setrange(range)
     let token = Cookies.get('token')
     const headers = { 'Authorization': 'Bearer ' + token };
-    axios.post('http://localhost:8000/api/getvacation', range, { headers })
+    axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/getvacation`, range, { headers })
       .then(response => setvacation(response.data))
       .catch(function (error) {
         if (error.response.status == 401) {
@@ -106,7 +106,7 @@ const [user, setUser] = useState<User>()
     const range = new Map();
     // Example: range.set('startDate', '2024-09-01'); range.set('endDate', '2024-09-30');
 
-    axios.post('http://localhost:8000/api/getbookings', Object.fromEntries(range), { headers })
+    axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/getbookings`, Object.fromEntries(range), { headers })
       .then(response => {
         // Convert date strings to JavaScript Date objects in the response data
         const bookingsWithDates = response.data.map((booking: Booking) => ({
@@ -133,7 +133,7 @@ const getuser = () => {
   let token = Cookies.get('token')
 
   const headers = { 'Authorization': 'Bearer ' + token };
-  axios.post('http://localhost:8000/api/user', {}, { headers })
+  axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/user`, {}, { headers })
       .then(response => {
               setUser(response.data)
       })

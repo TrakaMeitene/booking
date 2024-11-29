@@ -86,7 +86,7 @@ export default function Newinvoice({ close }: {close: ()=>void}) {
 
         let token = Cookies.get('token')
         const headers = { 'Authorization': 'Bearer ' + token };
-        axios.post('http://localhost:8000/api/saveexternalinvoice', formData, { headers })
+        axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/saveexternalinvoice`, formData, { headers })
             .then(response => {
                 if (response.statusText == "Created") {
                     toast.success("Dati saglabāti veiksmīgi!")

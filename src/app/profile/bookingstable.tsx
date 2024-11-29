@@ -44,7 +44,7 @@ export default function Bookingstable({user}: {user: User}) {
         let token = Cookies.get('token')
         const headers = { 'Authorization': 'Bearer ' + token };
 
-        axios.post('http://localhost:8000/api/getbookingsUsermade', { current }, { headers })
+        axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/getbookingsUsermade`, { current }, { headers })
             .then(response => {
                 setData(response.data)
             })
@@ -59,7 +59,7 @@ export default function Bookingstable({user}: {user: User}) {
 
 
     const cancelbooking=(data: Booking)=>{
-        axios.post('http://localhost:8000/api/cancelbooking', {itemid: data.id})
+        axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/cancelbooking`, {itemid: data.id})
             .then(response => {
                 if (response.statusText == "OK") {
                     toast.success('Dati saglabāti veiksmīgi!')

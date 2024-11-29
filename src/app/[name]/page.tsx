@@ -57,7 +57,6 @@ export default function Specialistpage() {
     let token = Cookies.get('token')
 
 
-
     useEffect(() => {
         setWindowWidth(window.innerWidth)
         getdata()
@@ -68,7 +67,7 @@ export default function Specialistpage() {
     }, [token])
 
     const getdata = () => {
-        axios.post('http://localhost:8000/api/getspecialistbyname', { name: decodedstring.slice(1) })
+        axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/getspecialistbyname`, { name: decodedstring.slice(1) })
             .then(response => setSpecialist(response.data))
 
     }
@@ -83,7 +82,7 @@ export default function Specialistpage() {
 
     const getservices = () => {
         if (specialist.length > 0) {
-            axios.post('http://localhost:8000/api/getservicesforspecialist', { id: specialist[0]?.id })
+            axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/getservicesforspecialist`, { id: specialist[0]?.id })
                 .then(response => setservices(response.data))
         }
     }
@@ -95,7 +94,7 @@ export default function Specialistpage() {
 
 
     const gettimes = () => {
-        axios.post('http://localhost:8000/api/getspecialiststimes', { userid: specialist[0].id, service: selectedservice, range: days })
+        axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/getspecialiststimes`, { userid: specialist[0].id, service: selectedservice, range: days })
             .then(response => setTimes(response.data))
     }
 
@@ -103,7 +102,7 @@ export default function Specialistpage() {
         let token = Cookies.get('token')
 
         const headers = { 'Authorization': 'Bearer ' + token };
-        axios.post('http://localhost:8000/api/user', {}, { headers })
+        axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/user`, {}, { headers })
             .then(response => {
                 if (response.data.scope === "all") {
                     setUser(response.data)
@@ -152,7 +151,7 @@ export default function Specialistpage() {
             <section id="personpage" className="flex justify-center items-center flex-col ">
                 <div className="flex w-[80%]  p-5 flex-row items-center max-[390px]:flex-col max-[390px]:w-[90%]">
                     <Avatar className="h-[150px] w-[150px] mr-4" >
-                        <AvatarImage src={`http://localhost:8000/storage/${specialist[0].avatar}`} />
+                        <AvatarImage src={`${process.env.NEXT_PUBLIC_REQUEST_STORAGE}/${specialist[0].avatar}`} />
                         <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
                     <div >

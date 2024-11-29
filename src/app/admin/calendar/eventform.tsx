@@ -26,8 +26,6 @@ import {
 import Cookies from "js-cookie";
 import axios from "axios";
 import { useRouter } from 'next/navigation'
-import { User } from "./page";
-import { serviceObject } from "./bookingdetails";
 
 interface prop {
     getdata: () => void,
@@ -56,7 +54,7 @@ export default function Eventform(propsIn: prop) {
         if (propsIn.allservices) {
             setservices(propsIn.allservices)
         } else {
-            axios.post('http://localhost:8000/api/getservices', {}, { headers })
+            axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/getservices`, {}, { headers })
                 .then(response => {
                     console.log(response)
                     setservices(response.data)
@@ -106,7 +104,7 @@ export default function Eventform(propsIn: prop) {
 
         let token = Cookies.get('token')
         const headers = { 'Authorization': 'Bearer ' + token };
-        axios.post('http://localhost:8000/api/savebooking', itemtosave, { headers })
+        axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/savebooking`, itemtosave, { headers })
 
             .then(response => {
                 if (typeof response.data === "string") {
@@ -129,7 +127,7 @@ export default function Eventform(propsIn: prop) {
         let token = Cookies.get('token')
 
         const headers = { 'Authorization': 'Bearer ' + token, responseType: 'blob' };
-        axios.post('http://localhost:8000/api/makeinvoice', itemtosave, { headers })
+        axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/makeinvoice`, itemtosave, { headers })
 
             .then(response => {
                if(response.data != ""){

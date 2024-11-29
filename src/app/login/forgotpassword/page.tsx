@@ -25,9 +25,8 @@ export default function LoginForm() {
 
   const sendrecovery =(email:FormValues)=>{
 
-    axios.post('http://localhost:8000/api/recoveremail', email)
+    axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/recoveremail`, email)
     .then(response => {
-      console.log(response)
       if(response.data === ""){
         toast.error('Kaut kas nogāja greizi! Mēģini vēlreiz. ')
       }else{

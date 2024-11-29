@@ -41,7 +41,7 @@ export default function Invoices() {
         let token = Cookies.get('token')
 
         const headers = { 'Authorization': 'Bearer ' + token };
-        axios.post('http://localhost:8000/api/user', {}, { headers })
+        axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/user`, {}, { headers })
             .then(response => {
                 if (response.data.scope === "business") {
                     setUser(response.data)
@@ -56,7 +56,7 @@ export default function Invoices() {
         let token = Cookies.get('token')
         const headers = { 'Authorization': 'Bearer ' + token };
 
-        axios.post(`http://localhost:8000/api/getsumm`, {}, { headers })
+        axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/getsumm`, {}, { headers })
             .then(response => {
                 setData(response.data[0])
             })

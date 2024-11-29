@@ -32,7 +32,7 @@ export default function Nav(){
     const getuser = (token:any) => {
   
       const headers = { 'Authorization': 'Bearer ' + token };
-      axios.post('http://localhost:8000/api/user', {}, { headers })
+      axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/user`, {}, { headers })
         .then(response => {
           if(response.data.scope === "all"){
           setLoggedin(true)
@@ -49,7 +49,7 @@ export default function Nav(){
   const logout = () => {
     let token = Cookies.get('token')
     const headers = { 'Authorization': 'Bearer ' + token };
-    axios.post('http://localhost:8000/api/logout', {}, { headers })
+    axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/logout`, {}, { headers })
       .then(response => {
         if (response.data === 'success')
           Cookies.remove('token', { path: '/' })
@@ -59,7 +59,7 @@ export default function Nav(){
 
     return(
         <nav className="homenav">
-        <Link href="Http://localhost:3000/"><Image
+        <Link href="/"><Image
         src="/logo1.png"
         alt="logo"
         width={100}
@@ -77,7 +77,7 @@ export default function Nav(){
                   className="overflow-hidden rounded-full"
                 >
                   <Image
-                    src={user?.avatar ? `http://localhost:8000/storage/${user.avatar}` : "/placeholder-user.jpg"}
+                    src={user?.avatar ? `${process.env.NEXT_PUBLIC_REQUEST_STORAGE}/${user.avatar}` : "/placeholder-user.jpg"}
                     width={36}
                     height={36}
                     alt="Avatar"

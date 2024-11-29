@@ -51,7 +51,7 @@ export default function Bookingdetails({ data }: { data: Booking | undefined }) 
 
     useEffect(() => {
         const headers = { 'Authorization': 'Bearer ' + token };
-        axios.post('http://localhost:8000/api/getservicebyid', data, { headers })
+        axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/getservicebyid`, data, { headers })
             .then(response => setservice(response.data))
             .then(resp => getuser())
             .catch(function (error) {
@@ -64,7 +64,7 @@ export default function Bookingdetails({ data }: { data: Booking | undefined }) 
     const getuser = () => {
 
         const headers = { 'Authorization': 'Bearer ' + token };
-        axios.post('http://localhost:8000/api/user', {}, { headers })
+        axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/user`, {}, { headers })
             .then(response => setUser(response.data))
             .catch(function (error) {
                 if (error.response.status == 401) {
@@ -77,7 +77,7 @@ export default function Bookingdetails({ data }: { data: Booking | undefined }) 
         const headers = { 'Authorization': 'Bearer ' + token };
 
         cancellation.itemid = data?.id
-        axios.post('http://localhost:8000/api/cancelbooking', cancellation, { headers })
+        axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/cancelbooking`, cancellation, { headers })
             .then(response => {
                 if (response.statusText == "OK") {
                     toast.success('Dati saglabāti veiksmīgi!')
@@ -90,8 +90,8 @@ export default function Bookingdetails({ data }: { data: Booking | undefined }) 
 
     const clientvisited=()=>{
         const headers = { 'Authorization': 'Bearer ' + token };
-console.log('tetee')
-        axios.post('http://localhost:8000/api/clientvisited', {data}, {headers})
+        
+        axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/clientvisited`, {data}, {headers})
         .then(response=>{
      console.log(response)       
         })

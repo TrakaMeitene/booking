@@ -40,7 +40,7 @@ export default function Register() {
         data.urlname = data.Name.toLocaleLowerCase('tr').replace(/ /g, "-")
         
         try {
-            axios.post('http://localhost:8000/api/register', data)
+            axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/register`, data)
                 .then(response => {
                     if (response.data.user?.id) {
                         setSuccess({ type: "success", message: "Reģistrācija veiksmīga!" })

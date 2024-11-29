@@ -24,7 +24,7 @@ export interface User {
 
 }
 
-export default function Admin({ dayLayoutAlgorithm = 'no-overlap'}) {
+export default function Admin() {
   const date: Date = new Date();
 
   return (

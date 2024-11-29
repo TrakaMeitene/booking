@@ -47,7 +47,7 @@ export default function InvoiceTable({ scope }: {scope: string}) {
         const headers = { 'Authorization': 'Bearer ' + token };
         const endpoint = scope === "all" ? "getCustomerInvoices" : "getSpecialistInvoices"
 
-        axios.post(`http://localhost:8000/api/${endpoint}`, { month, current, prevmonth, type, prevType, status, prevStatus }, { headers })
+        axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/${endpoint}`, { month, current, prevmonth, type, prevType, status, prevStatus }, { headers })
             .then(response => {
                 setData(response.data)
             })
@@ -62,7 +62,7 @@ export default function InvoiceTable({ scope }: {scope: string}) {
         let extension = invoice.invoice.split(/[#?]/)[0].split('.').pop().trim()
         const link = document.createElement('a');
         if (extension === ("jpg" || "png" || "jpeg")) {
-            link.href = `http://localhost:8000/storage/${invoice.invoice}`;
+            link.href = `${process.env.NEXT_PUBLIC_REQUEST_STORAGE}/${invoice.invoice}`;
         } else {
             link.href = invoice.invoice;
 
@@ -79,7 +79,7 @@ export default function InvoiceTable({ scope }: {scope: string}) {
         let token = Cookies.get('token')
         const headers = { 'Authorization': 'Bearer ' + token };
 
-        axios.post(`http://localhost:8000/api/updateInvoice`, invoice, { headers })
+        axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/updateInvoice`, invoice, { headers })
             .then(response => {
                 setData(response.data)
             })

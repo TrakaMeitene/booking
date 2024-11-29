@@ -34,7 +34,7 @@ export default function Signin() {
 
   const login = (data: FormValues) => {
     data.scope = type
-    axios.post('http://localhost:8000/api/logins', data, {
+    axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/logins`, data, {
       headers: {
         "Content-Type": "multipart/form-data"
       }

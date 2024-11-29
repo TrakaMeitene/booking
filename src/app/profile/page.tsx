@@ -52,11 +52,11 @@ export default function Prifileall() {
     const getuser = (token: any) => {
 
         const headers = { 'Authorization': 'Bearer ' + token };
-        axios.post('http://localhost:8000/api/user', {}, { headers })
+        axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/user`, {}, { headers })
             .then(response => {
                 if (response.data.scope === 'all') {
                     setUser(response.data)
-                    setUserimg(`http://localhost:8000/storage/${response.data.avatar}`)
+                    setUserimg(`${process.env.NEXT_PUBLIC_REQUEST_STORAGE}/${response.data.avatar}`)
                     setSelectedOccuption(response.data.occupation)
                 } else { router.push('/') }
             })
@@ -98,7 +98,7 @@ export default function Prifileall() {
         let token = Cookies.get('token')
         const headers = { 'Authorization': 'Bearer ' + token };
 
-        axios.post('http://localhost:8000/api/updateuser', formData, { headers })
+        axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/updateuser`, formData, { headers })
             .then(response => {
                 if (response.data.id) {
                     toast.success("Dati atjaunināti veiksmīgi")

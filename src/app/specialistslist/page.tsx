@@ -7,7 +7,6 @@ import { useSearchParams } from 'next/navigation'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useRouter, usePathname } from 'next/navigation'
 import { User } from "../admin/calendar/page";
-import Footer from "../admin/partscomponents/footer"
 
 export default function Specialists() {
     const searchParams = useSearchParams()
@@ -27,7 +26,7 @@ export default function Specialists() {
     const getdata = (city: string | null, occupation: string | null, date: string | null) => {
         const data = { 'city': city, 'occupation': occupation, 'date': date }
 
-        axios.post('http://localhost:8000/api/getspecialists', data)
+        axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/getspecialists`, data)
             .then(response => setSpecialists(response.data))
     }
 
@@ -46,7 +45,7 @@ export default function Specialists() {
                     {specialsist.length > 0 && specialsist?.map(x =>
                         <div className="flex border flex-row rounded-2xl bg-white p-5 cursor-pointer hover:scale-105" key={x.id} onClick={() => topersonalpage(x)}>
                             <Avatar className="h-[100px] w-[100px]" >
-                                <AvatarImage src={`http://localhost:8000/storage/${x.avatar}`} />
+                                <AvatarImage src={`${process.env.NEXT_PUBLIC_REQUEST_STORAGE}/${x.avatar}`} />
                                 <AvatarFallback>CN</AvatarFallback>
                             </Avatar>
                             <div className="p-5 text-left">

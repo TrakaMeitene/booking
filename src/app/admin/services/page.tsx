@@ -54,7 +54,7 @@ export default function Services() {
     let token = Cookies.get('token')
 
     const headers = { 'Authorization': 'Bearer ' + token };
-    axios.post('http://localhost:8000/api/getservices', {current}, { headers })
+    axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/getservices`, {current}, { headers })
       .then(response => {
         setservices(response.data)
       })
@@ -69,7 +69,7 @@ export default function Services() {
     let token = Cookies.get('token')
     const headers = { 'Authorization': 'Bearer ' + token };
 
-    axios.delete(`http://localhost:8000/api/deleteservice/${service.id}`)
+    axios.delete(`${process.env.NEXT_PUBLIC_REQUEST_URL}/deleteservice/${service.id}`)
       .then(response => {
         console.log(response)
         if (response.statusText == "OK") {
