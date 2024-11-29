@@ -1,5 +1,6 @@
 import React from "react";
 import Aside from "./partscomponents/aside";
+import Footer from "./partscomponents/footer";
 
 export default function Layout({children,
 }: Readonly<{
@@ -9,7 +10,6 @@ export default function Layout({children,
 <>
 <Aside />
 {children}
-
 
 </>
     )

@@ -87,7 +87,7 @@ export default function Prifileall() {
         const formData = new FormData();
 
         Object.fromEntries(
-            Object.keys(dirtyFields).map((key) => [
+            Object.keys(dirtyFields).map((key: string ) => [
                 formData.append(key, data[key])
             ])
         );

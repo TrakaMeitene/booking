@@ -12,7 +12,7 @@ height: auto;
 padding: 20px;
 }
 
-.card:hover{
+.card:hover:not(#invoices){
     transform: scale(0.98) !important;
     background-color: white;
     color: black;

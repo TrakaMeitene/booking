@@ -26,40 +26,35 @@ import {
 } from "@/components/ui/tooltip"
 import { Trash2 } from "lucide-react"
 import { toast } from "sonner"
+import { serviceObject } from "../calendar/bookingdetails";
+import { Message } from "../profile/page";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+} from "@/components/ui/pagination"
 
 export interface Service {
+  map(arg0: (x: serviceObject) => React.JSX.Element): React.ReactNode;
   id: number, name: string, price: string, time: number, description: string
 }
 
 export default function Services() {
   const router = useRouter()
-  const [services, setservices] = useState<Service>()
+  const [services, setservices] = useState()
+  const [current, setCurrent] = useState(1)
 
-  const data: Service[] = [
-    {
-      id: 1,
-      name: "Manikīrs sausias",
-      price: "20 €",
-      time: 1,
-      description: "saturs"
-    },
-    {
-      id: 2,
-      name: "Slapjais manikīrs",
-      price: "20  € ",
-      time: 1,
-      description: "saturs liels garš saturs ar banānanmaizisaturs liels garš saturs ar banānanmaizisaturs liels garš saturs ar banānanmaizisaturs liels garš saturs ar banānanmaizisaturs liels garš saturs ar banānanmaizisaturs liels garš saturs ar banānanmaizisaturs liels garš saturs ar banānanmaizisaturs liels garš saturs ar banānanmaizisaturs liels garš saturs ar banānanmaizi "
-    }
-  ]
+
   useEffect(() => {
     getdata()
-  }, [])
+  }, [current])
 
   const getdata = () => {
     let token = Cookies.get('token')
 
     const headers = { 'Authorization': 'Bearer ' + token };
-    axios.get('http://localhost:8000/api/getservices', { headers })
+    axios.post('http://localhost:8000/api/getservices', {current}, { headers })
       .then(response => {
         setservices(response.data)
       })
@@ -70,7 +65,7 @@ export default function Services() {
       })
   }
 
-  const deleteservice = (service) => {
+  const deleteservice = (service: serviceObject) => {
     let token = Cookies.get('token')
     const headers = { 'Authorization': 'Bearer ' + token };
 
@@ -91,14 +86,15 @@ export default function Services() {
       })
   }
 
-  const getmessage = (message) => {
-    toast.success(message)
+  const getmessage = (message: Message) => {
+    toast.success(message.message)
     getdata()
   }
+  let prev = current - 1 > 1 ? current - 1 : 1
+  let next = current + 1 < services?.last_page ? current + 1 : services?.last_page
 
   if (!services)
     return <Loading />
-
 
   return (
     <main>
@@ -122,9 +118,9 @@ export default function Services() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {services?.map((x: Service) => <TableRow key={x.id} >
+            {services?.data.map((x: serviceObject) => <TableRow key={x.id} >
               <TableCell>{x.name}</TableCell>
-              <TableCell >{(x.price / 100).toFixed(2)} Eur</TableCell>
+              <TableCell >{(Number(x.price) / 100).toFixed(2)} Eur</TableCell>
               <TableCell >{x.time} min</TableCell>
               <TableCell className="max-w-60">{x.description}</TableCell>
               <TableCell className="max-w-60">
@@ -144,6 +140,14 @@ export default function Services() {
           </TableBody>
         </Table>
       </Dialog>
+      <Pagination>
+                        <PaginationContent className="pagination flex-wrap w-full">
+                            {services?.links?.map((x:any, index: number) => <PaginationItem key={index}>
+                                <PaginationLink isActive={services?.current_page == x.label}  onClick={() => setCurrent(Number(x.label) ? Number(x.label) : x.label === "&laquo; Previous" ? prev : next)}>{x.label == "&laquo; Previous" ? "<" : x.label == "Next &raquo;" ? ">" : x.label}</PaginationLink>
+                            </PaginationItem>
+                            )}
+                        </PaginationContent>
+                    </Pagination>
     </main>
   )
 }

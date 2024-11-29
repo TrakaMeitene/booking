@@ -11,7 +11,12 @@ import axios from "axios"
 import Cookies from "js-cookie";
 import { useRouter } from 'next/navigation'
 
-export default function Addbreak({data ,close, getmessage}) {
+interface type{
+    data: any,
+    close: ()=>void,
+    getmessage: (arg0: {message: string}) => void
+}
+export default function Addbreak( props:type) {
 
     const router = useRouter()
     let token = Cookies.get('token')
@@ -20,11 +25,11 @@ export default function Addbreak({data ,close, getmessage}) {
     const savevacation = () => {
 
         const headers = { 'Authorization': 'Bearer ' + token };
-        axios.post('http://localhost:8000/api/savevacation', data, { headers })
+        axios.post('http://localhost:8000/api/savevacation', props.data, { headers })
             .then(response =>{ if(response.data.length > 0){
-                getmessage({message: "Dati saglabāti veiksmīgi!"})
-                close()
-            }}) //jaieleik tosat ka ir success
+                props.getmessage({message: "Dati saglabāti veiksmīgi!"})
+                props.close()
+            }}) 
             .catch(function (error) {
                 if (error.response.status == 401) {
                     return router.push('/login')
@@ -39,10 +44,10 @@ export default function Addbreak({data ,close, getmessage}) {
                 <DialogTitle>Atzīmēt kā brīvdienas</DialogTitle>
             </DialogHeader>
             <div style={{ maxHeight: 300, overflow: "auto", lineHeight: 2 }}>
-                {data && data.map(x => <div>{moment(x).format('dddd, Do MMMM YYYY')}</div>)}
+                {props.data && props.data.map((x: moment.MomentInput) => <div>{moment(x).format('dddd, Do MMMM YYYY')}</div>)}
             </div>
             <DialogFooter>
-                <Button variant="outline" onClick={close}>Atcelt</Button>
+                <Button variant="outline" onClick={props.close}>Atcelt</Button>
                 <Button type="submit" 
                 onClick={savevacation}
                 >Saglabāt</Button>

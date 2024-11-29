@@ -19,19 +19,19 @@ export interface User {
   bio: string,
   occupation: string,
   city:string,
-  adress:string
+  adress:string,
+  phone: string
 
 }
 
-export default function Admin() {
+export default function Admin({ dayLayoutAlgorithm = 'no-overlap'}) {
   const date: Date = new Date();
 
   return (
     <>
-          <main className="flex justify-around p-2 w-[95vw] flex-wrap" >
+          <main className="flex justify-around p-2 w-[95vw] flex-wrap mb-[20px]" >
               <Calendarview   />
             </main> 
-     
           </>
   
 

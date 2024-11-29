@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog"
 import { CircleX, SmilePlus, Send } from "lucide-react"
 import { Button } from "@/components/ui/button";
-import { Booking } from "./page";
+import { Booking, User } from "./page";
 import { Textarea } from "@/components/ui/textarea";
 import { useForm, SubmitHandler } from "react-hook-form"
 import moment from "moment";
@@ -18,10 +18,24 @@ import Cookies from "js-cookie";
 import { useRouter } from 'next/navigation'
 import { toast } from "sonner";
 
+export interface  serviceObject {
+    created_at: Date,
+    description: String,
+    id: number ,
+    name: string,
+    price: number,
+    time: number,
+    updated_at: Date,
+    user: number
+}
+
 export default function Bookingdetails({ data }: { data: Booking | undefined }) {
     type Inputs = {
+        itemid: number | undefined;
         cancelreason: string,
     }
+
+
 
     const {
         register,
@@ -30,8 +44,8 @@ export default function Bookingdetails({ data }: { data: Booking | undefined }) 
         formState: { errors },
     } = useForm<Inputs>()
     const router = useRouter()
-    const [service, setservice] = useState({})
-    const [user, setUser] = useState()
+    const [service, setservice] = useState<serviceObject>()
+    const [user, setUser] = useState<User>()
 
     let token = Cookies.get('token')
 
@@ -67,11 +81,20 @@ export default function Bookingdetails({ data }: { data: Booking | undefined }) 
             .then(response => {
                 if (response.statusText == "OK") {
                     toast.success('Dati saglabāti veiksmīgi!')
-                } else{
+                } else {
                     toast.error('Kaut kas nogāja greizi!')
                 }
             }
             )
+    }
+
+    const clientvisited=()=>{
+        const headers = { 'Authorization': 'Bearer ' + token };
+console.log('tetee')
+        axios.post('http://localhost:8000/api/clientvisited', {data}, {headers})
+        .then(response=>{
+     console.log(response)       
+        })
     }
 
     return (
@@ -100,7 +123,7 @@ export default function Bookingdetails({ data }: { data: Booking | undefined }) 
                         <Button variant="destructive" color="green"><CircleX size={20} className="mr-2" />Atcelt</Button>
                     </DialogTrigger>
                 </Dialog>
-                <Button ><SmilePlus size={20} className="mr-2" />Ieradies</Button>
+                <Button onClick={clientvisited} ><SmilePlus size={20} className="mr-2" />Ieradies</Button>
                 <Button variant="outline"><Send size={20} className="mr-2" /><a href={`sms:${user?.phone}`}>Sazināties</a></Button>
             </div>
         </DialogContent>

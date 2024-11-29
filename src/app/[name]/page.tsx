@@ -30,26 +30,26 @@ import {
 } from "@/components/ui/dialog"
 import Link from "next/link";
 import { toast } from "sonner";
-import { spec } from "node:test/reporters";
+import Footer from "../business/components/footer";
 
 interface Times {
     date: Date
     interval: [],
-    key: Date
+    isDayVacation: boolean,
+    isDayFree: boolean
 }
 
 export default function Specialistpage() {
     const [specialist, setSpecialist] = useState<User[]>([])
     const [services, setservices] = useState<Service[]>([])
-    const [selectedservice, setselectedservice] = useState("")
-    const [today, setToday] = useState(new Date())
+    const [selectedservice, setselectedservice] = useState<string>("")
+    const [today, setToday] = useState<Date>(new Date())
     const [rangeEnd, setRangened] = useState(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 7))
     const [times, setTimes] = useState<Times[]>()
-    const [user, setUser] = useState()
-    const [eventFormOpen, setEventFormOpen] = useState(false)
-    const [datetopass, setDatetopass] = useState(new Date())
-    const [windowWidth, setWindowWidth] = useState(0)
-    const [message, setMessage] = useState<String>()
+    const [user, setUser] = useState<User>()
+    const [eventFormOpen, setEventFormOpen] = useState<boolean>(false)
+    const [datetopass, setDatetopass] = useState<Date>(new Date())
+    const [windowWidth, setWindowWidth] = useState<number>(0)
 
     const pathname = usePathname()
     let decodedstring = decodeURIComponent(pathname)
@@ -143,7 +143,6 @@ export default function Specialistpage() {
     }
 
     const getmessage = (message: string) => {
-        setMessage(message)
         toast.success(message)
     }
 
@@ -167,7 +166,7 @@ export default function Specialistpage() {
                     </div>
                 </div>
 
-                <div className="flex w-[80%]  p-5 flex-col  items-center  ">
+                <div className="flex w-[80%] h-full p-5 flex-col  items-center  ">
                     <div className="grid gap-2 ">
                         <Label htmlFor="service">Izvēlies pakalpojumu</Label>
                         <Select value={selectedservice} onValueChange={(value) => {
@@ -194,8 +193,8 @@ export default function Specialistpage() {
                     <div className="max-[390px]:w-[90%] flex max-[390px]:items-start min-h-72 items-start">
                         <div className="flex flex-row mt-4 w-full items-center justify-center max-[390px]:items-left">
 
-                            {times?.map(x =>
-                                <div key={x.date} className={`flex flex-col w-[70px]  h-[30px] mr-2 text-center mb-4 font-bold ${x.isDayFree || x.isDayVacation ? "" : "text-red-600"}`}>{weekdays[new Date(x.date).getUTCDay()]}
+                            {times?.map((x, index) =>
+                                <div key={index} className={`flex flex-col w-[70px]  h-[30px] mr-2 text-center mb-4 font-bold ${x.isDayFree || x.isDayVacation ? "" : "text-red-600"}`}>{weekdays[new Date(x.date).getUTCDay()]}
                                     <div className="font-light text-sm">{new Date(x.date).getDate()}.{new Date(x.date).getMonth() + 1}</div>
                                     <Dialog open={eventFormOpen}
                                         onOpenChange={(e) => setEventFormOpen(e)}

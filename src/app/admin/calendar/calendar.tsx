@@ -18,19 +18,31 @@ import Cookies from "js-cookie";
 import { useRouter } from 'next/navigation'
 import { Plus } from "lucide-react"
 import { Button } from "@/components/ui/button";
-import { Booking } from "./page";
+import { Booking, User } from "./page";
 import { toast } from "sonner";
 
+
+interface vacation{
+
+created_at: Date,
+date: Date,
+id: number,
+updated_at: Date
+user: number
+}
+
 export default function Calendarview({ data }: any) {
+  const dayLayoutAlgorithm = 'no-overlap'
+
   const [item, setItem] = useState()
-  const [open, setOpen] = useState(false)
-  const [addevent, setaddevenetopen] = useState(false)
+  const [open, setOpen] = useState<boolean>(false)
+  const [addevent, setaddevenetopen] = useState<boolean>(false)
   const [slotitems, setslotitems] = useState()
-  const [vacation, setvacation] = useState()
+  const [vacation, setvacation] = useState<vacation>()
   const [range, setrange] = useState()
-  const [bookings, setbookings] = useState([])
-  const [openaddbooking, setOpenaddbooking] = useState(false)
-const [user, setUser] = useState()
+  const [bookings, setbookings] = useState<Booking[]>()
+  const [openaddbooking, setOpenaddbooking] = useState<boolean>(false)
+const [user, setUser] = useState<User>()
 
   const router = useRouter()
 
@@ -112,12 +124,8 @@ const [user, setUser] = useState()
       });
   }
 
-  const closeaddbooking = () => {
-    setOpenaddbooking(false)
-  }
 
-
-  const getmessage = (message) => {
+  const getmessage = (message: { message: string | undefined }) => {
     toast.success(message.message)
 }
 
@@ -130,11 +138,12 @@ const getuser = () => {
               setUser(response.data)
       })
       .catch(function (error) {
-          // if (error.response.status == 401) {
-          //   return router.push('/')
-          // }
+          if (error.response.status == 401) {
+            return router.push('/')
+          }
       })
 }
+
 
   return (
     <div style={{ height: "800px" }} className="w-full mb-4">
@@ -144,7 +153,7 @@ const getuser = () => {
             <DialogTitle className="sm:text-center">Jauns pieraksts</DialogTitle>
 
           </DialogHeader>
-          <Eventform close={closeaddbooking} getdata={getdata} getmessage={getmessage} specialist={[user]}/>
+          <Eventform  getdata={getdata} getmessage={getmessage} specialist={[user]} dateFrompage={undefined} user={undefined} service={undefined} allservices={undefined}/>
 
         </DialogContent>
 
@@ -160,6 +169,7 @@ const getuser = () => {
 
       </Dialog>
       <Calendar
+      dayLayoutAlgorithm={dayLayoutAlgorithm}
         messages={lang}
         localizer={localizer}
         defaultView="day"

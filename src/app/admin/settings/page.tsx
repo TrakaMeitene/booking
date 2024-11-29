@@ -22,22 +22,6 @@ export default function Settings() {
     const [message, setMessage] = useState<Message>()
     const weekdays = ["P.", "O.", "T.", "C.", "Pk.", "S.", "Sv."]
 
-    const data: Service[] = [
-        {
-            id: 1,
-            name: "Manikīrs sausias",
-            price: "20 €",
-            time: 1,
-            description: "saturs"
-        },
-        {
-            id: 2,
-            name: "Slapjais manikīrs",
-            price: "20  € ",
-            time: 1,
-            description: "saturs liels garš saturs ar banānanmaizisaturs liels garš saturs ar banānanmaizisaturs liels garš saturs ar banānanmaizisaturs liels garš saturs ar banānanmaizisaturs liels garš saturs ar banānanmaizisaturs liels garš saturs ar banānanmaizisaturs liels garš saturs ar banānanmaizisaturs liels garš saturs ar banānanmaizisaturs liels garš saturs ar banānanmaizi "
-        }
-    ]
 
     useEffect(() => {
         getdata()

@@ -11,17 +11,17 @@ import { TimePickerInput } from "@/components/ui/time-picker-input";
 import axios from "axios"
 import { useRouter } from 'next/navigation'
 import Cookies from "js-cookie";
-import { toast } from "sonner";
-import moment from "moment";
 
-export default function Newcservice({getmessage}) {
+
+
+export default function Newcservice({getmessage}: {getmessage: ({message, type}: {message:string, type: string})=>void}) {
     const [date, setDate] = useState<any>()
     const router = useRouter()
 
     type Inputs = {
         name: string,
         price: number,
-        time: Date,
+        time: number,
         description: string,
     }
 
@@ -39,8 +39,7 @@ export default function Newcservice({getmessage}) {
         const headers = { 'Authorization': 'Bearer ' + token };
         axios.post('http://localhost:8000/api/addservice', data, { headers })
             .then(response => {
-                console.log(response)
-                getmessage("Dati saglabāti veiksmīgi!")
+                getmessage({message: "Dati saglabāti veiksmīgi!"})
 
             })
             .catch(function (error) {
@@ -66,7 +65,7 @@ export default function Newcservice({getmessage}) {
 
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="surname" className="text-right">
+                            <Label htmlFor="price" className="text-right">
                                 Cena
                             </Label>
                             <Input id="price" type="number" className="col-span-3" step=".01" placeholder="0.00"

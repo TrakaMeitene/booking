@@ -34,22 +34,20 @@ import {
 
 import { Download } from "lucide-react";
 import Invoicefilters from "./invoiceFilters";
+import { invoice } from "../admin/partscomponents/searchcard";
 
-export default function InvoiceTable({ scope }) {
-    const [data, setData] = useState()
+export default function InvoiceTable({ scope }: {scope: string}) {
+    const [data, setData] = useState<any>()
     const router = useRouter()
     const [current, setCurrent] = useState(1)
 
-    useEffect(() => {
-        getdata()
-    }, [])
 
-    const getdata = (month, prevmonth, type, prevType) => {
+    const getdata = (month: number, prevmonth: number, type: string, prevType: string, status: string, prevStatus: string) => {
         let token = Cookies.get('token')
         const headers = { 'Authorization': 'Bearer ' + token };
         const endpoint = scope === "all" ? "getCustomerInvoices" : "getSpecialistInvoices"
 
-        axios.post(`http://localhost:8000/api/${endpoint}`, { month, current, prevmonth, type, prevType }, { headers })
+        axios.post(`http://localhost:8000/api/${endpoint}`, { month, current, prevmonth, type, prevType, status, prevStatus }, { headers })
             .then(response => {
                 setData(response.data)
             })
@@ -60,7 +58,7 @@ export default function InvoiceTable({ scope }) {
             })
     }
 
-    const getinvoice = (invoice) => {
+    const getinvoice = (invoice: invoice) => {
         let extension = invoice.invoice.split(/[#?]/)[0].split('.').pop().trim()
         const link = document.createElement('a');
         if (extension === ("jpg" || "png" || "jpeg")) {
@@ -77,7 +75,7 @@ export default function InvoiceTable({ scope }) {
 
     }
 
-    const statusspaid = (invoice) => {
+    const statusspaid = (invoice: invoice) => {
         let token = Cookies.get('token')
         const headers = { 'Authorization': 'Bearer ' + token };
 
@@ -104,7 +102,6 @@ export default function InvoiceTable({ scope }) {
                 </CardHeader>
                 <CardContent>
                     <Invoicefilters getdata={getdata} scope={scope} page={current}/>
-                    {/* te vajag arī serach by customer.name un serial_number */}
                     <Table className="max-h-[750px] mt-4">
                         <TableCaption>Saraksts ar Jums adresētiem rēķiniem.</TableCaption>
                         <TableHeader>
@@ -121,7 +118,7 @@ export default function InvoiceTable({ scope }) {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {data?.data?.map((x) => (
+                            {data?.data?.map((x:any) => (
                                 <TableRow key={x.id} className={x.status === "cancelled" ? "bg-amber-500" : ""}>
                                     <TableCell>{x.serial_number}</TableCell>
                                     <TableCell>{moment(x.created_at).format("DD.MM.yyyy HH:mm")}</TableCell>
@@ -151,7 +148,7 @@ export default function InvoiceTable({ scope }) {
 
                     <Pagination>
                         <PaginationContent className="pagination flex-wrap w-full">
-                            {data?.links?.map((x, index) => <PaginationItem key={index}>
+                            {data?.links?.map((x: any, index: number) => <PaginationItem key={index}>
                                 <PaginationLink isActive={data?.current_page == x.label}  onClick={() => setCurrent(Number(x.label) ? Number(x.label) : x.label === "&laquo; Previous" ? prev : next)}>{x.label == "&laquo; Previous" ? "<" : x.label == "Next &raquo;" ? ">" : x.label}</PaginationLink>
                             </PaginationItem>
                             )}

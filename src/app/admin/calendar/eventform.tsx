@@ -1,5 +1,5 @@
 'use client'
-import React, { useActionState, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
@@ -26,15 +26,22 @@ import {
 import Cookies from "js-cookie";
 import axios from "axios";
 import { useRouter } from 'next/navigation'
+import { User } from "./page";
+import { serviceObject } from "./bookingdetails";
 
-
-
-export default function Eventform({ close, getdata, dateFrompage, user, service, allservices, specialist, getmessage }) {
-
-    const [date, setDate] = useState<any>(new Date())
+interface prop {
+    getdata: () => void,
+    dateFrompage: Date | undefined,
+    user?: any | undefined,
+    service: string | undefined,
+    allservices: any,
+    specialist: any,
+    getmessage: ({message}: {message: string|undefined}) => void,
+}
+export default function Eventform(propsIn: prop) {
+    const [date, setDate] = useState<Date | undefined>(new Date())
     const [services, setservices] = useState([])
-    const [selectedservice, setSelectedservices] = useState("")
-    const [message, setMessage] = useState(undefined)
+    const [selectedservice, setSelectedservices] = useState<string>("")
     const router = useRouter()
 
     useEffect(() => {
@@ -42,15 +49,16 @@ export default function Eventform({ close, getdata, dateFrompage, user, service,
         const headers = { 'Authorization': 'Bearer ' + token };
 
 
-        if (dateFrompage) {
-            setDate(dateFrompage)
+        if (propsIn.dateFrompage) {
+            setDate(propsIn.dateFrompage)
         }
 
-        if (allservices) {
-            setservices(allservices)
+        if (propsIn.allservices) {
+            setservices(propsIn.allservices)
         } else {
-            axios.get('http://localhost:8000/api/getservices', { headers })
+            axios.post('http://localhost:8000/api/getservices', {}, { headers })
                 .then(response => {
+                    console.log(response)
                     setservices(response.data)
                 })
                 .catch(function (error) {
@@ -60,8 +68,8 @@ export default function Eventform({ close, getdata, dateFrompage, user, service,
                 })
         }
 
-        if (service) {
-            setSelectedservices(service)
+        if (propsIn.service) {
+            setSelectedservices(propsIn.service)
         }
     }, [])
 
@@ -70,7 +78,7 @@ export default function Eventform({ close, getdata, dateFrompage, user, service,
         phone: string,
         email: string,
         description: string,
-        bank: string
+        bank: string,
     }
 
     const {
@@ -88,25 +96,26 @@ export default function Eventform({ close, getdata, dateFrompage, user, service,
             date: date,
             service: selectedservice,
             description: data.description,
-            user: user ? user : 0
+            user: propsIn.user ? propsIn.user : 0,
+            booking: 0,
+            specialist: 0
         }
-        if (specialist) {
-            itemtosave.specialist = specialist[0].id
+        if (propsIn.specialist) {
+            itemtosave.specialist = propsIn.specialist[0].id
         }
 
         let token = Cookies.get('token')
         const headers = { 'Authorization': 'Bearer ' + token };
         axios.post('http://localhost:8000/api/savebooking', itemtosave, { headers })
-    
+
             .then(response => {
-                console.log(response)
                 if (typeof response.data === "string") {
-                   getmessage(response.data)
+                    propsIn.getmessage({message: response.data})
                 } else {
-                    getmessage("Dati saglabāti veiksmīgi")
-itemtosave.booking = response.data.id
+                    propsIn.getmessage({message: "Dati saglabāti veiksmīgi"})
+                    itemtosave.booking = response.data.id
                     makeinvoice(itemtosave)
-                    getdata()
+                    propsIn.getdata()
                 }
             })
             .catch(function (error) {
@@ -116,20 +125,19 @@ itemtosave.booking = response.data.id
             })
     }
 
-    const makeinvoice = (itemtosave) => {
+    const makeinvoice = (itemtosave: any) => {
         let token = Cookies.get('token')
-        
+
         const headers = { 'Authorization': 'Bearer ' + token, responseType: 'blob' };
         axios.post('http://localhost:8000/api/makeinvoice', itemtosave, { headers })
 
             .then(response => {
-                getmessage("Rēķins izsūtīts!")
-
+               if(response.data != ""){
+                propsIn.getmessage({message: "Rēķins izsūtīts!"})
+               }
             }
             )
     }
-
-
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -137,23 +145,24 @@ itemtosave.booking = response.data.id
             <><div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="name" className="text-right">
-                        Klients
+                        Klienta vārds
                     </Label>
-                    <Input id="name" className="col-span-3" defaultValue={user?.name}
+                    <Input id="name" className="col-span-3" defaultValue={propsIn.user?.name}
                         {...register("name")} />
 
                 </div>
+      
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="phone" className="text-right">
                         Telefona nr.
                     </Label>
-                    <Input id="phone" type="phone" className="col-span-3"  {...register("phone")} defaultValue={user?.phone} />
+                    <Input id="phone" type="phone" className="col-span-3"  {...register("phone")} defaultValue={propsIn.user?.phone} />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="email" className="text-right">
                         E-pasts
                     </Label>
-                    <Input id="email" type="email" className="col-span-3"  {...register("email")} defaultValue={user?.email} />
+                    <Input id="email" type="email" className="col-span-3"  {...register("email")} defaultValue={propsIn.user?.email} />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="date" className="text-right">
@@ -168,7 +177,7 @@ itemtosave.booking = response.data.id
                                     !date && "text-muted-foreground"
 
                                 )}
-                                disabled={dateFrompage}
+                                disabled={propsIn.dateFrompage ? true : false}
                             >
                                 <CalendarIcon className="mr-2 h-4 w-4" />
                                 {date ? moment(date).format('dddd, Do MMMM YYYY') : <span>Pick a date</span>}
@@ -197,7 +206,7 @@ itemtosave.booking = response.data.id
                             picker="hours"
                             date={date}
                             setDate={setDate}
-                            disabled={dateFrompage}
+                            disabled={propsIn.dateFrompage ? true : false}
                         />
                     </div>
                     <div className="grid gap-1 ">
@@ -208,7 +217,7 @@ itemtosave.booking = response.data.id
                             picker="minutes"
                             date={date}
                             setDate={setDate}
-                            disabled={dateFrompage}
+                            disabled={propsIn.dateFrompage ? true : false}
 
                         />
                     </div>
@@ -216,16 +225,16 @@ itemtosave.booking = response.data.id
                 <div className="flex items-center ">
                     <Label htmlFor="minutes" className="text-xs mr-4 ml-5">Pakalpojums</Label>
                     <Select value={selectedservice} onValueChange={(value) => {
-                        if (service) { setSelectedservices(service) } else {
+                        if (propsIn.service) { setSelectedservices(propsIn.service) } else {
                             setSelectedservices(value)
                         }
-                    }} disabled={service} >
+                    }} disabled={propsIn.service ? true : false} >
                         <SelectTrigger className="w-full">
                             <SelectValue placeholder="Izvēlies nodarbošanos" />
                         </SelectTrigger>
                         <SelectContent>
                             <SelectGroup>
-                                {services.map(x => <SelectItem key={x.id} value={x.id.toString()}>{x.name}</SelectItem>)}
+                                {services?.data?.map((x:any)=> <SelectItem key={x.id} value={x.id.toString()}>{x.name}</SelectItem>)}
 
                             </SelectGroup>
                         </SelectContent>

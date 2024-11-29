@@ -14,24 +14,51 @@ import {
 } from "@/components/ui/dialog"
 import Newinvoice from "./newinvoice";
 import { useRouter } from 'next/navigation'
+import { User } from "../partscomponents/header";
+
+interface incomedata {
+
+    expenses: number,
+    thismonth: number,
+    thismonthexpenses: number,
+    total: number,
+    unpaid: number
+}
 
 export default function Invoices() {
-    const [data, setData] = useState({ tota: 0, unpaid: 0 })
-    const [formopen, setOpen] = useState(false)
-    const [type, setType] = useState()
+    const [data, setData] = useState<incomedata>()
+    const [formopen, setOpen] = useState<boolean>(false)
+    const [type, setType] = useState<string>()
     const router = useRouter()
+    const [user, setUser] = useState<User>()
 
     useEffect(() => {
         getdata()
+        getuser()
     }, [])
 
+    const getuser = () => {
+        let token = Cookies.get('token')
+
+        const headers = { 'Authorization': 'Bearer ' + token };
+        axios.post('http://localhost:8000/api/user', {}, { headers })
+            .then(response => {
+                if (response.data.scope === "business") {
+                    setUser(response.data)
+                }
+                if (response.data.abonament === "bezmaksas") {
+                    return router.push('/admin/update')
+                }
+            })
+
+    }
     const getdata = () => {
         let token = Cookies.get('token')
         const headers = { 'Authorization': 'Bearer ' + token };
 
         axios.post(`http://localhost:8000/api/getsumm`, {}, { headers })
             .then(response => {
-                setData(response.data)
+                setData(response.data[0])
             })
             .catch(function (error) {
                 if (error.response.status == 401) {
@@ -45,14 +72,14 @@ export default function Invoices() {
     }
 
     return (
-        <main >
+        <main id="invoices">
             <h1 className="text-3xl w-full border-b-2">Rēķini</h1>
             <div className="flex flex-col">
                 <div className="flex flex-row w-full space-x-3.5 mt-2">
                     <Card className="">
                         <CardHeader>
 
-                            <CardTitle className="text-4xl">{data[0]?.total.toFixed(2)} Eur</CardTitle>
+                            <CardTitle className="text-4xl">{data?.total.toFixed(2)} Eur</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <p>Kopējie ieņēmumi</p>
@@ -62,7 +89,7 @@ export default function Invoices() {
                     <Card className="">
                         <CardHeader>
 
-                            <CardTitle className="text-4xl text-red-500">{data[0]?.unpaid.toFixed(2)} Eur</CardTitle>
+                            <CardTitle className="text-4xl text-red-500">{data?.unpaid.toFixed(2)} Eur</CardTitle>
 
                         </CardHeader>
                         <CardContent>
@@ -74,7 +101,7 @@ export default function Invoices() {
                     <Card className="">
                         <CardHeader>
 
-                            <CardTitle className="text-4xl">{data[0]?.thismonth.toFixed(2)} Eur</CardTitle>
+                            <CardTitle className="text-4xl">{data?.thismonth.toFixed(2)} Eur</CardTitle>
 
                         </CardHeader>
                         <CardContent>
@@ -85,7 +112,7 @@ export default function Invoices() {
 
                     <Card>
                         <CardHeader>
-                            <CardTitle className="text-4xl">{data[0]?.expenses.toFixed(2)} Eur</CardTitle>
+                            <CardTitle className="text-4xl">{data?.expenses.toFixed(2)} Eur</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <p >Kopējās izmaksas</p>
@@ -95,7 +122,7 @@ export default function Invoices() {
 
                     <Card>
                         <CardHeader>
-                            <CardTitle className="text-4xl">{data[0]?.thismonthexpenses.toFixed(2)}  Eur</CardTitle>
+                            <CardTitle className="text-4xl">{data?.thismonthexpenses.toFixed(2)}  Eur</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <p >Šī mēneša izmaksas</p>

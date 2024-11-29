@@ -10,9 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Download } from "lucide-react";
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input"
 import {
   Search
@@ -22,8 +20,8 @@ import Cookies from "js-cookie";
 import { useRouter } from 'next/navigation'
 import Link from "next/link";
 import Loading from "./loading";
-import { toast } from "sonner";
 import Searchcard from "./searchcard";
+import { Client } from "../clients/page";
 export interface User {
   id: BigInteger,
   name: string,
@@ -39,13 +37,36 @@ export interface User {
   description: string,
   scope: string,
   occupation: string,
-  bank: string
+  bank: string,
+  abonament: string
+}
+
+export interface invoice{
+  booking: number,
+created_at: Date,
+customer:  User ,
+external_customer: string,
+id: number,
+invoice: string,
+paid_date: Date,
+price: number,
+serial_number: string,
+service: string,
+status: string,
+type: string,
+updated_at: Date,
+user: number
+}
+
+export interface search{
+  clients: Client[]
+  invoices: invoice[]
 }
 
 export default function Header() {
   const router = useRouter()
   const [user, setUser] = useState<User>()
-  const [searchvalue, setSearchvalue] = useState()
+  const [searchvalue, setSearchvalue] = useState<string>()
   const [searchresponse, setSearchresponse] = useState([])
 
   useEffect(() => {
@@ -85,11 +106,14 @@ export default function Header() {
       .then(response => setSearchresponse(response.data))
   }
 
+  const closesearching=()=>{
+    setSearchresponse([])
+  }
+  
   if (!user) {
     return <Loading />
   }
 
-console.log(searchresponse)
   return (
     <>
       <div className="flex flex-col  w-full header" >
@@ -107,7 +131,7 @@ console.log(searchresponse)
               onChange={(e) => setSearchvalue(e.target.value)}
             />
           </div>
-          <Searchcard searchresponse={searchresponse} setSearchresponse={setSearchresponse}/>
+          <Searchcard response={searchresponse} close={closesearching}/>
    
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

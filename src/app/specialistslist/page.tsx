@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState} from "react";
 import Nav from "../components/nav"
 import Searchspecialist from "../components/search";
 import axios from "axios";
@@ -7,6 +7,7 @@ import { useSearchParams } from 'next/navigation'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useRouter, usePathname } from 'next/navigation'
 import { User } from "../admin/calendar/page";
+import Footer from "../admin/partscomponents/footer"
 
 export default function Specialists() {
     const searchParams = useSearchParams()
@@ -60,7 +61,6 @@ export default function Specialists() {
                         </div>
                     )}
                 </div >
-
             </section>
         </>
     )

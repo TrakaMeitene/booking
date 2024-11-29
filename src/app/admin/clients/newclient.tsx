@@ -9,11 +9,10 @@ import { DialogTrigger } from "@radix-ui/react-dialog";
 import Cookies from "js-cookie";
 import axios from "axios";
 
-export default function Newclient({getmessage}){
+export default function Newclient({getmessage}:{getmessage: (message:string)=>void}){
 
     type Inputs = {
         name: string,
-        surname: string,
         phone: string,
         email: string,
     }
@@ -45,20 +44,13 @@ export default function Newclient({getmessage}){
             <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="name" className="text-right">
-                      Vārds
+                      Vārds un uzvārds
                     </Label>
                     <Input id="name" className="col-span-3"
                         {...register("name")} />
 
                 </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="surname" className="text-right">
-                        Uzvārds
-                    </Label>
-                    <Input id="surname" className="col-span-3"
-                        {...register("surname")} />
-
-                </div>
+        
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="phone" className="text-right">
                         Telefona nr.

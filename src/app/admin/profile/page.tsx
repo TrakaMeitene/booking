@@ -24,7 +24,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import Alertcomp from "../partscomponents/alert";
 import { toast } from 'sonner'
 export interface FormValues {
     name: string,
@@ -97,7 +96,7 @@ export default function Profile() {
         const formData = new FormData();
 
         Object.fromEntries(
-            Object.keys(dirtyFields).map((key) => [
+            Object.keys(dirtyFields).map((key: string) => [
                 formData.append(key, data[key])
             ])
         );
@@ -126,7 +125,7 @@ export default function Profile() {
     return (
         <main>
             <h1 className="text-3xl w-full border-b-2">Profils</h1>
-
+<div className="flex flex-row">
             <Card className="w-[350px] mt-2">
                 <CardHeader>
                     <CardTitle>Profila dati</CardTitle>
@@ -276,6 +275,17 @@ export default function Profile() {
                     </form>
                 </CardContent>
             </Card>
+
+            <Card className="h-[150px] mt-2 ml-2 mb-2">
+                <CardContent>
+                    <CardHeader>
+                        <CardTitle>Abonaments</CardTitle>
+                    </CardHeader>
+                    <p className="font-bold">Jums ir aktīvs - {user?.abonament} abonaments</p>
+                    {user?.abonament === "bezmaksas" && <Button className="mt-2 ">Mainīt uz Biznesa plāns</Button>}
+                    </CardContent>
+            </Card>
+            </div>
         </main>
     )
 }

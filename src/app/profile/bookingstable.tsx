@@ -27,10 +27,12 @@ import {
     PaginationLink,
 } from "@/components/ui/pagination"
 import { Button } from "@/components/ui/button";
+import { User } from "../admin/partscomponents/header";
+import { Booking } from "../admin/calendar/page";
 
-export default function Bookingstable({user}) {
+export default function Bookingstable({user}: {user: User}) {
 
-    const [data, setData] = useState()
+    const [data, setData] = useState<any>()
     const router = useRouter()
     const [current, setCurrent] = useState(1)
 
@@ -56,7 +58,7 @@ export default function Bookingstable({user}) {
     let next = current + 1 < data?.last_page ? current + 1 : data?.last_page
 
 
-    const cancelbooking=(data)=>{
+    const cancelbooking=(data: Booking)=>{
         axios.post('http://localhost:8000/api/cancelbooking', {itemid: data.id})
             .then(response => {
                 if (response.statusText == "OK") {
@@ -90,7 +92,7 @@ export default function Bookingstable({user}) {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {data?.data.map((x) => (
+                        {data?.data.map((x: any) => (
                             <TableRow key={x.id} className={x.statuss === "cancelled" ? "bg-red-200 hover:bg-red-400" : ""}>
                                 <TableCell>{moment(x.created_at).format("DD.MM.yyyy HH:mm")}</TableCell>
                                 <TableCell className="font-medium">{x.specialist.name}</TableCell>
@@ -108,7 +110,7 @@ export default function Bookingstable({user}) {
 
                 <Pagination >
                     <PaginationContent className="pagination flex-wrap w-full">
-                        {data?.links.map(x => <PaginationItem key={x.label}>
+                        {data?.links.map((x:any) => <PaginationItem key={x.label}>
                             <PaginationLink isActive={data?.current_page == x.label} onClick={() => setCurrent(Number(x.label) ? Number(x.label) : x.label === "&laquo; Previous" ? prev : next)}>{x.label == "&laquo; Previous" ? "<" : x.label == "Next &raquo;" ? ">" : x.label}</PaginationLink>
                         </PaginationItem>
                         )}

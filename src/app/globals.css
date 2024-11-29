@@ -77,17 +77,25 @@
 }
 
 body{
-  height: 100vh;
+  min-height: 100vh;
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #b8b7b7; 
+    border-radius: 20px;
+  }
 }
 
 #personpage{
-  padding-top:120px;
+  min-height: 130svh;
+justify-content: start;
 }
 
 
 .homenav{
   padding: 10px 40px;
-  position: fixed;
+  /* position: fixed; */
   display:flex;
   flex-direction: row;
   justify-content: space-between;
@@ -102,9 +110,17 @@ body{
   justify-content: space-evenly;
 
 }
-
-#homefirst{
+#homefirst, #privacy{
   background-image: url("/feelings.jpg");
+  background-size:cover;
+
+}
+#privacy div{
+background-color: white;
+opacity: 0.9;
+padding: 20px;
+}
+#homefirst{
   width:100%;
   height:100vh;
   background-size:cover;
@@ -114,6 +130,7 @@ background-color: rgba(255,255,255,0.6);
 background-blend-mode: lighten;
 display:flex;
 flex-direction: column;
+justify-content: center;
 }
 
 .search{
@@ -145,6 +162,26 @@ flex-direction: column;
   margin-bottom:60px;
   width: 80%;
 }
+#privacy{
+width: 100%;
+display:flex;
+justify-content: center;
+}
+
+#privacy div{
+  width: 70%;
+
+}
+
+#privacy h1{
+  font-size: 20px;
+  font-weight: 700;
+}
+
+#privacy a{
+  text-decoration: underline;
+  color: blue;
+}
 
 /* HTML: <div class="loader"></div> */
 .loader {
@@ -166,9 +203,17 @@ main{
 overflow: auto; 
 width: 95vw;
 padding: 20px;
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-thumb {
+  background: #b8b7b7; 
+  border-radius: 20px;
 }
 
-@media only screen and (max-width: 390px) {
+}
+
+@media only screen and (max-width: 360px) {
   .homenav{
     width: 100vw;
     background-color: white;
@@ -206,8 +251,19 @@ padding: 20px;
   font-size: 1rem !important;
 }
 
+#personpage{
+ min-height: 170svh;
+}
+
 main{
   transform: translate(0, 0) ;
+}
+
+footer{
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 80% !important;
 }
 
 }

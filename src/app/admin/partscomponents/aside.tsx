@@ -1,5 +1,5 @@
 'use client'
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link"
 import {
   LineChart,
@@ -8,7 +8,8 @@ import {
   ShoppingCart,
   PanelLeft,
   CalendarDays,
-  ReceiptEuro 
+  ReceiptEuro,
+  Star
 } from "lucide-react"
 
 import {
@@ -22,24 +23,32 @@ import { Button } from "@/components/ui/button"
 import Header from "./header";
 import { usePathname } from 'next/navigation'
 import Image from "next/image";
+import { Badge } from "@/components/ui/badge"
+import { User } from "./header"
 
-export type Usermodel = {
-  id: BigInteger,
-  name: string,
-  email: string,
-  email_verified_at: Date,
-  creatd_at: Date,
-  picture: string,
-  updated_at: Date
-}
-
-export interface User {
-  user: Usermodel
-}
+import Cookies from "js-cookie";
+import axios from "axios";
 
 export default function Aside() {
   const pathname = usePathname()
+  const [user, setUser] = useState<User>()
 
+  useEffect(() => {
+    getuser()
+  }, [])
+
+  const getuser = () => {
+    let token = Cookies.get('token')
+
+    const headers = { 'Authorization': 'Bearer ' + token };
+    axios.post('http://localhost:8000/api/user', {}, { headers })
+      .then(response => {
+        if (response.data.scope === "business") {
+          setUser(response.data)
+        }
+      })
+
+  }
   const base = "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
   const active = "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8 bg-accent text-accent-foreground transition-colors"
   return (
@@ -99,13 +108,15 @@ export default function Aside() {
           <Tooltip>
             <TooltipTrigger asChild>
               <Link
-                href="/admin/invoices"
+                href={user?.abonament != "bezmaksas" ? "/admin/invoices": "/admin/update"}
                 className={pathname === "/admin/invoices" ? active : base}
               >
-                <ReceiptEuro  className="h-5 w-5" />
+                <ReceiptEuro className="h-5 w-5" />
                 <span className="sr-only">Rēķini</span>
               </Link>
             </TooltipTrigger>
+            {user?.abonament == "bezmaksas" && <Badge variant="destructive" className="relative translate-y-[-3.3rem] translate-x-2	rounded-full  "><Star size={12} /></Badge>}
+
             <TooltipContent side="right">Rēķini</TooltipContent>
           </Tooltip>
 
@@ -173,13 +184,14 @@ export default function Aside() {
                   Pakalpojumi
                 </Link>
                 <Link
-                  href="/admin/invoices"
-                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                href={user?.abonament != "bezmaksas" ? "/admin/invoices": "/admin/update"}
+                className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                 >
+                   {user?.abonament == "bezmaksas" && <Badge variant="destructive" className="absolute  translate-x-28	rounded-full  "><Star size={12} /></Badge>}
+
                   <Package className="h-5 w-5" />
                   Rēķini
                 </Link>
-
                 <Link
                   href="/admin/settings"
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"

@@ -21,12 +21,11 @@ export default function LoginForm() {
     email: string
   }
 
-  const [email, setEmail] = useState()
   const { register, handleSubmit } = useForm<FormValues>();
 
   const sendrecovery =(email:FormValues)=>{
-console.log(email)
-  axios.post('http://localhost:8000/api/recoveremail', email)
+
+    axios.post('http://localhost:8000/api/recoveremail', email)
     .then(response => {
       console.log(response)
       if(response.data === ""){
@@ -40,7 +39,7 @@ console.log(email)
   }
 
   return (
-    <div className="flex  justify-center items-center h-full">
+    <div className="flex  justify-center items-center h-[100vh]">
     <Card className="mx-auto max-w-sm">
       <CardHeader>
         <CardTitle className="text-2xl">Aizmirsi paroli?</CardTitle>

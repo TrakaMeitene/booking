@@ -21,9 +21,9 @@ import {
 import axios from "axios";
 import { toast } from "sonner";
 
-export default function Newinvoice({ close }) {
+export default function Newinvoice({ close }: {close: ()=>void}) {
     const [date, setDate] = useState<any>(new Date())
-    const [paydate, setPaydate] = useState()
+    const [paydate, setPaydate] = useState<Date>()
     const [file, setFile] = useState()
     const [selectedservice, setSelectedservices] = useState("")
     const {
@@ -31,7 +31,7 @@ export default function Newinvoice({ close }) {
         handleSubmit,
         watch,
         formState: { errors },
-    } = useForm()
+    } = useForm<Inputs>()
 
     const services = [
         'Pakalpojuma sniegšana',
@@ -61,7 +61,7 @@ export default function Newinvoice({ close }) {
         partner: string,
         partnerRegNr: string,
         paydate: Date,
-        summofbill: BigInteger
+        sumofbill:  string | number
     }
 
     const changefile = (event: any) => {
@@ -80,7 +80,7 @@ export default function Newinvoice({ close }) {
         formData.append('documentNr', data.documentNr)
         formData.append('customer', data.partner)
         formData.append('partnerReg', data.partnerRegNr)
-        formData.append('sumofbill', data.sumofbill * 100)
+        formData.append('sumofbill', Number(data.sumofbill) * 100)
         formData.append('service', selectedservice)
         { file && formData.append('file', file) }
 

@@ -54,22 +54,8 @@ export default function Signin() {
       })
   }
 
-  const signupFacebook=()=>{
-    axios.get('http://localhost:8000/api/login/facebook')
-    .then(response => {
-      console.log(response)
-    })
-  }
-
-  const signupGoogle=()=>{
-    axios.get('http://localhost:8000/api/login/google')
-    .then(response => {
-      console.log(response)
-    })
-  }
-
   return (
-    <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px] h-full">
+    <div className="w-full lg:grid lg:min-h-[800px] lg:grid-cols-2 xl:min-h-[800px] h-full">
       <div className="flex items-center justify-center py-12 px-12">
         <div className="mx-auto grid w-[350px] gap-6">
           {message && <Alertcomp success={message} />}
@@ -114,21 +100,8 @@ export default function Signin() {
                   Izveidot
                 </Link>
               </div>
-
-
-              <div style={{ borderBottom: "1px solid gray" }}></div>
-              <p className="mt-4 text-center text-sm">
-                Vai pieslēdzies ar sociālo tīklu kontu
-              </p>
-            
             </div>
           </form>
-          <Button variant="outline" className="w-full" onClick={signupGoogle}>
-                Pierakstīties ar Google
-              </Button>
-                <Button variant="outline" className="w-full" onClick={signupFacebook}>
-                  Pierakstīties ar Facebook
-                </Button>
         </div>
       </div>
 

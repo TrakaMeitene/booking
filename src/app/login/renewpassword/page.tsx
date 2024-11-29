@@ -1,6 +1,5 @@
 'use client'
 import React, { useState, } from "react"
-import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import {
     Card,
@@ -11,13 +10,15 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 import axios from "axios"
+import { Message } from "@/app/admin/profile/page"
+
 
 export default function LoginForm() {
-    const [password, setPaswword] = useState()
-    const [validation, setValidation] = useState()
+    const [password, setPaswword] = useState<string>()
+    const [validation, setValidation] = useState<Message>()
     const { register, handleSubmit } = useForm<FormValues>();
 
     const urlSearchString = window.location.search;
@@ -27,19 +28,22 @@ export default function LoginForm() {
    let token = params.get('token');
 
     type FormValues = {
-        password: string
+        password: string,
+        email: string,
+        token: string
     }
 
-    const compare = (e) => {
+
+    const compare = (e:any) => {
         const value = e.target.value
         if (value != password) {
             setValidation({ 'type': "error", 'message': "Paroles nesakrīt!" })
         } else {
-            setValidation({})
+            setValidation(undefined)
         }
     }
 
-    const resetpassword = (data) => {
+    const resetpassword: SubmitHandler<FormValues> = (data) => {
         axios.post('http://localhost:8000/api/passwordreset', { 'password': password, 'email': data.email, 'token': token })
             .then(response => {
                 if (response.data === "") {
@@ -51,7 +55,7 @@ export default function LoginForm() {
     }
 
     return (
-        <div className="flex  justify-center items-center h-full">
+        <div className="flex  justify-center items-center h-[100vh]">
             <Card className="mx-auto max-w-sm">
                 <CardHeader>
                     <CardTitle className="text-2xl">Atjauno paroli</CardTitle>
@@ -99,7 +103,6 @@ export default function LoginForm() {
                             </Button>
                         </div>
                     </form>
-
                 </CardContent>
             </Card>
         </div>
