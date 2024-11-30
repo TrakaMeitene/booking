@@ -71,7 +71,6 @@ export default function Services() {
 
     axios.delete(`${process.env.NEXT_PUBLIC_REQUEST_URL}/deleteservice/${service.id}`)
       .then(response => {
-        console.log(response)
         if (response.statusText == "OK") {
           toast.success("Dati saglabāti veiksmīgi!")
         } else {

@@ -56,7 +56,6 @@ export default function Eventform(propsIn: prop) {
         } else {
             axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/getservices`, {}, { headers })
                 .then(response => {
-                    console.log(response)
                     setservices(response.data)
                 })
                 .catch(function (error) {

@@ -18,10 +18,10 @@ import Cookies from "js-cookie";
 import { useRouter } from 'next/navigation'
 import { toast } from "sonner";
 
-export interface  serviceObject {
+export interface serviceObject {
     created_at: Date,
     description: String,
-    id: number ,
+    id: number,
     name: string,
     price: number,
     time: number,
@@ -88,13 +88,13 @@ export default function Bookingdetails({ data }: { data: Booking | undefined }) 
             )
     }
 
-    const clientvisited=()=>{
+    const clientvisited = () => {
         const headers = { 'Authorization': 'Bearer ' + token };
-        
-        axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/clientvisited`, {data}, {headers})
-        .then(response=>{
-     console.log(response)       
-        })
+
+        axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/clientvisited`, { data }, { headers })
+            .then(response => {
+                response.data.type == 'error' ? toast.error(response.data.message) : toast.success(response.data.message)
+            })
     }
 
     return (
