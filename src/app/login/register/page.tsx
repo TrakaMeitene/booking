@@ -17,7 +17,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { useSearchParams } from 'next/navigation'
-
+import { useRouter } from "next/navigation"
 interface FormValues {
     Name: string
     Email: string,
@@ -34,6 +34,7 @@ export default function Register() {
 
     const [success, setSuccess] = useState({ type: "", message: "" })
     const [selectedOption, setSelectedOption] = useState(type || "all")
+const router = useRouter()
 
     const registeruser = (data: FormValues) => {
         data.scope = selectedOption
@@ -44,6 +45,9 @@ export default function Register() {
                 .then(response => {
                     if (response.data.user?.id) {
                         setSuccess({ type: "success", message: "Reģistrācija veiksmīga!" })
+                        setTimeout(() => {
+                           router.push('/login')
+                          }, 3000);
                     } else {
                         setSuccess({ type: "error", message: "E-pasts jau ir reģistrēts!" })
                     }
@@ -78,7 +82,7 @@ export default function Register() {
 
                         <div className="grid gap-4">
                             <div className="grid gap-2">
-                                <Label htmlFor="email">Vārds Uzvārds</Label>
+                                <Label htmlFor="email">Vārds Uzvārds *</Label>
                                 <Input
                                     id="name"
                                     type="text"
@@ -90,7 +94,7 @@ export default function Register() {
                         </div>
                         <div className="grid gap-4">
                             <div className="grid gap-2">
-                                <Label htmlFor="email">Epasts</Label>
+                                <Label htmlFor="email">Epasts *</Label>
                                 <Input
                                     id="email"
                                     type="email"
@@ -100,7 +104,7 @@ export default function Register() {
                                 />
                             </div>
                             <div className="grid gap-2">
-                                <Label htmlFor="password">Parole</Label>
+                                <Label htmlFor="password">Parole *</Label>
 
                                 <Input
                                     id="password"

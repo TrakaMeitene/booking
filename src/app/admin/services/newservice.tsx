@@ -58,23 +58,23 @@ export default function Newcservice({getmessage}: {getmessage: ({message, type}:
                     <div className="grid gap-4 py-4">
                         <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="name" className="text-right">
-                                Nosaukums
+                                Nosaukums *
                             </Label>
                             <Input id="name" className="col-span-3"
-                                {...register("name")} />
+                                {...register("name")} required/>
 
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="price" className="text-right">
-                                Cena
+                                Cena *
                             </Label>
                             <Input id="price" type="number" className="col-span-3" step=".01" placeholder="0.00"
-                                {...register("price")} />
+                                {...register("price")} required/>
 
                         </div>
                         <div className="flex flex-row items-center ml-16">
                             <Label htmlFor="phone" className="text-right mr-4 ">
-                                Laiks
+                                Ilgums *
                             </Label>
                             <div className="grid gap-1 col-auto">
                                 <Label htmlFor="hours" className="text-xs mr-5">

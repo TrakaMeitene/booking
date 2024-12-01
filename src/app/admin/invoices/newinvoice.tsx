@@ -102,7 +102,7 @@ export default function Newinvoice({ close }: {close: ()=>void}) {
             <div className="flex flex-col">
                 <div className="flex items-center mt-2 ">
                     <Label htmlFor="date" className="text-left mr-12">
-                        Datums
+                        Datums *
                     </Label>
                     <Popover>
                         <PopoverTrigger asChild>
@@ -130,9 +130,9 @@ export default function Newinvoice({ close }: {close: ()=>void}) {
                 </div>
                 <div className="flex items-center mt-2 ">
                     <Label htmlFor="minutes" className="text-sm mr-4 ">
-                        Dokumenta nr.
+                        Dokumenta nr. *
                     </Label>
-                    <Input type="text" {...register("documentNr")} />
+                    <Input type="text" {...register("documentNr")} required/>
                 </div>
 
                 <div className="flex items-center mt-2">
@@ -156,7 +156,7 @@ export default function Newinvoice({ close }: {close: ()=>void}) {
                     <Label htmlFor="minutes" className="text-sm mr-4 ">
                         Darījuma partneris
                     </Label>
-                    <Input type="text"  {...register("partner")} />
+                    <Input type="text"  {...register("partner")} required/>
                 </div>
 
                 <div className="flex items-center mt-2 ">
@@ -168,9 +168,9 @@ export default function Newinvoice({ close }: {close: ()=>void}) {
 
                 <div className="flex items-center mt-2 ">
                     <Label htmlFor="minutes" className="text-sm mr-4 ">
-                        Darījuma summa
+                        Darījuma summa *
                     </Label>
-                    <Input type="number" step=".01" placeholder="0.00"
+                    <Input type="number" step=".01" placeholder="0.00" required
                         {...register("sumofbill")} />
                 </div>
 
@@ -208,7 +208,7 @@ export default function Newinvoice({ close }: {close: ()=>void}) {
                     <Input id="file" type="file" onChange={changefile} />
                 </div>
             </div>
-            <Button type="submit">saglabāt</Button>
+            <Button type="submit">Saglabāt</Button>
         </form>
 
     )

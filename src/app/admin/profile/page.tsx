@@ -147,7 +147,7 @@ export default function Profile() {
 
                         <div className="grid gap-4 mt-2">
                             <div className="grid gap-2">
-                                <Label htmlFor="name">Vārds Uzvārds</Label>
+                                <Label htmlFor="name">Vārds Uzvārds *</Label>
                                 <Input
                                     id="name"
                                     type="text"
@@ -160,11 +160,11 @@ export default function Profile() {
                         </div>
                         <div className="grid gap-4 mt-2">
                             <div className="grid gap-2">
-                                <Label htmlFor="name">Personas kods</Label>
+                                <Label htmlFor="name">Reģistrācijas nr. *</Label>
                                 <Input
                                     id="pk"
                                     type="text"
-                                    placeholder="1xxxx-xxxx"
+                                    placeholder="1xxxxxxxxxx"
                                     required
                                     defaultValue={user?.personalnr}
                                     {...register('personalnr')}
@@ -173,7 +173,7 @@ export default function Profile() {
                         </div>
                         <div className="grid gap-4 mt-2">
                             <div className="grid gap-2">
-                                <Label htmlFor="email">Epasts</Label>
+                                <Label htmlFor="email">Epasts *</Label>
                                 <Input
                                     id="email"
                                     type="email"
@@ -187,7 +187,7 @@ export default function Profile() {
                         </div>
                         <div className="grid gap-4 mt-2">
                             <div className="grid gap-2">
-                                <Label htmlFor="phone">Telefona numurs</Label>
+                                <Label htmlFor="phone">Telefona numurs *</Label>
                                 <Input
                                     id="pgone"
                                     type="text"
@@ -200,7 +200,7 @@ export default function Profile() {
                         </div>
                         <div className="grid gap-4 mt-2">
                             <div className="grid gap-2">
-                                <Label htmlFor="city">Pilsēta, rajons</Label>
+                                <Label htmlFor="city">Pilsēta, rajons *</Label>
                                 <Select value={selectedcity} onValueChange={(value) => {
                                     setSelectedcity(value)
                                 }} >
@@ -219,7 +219,7 @@ export default function Profile() {
                         </div>
                         <div className="grid gap-4 mt-2">
                             <div className="grid gap-2">
-                                <Label htmlFor="adress">Adrese</Label>
+                                <Label htmlFor="adress">Adrese *</Label>
                                 <Input
                                     id="adress"
                                     type="text"
@@ -233,7 +233,7 @@ export default function Profile() {
                         </div>
                         <div className="grid gap-4 mt-2">
                             <div className="grid gap-2">
-                                <Label htmlFor="bank">Konta nr.</Label>
+                                <Label htmlFor="bank">Konta nr. *</Label>
                                 <Input
                                     id="bank"
                                     type="text"
@@ -247,7 +247,7 @@ export default function Profile() {
                         </div>
                         <div className="grid gap-4 mt-2">
                             <div className="grid gap-2">
-                                <Label htmlFor="occupation">Nozare,nodarbošanās</Label>
+                                <Label htmlFor="occupation">Nozare,nodarbošanās *</Label>
 
                                 <Select value={selectedOccupation} onValueChange={(value) => {
                                     setSelectedOccuption(value)

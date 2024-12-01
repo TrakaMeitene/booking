@@ -50,7 +50,7 @@ export default function LoginForm() {
         <form onSubmit={handleSubmit(sendrecovery)}>
         <div className="grid gap-4">
           <div className="grid gap-2">
-            <Label htmlFor="email">Epasts</Label>
+            <Label htmlFor="email">Epasts *</Label>
             <Input
               id="email"
               type="email"

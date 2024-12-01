@@ -142,28 +142,28 @@ export default function Eventform(propsIn: prop) {
             <><div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="name" className="text-right">
-                        Klienta vārds
+                        Klienta vārds *
                     </Label>
-                    <Input id="name" className="col-span-3" defaultValue={propsIn.user?.name}
+                    <Input id="name" className="col-span-3" defaultValue={propsIn.user?.name} required
                         {...register("name")} />
 
                 </div>
       
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="phone" className="text-right">
-                        Telefona nr.
+                        Telefona nr. *
                     </Label>
-                    <Input id="phone" type="phone" className="col-span-3"  {...register("phone")} defaultValue={propsIn.user?.phone} />
+                    <Input id="phone" type="phone" className="col-span-3"  {...register("phone")} defaultValue={propsIn.user?.phone} required/>
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="email" className="text-right">
-                        E-pasts
+                        E-pasts *
                     </Label>
-                    <Input id="email" type="email" className="col-span-3"  {...register("email")} defaultValue={propsIn.user?.email} />
+                    <Input id="email" type="email" className="col-span-3"  {...register("email")} defaultValue={propsIn.user?.email} required/>
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="date" className="text-right">
-                        Datums
+                        Datums *
                     </Label>
                     <Popover>
                         <PopoverTrigger asChild>
@@ -193,7 +193,7 @@ export default function Eventform(propsIn: prop) {
                 </div>
                 <div className="flex items-center ">
                     <Label htmlFor="username" className="text-center mr-5 ml-10">
-                        Laiks
+                        Sākuma laiks *
                     </Label>
                     <div className="grid gap-1 col-auto">
                         <Label htmlFor="hours" className="text-xs mr-5">
@@ -220,14 +220,14 @@ export default function Eventform(propsIn: prop) {
                     </div>
                 </div>
                 <div className="flex items-center ">
-                    <Label htmlFor="minutes" className="text-xs mr-4 ml-5">Pakalpojums</Label>
+                    <Label htmlFor="minutes" className="text-xs mr-4 ml-5">Pakalpojums *</Label>
                     <Select value={selectedservice} onValueChange={(value) => {
                         if (propsIn.service) { setSelectedservices(propsIn.service) } else {
                             setSelectedservices(value)
                         }
-                    }} disabled={propsIn.service ? true : false} >
+                    }} disabled={propsIn.service ? true : false} required>
                         <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Izvēlies nodarbošanos" />
+                            <SelectValue placeholder="Izvēlies pakalpojumu" />
                         </SelectTrigger>
                         <SelectContent>
                             <SelectGroup>

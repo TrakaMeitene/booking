@@ -80,7 +80,7 @@ export default function Signin() {
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
-                  <Label htmlFor="password">Parole</Label>
+                  <Label htmlFor="password">Parole </Label>
                   <Link
                     href="/login/forgotpassword"
                     className="ml-auto inline-block text-sm underline"

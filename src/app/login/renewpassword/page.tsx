@@ -14,13 +14,13 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 import axios from "axios"
 import { Message } from "@/app/admin/profile/page"
-
+import { useRouter } from "next/navigation"
 
 export default function LoginForm() {
     const [password, setPaswword] = useState<string>()
     const [validation, setValidation] = useState<Message>()
     const { register, handleSubmit } = useForm<FormValues>();
-
+const router = useRouter()
     const urlSearchString = window.location.search;
 
     const params = new URLSearchParams(urlSearchString);
@@ -50,6 +50,9 @@ export default function LoginForm() {
                     toast.error('Kaut kas nogāja greizi! Mēģini vēlreiz. ')
                 } else {
                     toast.info(response.data.status)
+                    setTimeout(() => {
+                        router.push('/login')
+                       }, 2000);
                 }
             })
     }
@@ -67,7 +70,7 @@ export default function LoginForm() {
                     <form onSubmit={handleSubmit(resetpassword)}>
                         <div className="grid gap-4">
                             <div className="grid gap-2">
-                                <Label htmlFor="email">E-pasts</Label>
+                                <Label htmlFor="email">E-pasts *</Label>
                                 <Input
                                     id="email"
                                     type="email"
@@ -76,7 +79,7 @@ export default function LoginForm() {
                                 />
                             </div>
                             <div className="grid gap-2">
-                                <Label htmlFor="password">Parole</Label>
+                                <Label htmlFor="password">Parole *</Label>
 
                                 <Input
                                     id="password"
@@ -86,7 +89,7 @@ export default function LoginForm() {
                                 />
                             </div>
                             <div className="grid gap-2">
-                                <Label htmlFor="password">Parole</Label>
+                                <Label htmlFor="password">Parole atkārtoti *</Label>
 
                                 <Input
                                     id="password2"

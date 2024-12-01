@@ -5,7 +5,7 @@ import {
   LineChart,
   Package,
   Settings,
-  ShoppingCart,
+  Users,
   PanelLeft,
   CalendarDays,
   ReceiptEuro,
@@ -87,7 +87,7 @@ export default function Aside() {
                 href="/admin/clients"
                 className={pathname === "/admin/clients" ? active : base}
               >
-                <ShoppingCart className="h-5 w-5" />
+                <Users className="h-5 w-5" />
                 <span className="sr-only">Klienti</span>
               </Link>
             </TooltipTrigger>
@@ -173,7 +173,7 @@ export default function Aside() {
                   href="/admin/clients"
                   className="flex items-center gap-4 px-2.5 text-foreground"
                 >
-                  <ShoppingCart className="h-5 w-5" />
+                  <Users  className="h-5 w-5" />
                   Klienti
                 </Link>
                 <Link

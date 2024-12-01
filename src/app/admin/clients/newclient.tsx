@@ -8,10 +8,16 @@ import { Button } from "@/components/ui/button";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { Client } from "./page";
+interface propsin{
+    getmessage: (message:string)=>void,
+    client: Client | undefined
+}
 
-export default function Newclient({getmessage}:{getmessage: (message:string)=>void}){
+export default function Newclient(propsin: propsin){
 
     type Inputs = {
+        id: number,
         name: string,
         phone: string,
         email: string,
@@ -25,12 +31,16 @@ export default function Newclient({getmessage}:{getmessage: (message:string)=>vo
     } = useForm<Inputs>()
 
     const saveclient: SubmitHandler<Inputs> = (data)=>{
+        console.log(data)
+       if(propsin.client){
+        data.id = propsin.client.id 
+       }
         let token = Cookies.get('token')
         const headers = { 'Authorization': 'Bearer ' + token };
         axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/saveclient`, data, { headers })
             .then(response => {
                 if(response.statusText == "OK"){
-                    getmessage("Dati saglabāti veiksmīgi")
+                    propsin.getmessage("Dati saglabāti veiksmīgi")
                 }
             })
 
@@ -44,24 +54,29 @@ export default function Newclient({getmessage}:{getmessage: (message:string)=>vo
             <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="name" className="text-right">
-                      Vārds un uzvārds
+                      Vārds un uzvārds *
                     </Label>
-                    <Input id="name" className="col-span-3"
+                    <Input id="name" className="col-span-3" required
+                    defaultValue={propsin?.client ? propsin.client.name : ""}
                         {...register("name")} />
 
                 </div>
         
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="phone" className="text-right">
-                        Telefona nr.
+                        Telefona nr. *
                     </Label>
-                    <Input id="phone" type="phone" className="col-span-3"  {...register("phone")} />
+                    <Input id="phone" type="phone" className="col-span-3"  
+                                        defaultValue={propsin?.client ? propsin.client.phone : ""}
+                                        {...register("phone")} />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="email" className="text-right">
-                        E-pasts
+                        E-pasts *
                     </Label>
-                    <Input id="email" type="email" className="col-span-3"  {...register("email")} />
+                    <Input id="email" type="email" className="col-span-3"                    
+                     defaultValue={propsin?.client ? propsin.client.email : ""}
+ {...register("email")} />
                 </div>
 
                 </div>
