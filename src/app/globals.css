@@ -87,8 +87,8 @@ body{
   }
 }
 
-#personpage{
-  min-height: 130svh;
+#personpage, #homefirst{
+  min-height: 80svh;
 justify-content: start;
 }
 
@@ -130,7 +130,7 @@ background-color: rgba(255,255,255,0.6);
 background-blend-mode: lighten;
 display:flex;
 flex-direction: column;
-justify-content: center;
+/* justify-content: center; */
 }
 
 .search{
@@ -319,7 +319,7 @@ footer{
   }
 
   .home{
-    min-height: 100vh !important;
+    min-height: 80vh !important;
     height:auto !important;
   }
 }

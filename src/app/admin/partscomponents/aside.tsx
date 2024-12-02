@@ -25,20 +25,23 @@ import { usePathname } from 'next/navigation'
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge"
 import { User } from "./header"
-
+import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import axios from "axios";
 
 export default function Aside() {
   const pathname = usePathname()
   const [user, setUser] = useState<User>()
-
+const router = useRouter()
   useEffect(() => {
-    getuser()
+    let token = Cookies.get('token')
+
+    if(token){
+      getuser(token)
+      }else {router.push('/')}
   }, [])
 
-  const getuser = () => {
-    let token = Cookies.get('token')
+  const getuser = (token:string) => {
 
     const headers = { 'Authorization': 'Bearer ' + token };
     axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/user`, {}, { headers })

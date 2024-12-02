@@ -56,7 +56,7 @@ export default function Eventform(propsIn: prop) {
         } else {
             axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/getservices`, {}, { headers })
                 .then(response => {
-                    setservices(response.data)
+                    setservices(response.data.data)
                 })
                 .catch(function (error) {
                     if (error.response.status == 401) {
@@ -144,7 +144,7 @@ export default function Eventform(propsIn: prop) {
                     <Label htmlFor="name" className="text-right">
                         Klienta vārds *
                     </Label>
-                    <Input id="name" className="col-span-3" defaultValue={propsIn.user?.name} required
+                    <Input id="name" className="col-span-3" defaultValue={propsIn.user?.name} required disabled={propsIn.user?.name ? true: false}
                         {...register("name")} />
 
                 </div>
@@ -153,13 +153,13 @@ export default function Eventform(propsIn: prop) {
                     <Label htmlFor="phone" className="text-right">
                         Telefona nr. *
                     </Label>
-                    <Input id="phone" type="phone" className="col-span-3"  {...register("phone")} defaultValue={propsIn.user?.phone} required/>
+                    <Input id="phone" type="phone" className="col-span-3"  {...register("phone")} defaultValue={propsIn.user?.phone} required disabled={propsIn.user?.phone ? true: false}/>
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="email" className="text-right">
                         E-pasts *
                     </Label>
-                    <Input id="email" type="email" className="col-span-3"  {...register("email")} defaultValue={propsIn.user?.email} required/>
+                    <Input id="email" type="email" className="col-span-3"  {...register("email")} defaultValue={propsIn.user?.email} required disabled={propsIn.user?.email ? true: false}/>
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="date" className="text-right">
@@ -231,7 +231,7 @@ export default function Eventform(propsIn: prop) {
                         </SelectTrigger>
                         <SelectContent>
                             <SelectGroup>
-                                {services?.data?.map((x:any)=> <SelectItem key={x.id} value={x.id.toString()}>{x.name}</SelectItem>)}
+                                {services?.map((x:any)=> <SelectItem key={x.id} value={x.id.toString()}>{x.name}</SelectItem>)}
 
                             </SelectGroup>
                         </SelectContent>

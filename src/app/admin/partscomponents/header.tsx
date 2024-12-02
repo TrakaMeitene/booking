@@ -38,7 +38,8 @@ export interface User {
   scope: string,
   occupation: string,
   bank: string,
-  abonament: string
+  abonament: string,
+  city: string
 }
 
 export interface invoice{
@@ -65,21 +66,25 @@ export interface search{
 
 export default function Header() {
   const router = useRouter()
-  const [user, setUser] = useState<User>()
+  const [user, setUser] = useState<User | null>(null)
   const [searchvalue, setSearchvalue] = useState<string>()
   const [searchresponse, setSearchresponse] = useState([])
 
   useEffect(() => {
     let token = Cookies.get('token')
+    if(token){
     getuser(token)
-
+    }else {router.push('/')}
   }, [])
 
   const getuser = (token: any) => {
 
     const headers = { 'Authorization': 'Bearer ' + token };
     axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/user`, {}, { headers })
-      .then(response => { if (response.data.scope === 'business') { setUser(response.data) } else { router.push('/') } })
+      .then(response => {
+         if (response.data.scope === 'business') { setUser(response.data) } else { router.push('/') }
+
+     })
       .catch(function (error) {
         if (error.response.status == 401) {
           return router.push('/login')

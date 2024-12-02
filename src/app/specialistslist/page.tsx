@@ -14,7 +14,6 @@ export default function Specialists() {
     let city = searchParams.get('city')
     let occupation = searchParams.get('occupation')
     let date = searchParams.get('date')
-    const pathname = usePathname();
 
     const [specialsist, setSpecialists] = useState<User[]>([])
 
@@ -33,7 +32,8 @@ export default function Specialists() {
     const topersonalpage = (x: User) => {
         history.pushState({ id: x.id }, "", `/${x.name.toLocaleLowerCase('tr').replace(/ /g, "-")}`);
 
-        router.push(`${x.name.toLocaleLowerCase('tr').replace(/ /g, "-")}`);
+        router.push(`specialist/${x.id}/${x.name.toLocaleLowerCase('tr').replace(/ /g, "-")}` );
+
     }
 
     return (

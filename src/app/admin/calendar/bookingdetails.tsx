@@ -50,6 +50,7 @@ export default function Bookingdetails({ data }: { data: Booking | undefined }) 
     let token = Cookies.get('token')
 
     useEffect(() => {
+        if(token){
         const headers = { 'Authorization': 'Bearer ' + token };
         axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/getservicebyid`, data, { headers })
             .then(response => setservice(response.data))
@@ -59,6 +60,9 @@ export default function Bookingdetails({ data }: { data: Booking | undefined }) 
                     return router.push('/login')
                 }
             })
+        }else{
+            router.push('/')
+        }
     }, [data])
 
     const getuser = () => {

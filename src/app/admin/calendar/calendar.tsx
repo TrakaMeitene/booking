@@ -47,11 +47,16 @@ const [user, setUser] = useState<User>()
   const router = useRouter()
 
   useEffect(() => {
+    let token = Cookies.get('token')
+if(token){
     if (item) {
       setOpen(true)
     }
     getdata()
     getuser()
+  } else{
+    router.push('/')
+  }
   }, [item])
 
   const localizer = momentLocalizer(moment)

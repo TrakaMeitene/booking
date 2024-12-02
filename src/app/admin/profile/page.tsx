@@ -35,7 +35,8 @@ export interface FormValues {
     occupation: string,
     File: File,
     city: string,
-    bank: string
+    bank: string,
+    urlname: string
 }
  export interface Message{
     message: string, 
@@ -94,6 +95,7 @@ export default function Profile() {
 
     const updateuser = (data: FormValues) => {
         const formData = new FormData();
+        data.urlname = data.name.toLocaleLowerCase('tr').replace(/ /g, "-")
 
         Object.fromEntries(
             Object.keys(dirtyFields).map((key: string) => [
@@ -103,6 +105,7 @@ export default function Profile() {
         { image && formData.append('file', image) }
         formData.append('occupation', selectedOccupation)
         formData.append('city', selectedcity)
+        formData.append('urlname', data.urlname)
 
         let token = Cookies.get('token')
         const headers = { 'Authorization': 'Bearer ' + token };

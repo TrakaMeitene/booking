@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "Pieraksts Pie",
   description: "Rezervāciju sistēma pakalpojumu sniedzējiem Latvijā.",
   openGraph: {
-    images: "./logo.ico",
+    images: "./favicon.ico",
   }
 };
 
@@ -21,6 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+     
       <body className={inter.className}>
         {children}
         <Toaster  richColors />

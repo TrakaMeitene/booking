@@ -1,13 +1,13 @@
 'use client'
 import React, { useEffect, useState } from "react";
-import Nav from "../components/nav";
+import Nav from "../../../components/nav";
 import axios from "axios";
 import { usePathname } from 'next/navigation'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Label } from "@/components/ui/label"
-import { User } from "../admin/calendar/page";
-import { Service } from "../admin/services/page";
-import Loading from "../admin/partscomponents/loading";
+import { User } from "../../../admin/calendar/page";
+import { Service } from "../../../admin/services/page";
+import Loading from "../../../admin/partscomponents/loading";
 import {
     Select,
     SelectContent,
@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import moment from "moment";
 import Cookies from "js-cookie";
-import Eventform from "../admin/calendar/eventform";
+import Eventform from "../../../admin/calendar/eventform";
 import {
     Dialog,
     DialogContent,
@@ -30,7 +30,6 @@ import {
 } from "@/components/ui/dialog"
 import Link from "next/link";
 import { toast } from "sonner";
-import Footer from "../business/components/footer";
 
 interface Times {
     date: Date
@@ -38,6 +37,8 @@ interface Times {
     isDayVacation: boolean,
     isDayFree: boolean
 }
+
+
 
 export default function Specialistpage() {
     const [specialist, setSpecialist] = useState<User[]>([])
@@ -53,9 +54,8 @@ export default function Specialistpage() {
 
     const pathname = usePathname()
     let decodedstring = decodeURIComponent(pathname)
-
     let token = Cookies.get('token')
-
+let id = pathname.slice(12, 13)
 
     useEffect(() => {
         setWindowWidth(window.innerWidth)
@@ -67,7 +67,7 @@ export default function Specialistpage() {
     }, [token])
 
     const getdata = () => {
-        axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/getspecialistbyname`, { name: decodedstring.slice(1) })
+        axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/getspecialistbyid`, { id: id })
             .then(response => setSpecialist(response.data))
 
     }
@@ -154,7 +154,7 @@ export default function Specialistpage() {
                         <AvatarImage src={`${process.env.NEXT_PUBLIC_REQUEST_STORAGE}/${specialist[0].avatar}`} />
                         <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
-                    <div >
+                    <div className="text-left">
                         <h4 className="font-bold text-xl">{specialist[0]?.name}</h4>
                         <p className="max-[390px]:text-sm">{specialist[0].bio}</p>
                         <p className="text-stone-400 text-sm mt-2 text-left">{specialist[0].occupation}</p>
