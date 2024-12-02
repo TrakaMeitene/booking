@@ -26,6 +26,7 @@ import {
 import Cookies from "js-cookie";
 import axios from "axios";
 import { useRouter } from 'next/navigation'
+import Link from "next/link";
 
 interface prop {
     getdata: () => void,
@@ -39,7 +40,7 @@ interface prop {
 export default function Eventform(propsIn: prop) {
     const [date, setDate] = useState<Date | undefined>(new Date())
     const [services, setservices] = useState([])
-    const [selectedservice, setSelectedservices] = useState<string>("")
+    const [selectedservice, setSelectedservices] = useState<string>()
     const router = useRouter()
 
     useEffect(() => {
@@ -135,7 +136,7 @@ export default function Eventform(propsIn: prop) {
             }
             )
     }
-
+console.log(propsIn.user)
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
 
@@ -186,6 +187,7 @@ export default function Eventform(propsIn: prop) {
                                 selected={date}
                                 onSelect={setDate}
                                 initialFocus
+                                fromDate={new Date()}
                             />
                         </PopoverContent>
                     </Popover>
@@ -221,11 +223,14 @@ export default function Eventform(propsIn: prop) {
                 </div>
                 <div className="flex items-center ">
                     <Label htmlFor="minutes" className="text-xs mr-4 ml-5">Pakalpojums *</Label>
+
+
                     <Select value={selectedservice} onValueChange={(value) => {
                         if (propsIn.service) { setSelectedservices(propsIn.service) } else {
                             setSelectedservices(value)
                         }
-                    }} disabled={propsIn.service ? true : false} required>
+                    }} disabled={propsIn?.service ? true : false} required
+                    >
                         <SelectTrigger className="w-full">
                             <SelectValue placeholder="Izvēlies pakalpojumu" />
                         </SelectTrigger>
@@ -246,9 +251,9 @@ export default function Eventform(propsIn: prop) {
 
                 </div>
             </div>
-
+{!selectedservice  && <div className="flex flex-col"><p className="text-xs">Jums nav pakalpojumu, izveidojiet tos spiežot uz saites</p><Link href="/admin/services" className="text-xs underline">šeit</Link></div>}
                 <DialogTrigger asChild>
-                    <Button type="submit" >Saglabāt</Button>
+                    <Button type="submit" disabled={!selectedservice ? true: false} >Saglabāt</Button>
                 </DialogTrigger>
             </>
         </form>

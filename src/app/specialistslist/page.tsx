@@ -50,7 +50,7 @@ export default function Specialists() {
                             </Avatar>
                             <div className="p-5 text-left">
                                 <h4 className="font-bold">{x.name}</h4>
-                                <p className="text-sm">{x.bio?.slice(0, 20) + "..."}</p>
+                                <p className="text-sm">{x.bio != null && x.bio?.slice(0, 20) + "..."}</p>
                                 <p className="text-stone-400 text-sm">{x.occupation}</p>
                                 <div className="flex flex-row text-left">
                                     <p className="text-stone-400 text-sm">{x.city},</p>

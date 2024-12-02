@@ -128,6 +128,7 @@ let id = pathname.slice(12, 13)
     const nextrange = () => {
         setToday(new Date(today.getFullYear(), today.getMonth(), today.getDate() + length))
         setRangened(new Date(rangeEnd.getFullYear(), rangeEnd.getMonth(), rangeEnd.getDate() + length))
+        console.log(new Date(today.getFullYear(), today.getMonth(), today.getDate() + length))
         if(selectedservice) gettimes()
     }
 
@@ -144,7 +145,7 @@ let id = pathname.slice(12, 13)
     const getmessage = (message: string) => {
         toast.success(message)
     }
-
+const isToday = moment(today).format("DD,MM,YYYY") === moment(new Date()).format("DD,MM,YYYY")
     return (
         <>
             <Nav />
@@ -185,7 +186,7 @@ let id = pathname.slice(12, 13)
                         <Button onClick={gettimes} disabled={!selectedservice}>Atlasīt laikus</Button>
                     </div>
                     <div className="w-full flex flex-row items-center justify-center mt-4">
-                        <ChevronLeft onClick={previousrange} className="cursor-pointer" />
+                        <ChevronLeft onClick={!isToday ? previousrange : ()=>{}} className="cursor-pointer " color={isToday ? "grey" : "black"}/>
                         <p className="max-[390px]:text-sm">{today.getDate()}  {months[today.getMonth()]} - {rangeEnd.getDate()} {months[rangeEnd.getMonth()]}</p>
                         <ChevronRight onClick={nextrange} className="cursor-pointer" />
                     </div>
