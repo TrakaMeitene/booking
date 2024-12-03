@@ -13,7 +13,7 @@ import "../../admin/admin.css"
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react"
 import { DialogTrigger, Dialog } from "@/components/ui/dialog";
-import Newcservice from "./newservice";
+import Newservice from "./newservice";
 import axios from "axios"
 import { useRouter } from 'next/navigation'
 import Cookies from "js-cookie";
@@ -24,10 +24,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { Trash2 } from "lucide-react"
+import { Trash2, Pencil } from "lucide-react"
 import { toast } from "sonner"
 import { serviceObject } from "../calendar/bookingdetails";
-import { Message } from "../profile/page";
 import {
   Pagination,
   PaginationContent,
@@ -45,6 +44,7 @@ export default function Services() {
   const [services, setservices] = useState<Service[]>()
   const [current, setCurrent] = useState<number>(1)
   const [open, setOpen] = useState<boolean>(false)
+  const [selectedservice, setSelectedservice] = useState<serviceObject>()
 
   useEffect(() => {
     getdata()
@@ -85,12 +85,18 @@ export default function Services() {
       })
   }
 
-  const getmessage = (message: Message) => {
+  const getmessage = (message: string, type: string) => {
     toast.success(message.message)
     getdata()
   }
   let prev = current - 1 > 1 ? current - 1 : 1
   let next = current + 1 < services?.last_page ? current + 1 : services?.last_page
+
+
+  const Options = (service:serviceObject) => {
+    setOpen(true)
+    setSelectedservice(service)
+  }
 
   if (!services)
     return <Loading />
@@ -99,7 +105,7 @@ export default function Services() {
     <main>
       <h1 className="text-3xl w-full border-b-2">Pakalpojumi</h1>
       <Dialog open={open} onOpenChange={(e) => setOpen(e)}>
-        <Newcservice getmessage={getmessage} setOpen={setOpen}/>
+        {open && <Newservice getmessage={getmessage} setOpen={setOpen} />}
         <DialogTrigger asChild>
           <Button className="mt-2">  <Plus size={20} className="mr-2" />Jauns pakalpojums</Button>
         </DialogTrigger>
@@ -129,6 +135,17 @@ export default function Services() {
                       <Trash2 />                                                </TooltipTrigger>
                     <TooltipContent>
                       <p>Dzēst</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+                {open && <Newservice getmessage={getmessage} setOpen={setOpen} selectedservice={selectedservice} />}
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger onClick={() => { Options(x) }}>
+                      <Pencil className="ml-4"/>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Labot</p>
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>

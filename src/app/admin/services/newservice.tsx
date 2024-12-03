@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { Label } from "@/components/ui/label"
@@ -11,21 +11,47 @@ import { TimePickerInput } from "@/components/ui/time-picker-input";
 import axios from "axios"
 import { useRouter } from 'next/navigation'
 import Cookies from "js-cookie";
+import { Service } from "./page";
+import { serviceObject } from "../calendar/bookingdetails";
 
 interface propsin {
-    getmessage: ({ message, type }: { message: string | undefined, type: string | undefined }) => void,
-    setOpen: (arg: boolean) => void
+    getmessage: ({ message}: { message: string | undefined}) => void,
+    setOpen: (arg: boolean) => void,
+    selectedservice: serviceObject
 }
 
 export default function Newcservice(propsIn: propsin) {
-    const [date, setDate] = useState<any>()
+    const [date, setDate] = useState<Date>(new Date())
     const router = useRouter()
+
+    let hours = date.getHours()
+let minutes = date.getMinutes()
+let seconds = 0
+
+if(propsIn?.selectedservice?.time){
+     hours = Math.trunc(propsIn.selectedservice.time /60)
+    minutes = propsIn.selectedservice.time -(60* hours)
+}
+
+useEffect(()=>{
+    const updatedDate = new Date(
+        new Date().getFullYear(),
+        new Date().getMonth(),
+        new Date().getDate(),
+        hours,
+        minutes,
+    seconds
+      )
+      setDate(updatedDate)
+},[])
+
 
     type Inputs = {
         name: string,
         price: number,
         time: number,
         description: string,
+        id: number
     }
 
     const {
@@ -37,16 +63,16 @@ export default function Newcservice(propsIn: propsin) {
     } = useForm<Inputs>()
 
     const saveservice: SubmitHandler<Inputs> = (data) => {
-        console.log(data)
-         data.time = date.getHours() * 60 + date.getMinutes() 
+        data.time = date.getHours() * 60 + date.getMinutes()
+       if(propsIn.selectedservice){ data.id = propsIn.selectedservice?.id}
         let token = Cookies.get('token')
         data.price = data.price * 100
         const headers = { 'Authorization': 'Bearer ' + token };
         axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/addservice`, data, { headers })
             .then(response => {
-                propsIn.getmessage({ message: "Dati saglabāti veiksmīgi!", type: "success" })
+                propsIn.getmessage({ message: "Dati saglabāti veiksmīgi!"})
                 propsIn.setOpen(false)
-                reset()
+                reset({})
             })
             .catch(function (error) {
                 if (error.response?.status == 401) {
@@ -55,11 +81,10 @@ export default function Newcservice(propsIn: propsin) {
             })
 
     }
-
     return (
         <>
             <DialogContent >
-                <DialogHeader><DialogTitle>Jauns pakalpojums</DialogTitle></DialogHeader>
+                <DialogHeader><DialogTitle>{propsIn.selectedservice ? "Labot pakalpojumu" : "Jauns pakalpojums"}</DialogTitle></DialogHeader>
                 <form onSubmit={handleSubmit(saveservice)}>
                     <div className="grid gap-4 py-4">
                         <div className="grid grid-cols-4 items-center gap-4">
@@ -67,6 +92,7 @@ export default function Newcservice(propsIn: propsin) {
                                 Nosaukums *
                             </Label>
                             <Input id="name" className={`col-span-3 ${errors.name ? "error" : ""}`}
+                                defaultValue={propsIn?.selectedservice ? propsIn.selectedservice?.name : ""}
                                 {...register("name", { required: "This is required." })} />
 
                         </div>
@@ -77,6 +103,8 @@ export default function Newcservice(propsIn: propsin) {
                                 Cena *
                             </Label>
                             <Input id="price" type="number" className={`col-span-3 ${errors.name ? "error" : ""}`} step=".01" placeholder="0.00"
+                                defaultValue={propsIn?.selectedservice ? (propsIn.selectedservice?.price /100).toFixed(2) : ""}
+
                                 {...register("price", { required: "This is required." })} />
 
                         </div>
@@ -114,7 +142,10 @@ export default function Newcservice(propsIn: propsin) {
                             <Label htmlFor="phone" className="text-right">
                                 Apraksts
                             </Label>
-                            <Textarea className="col-span-3"  {...register("description")} />
+
+                            <Textarea className="col-span-3" 
+                            defaultValue={propsIn?.selectedservice  ? propsIn.selectedservice?.description : ""}
+                                {...register("description")} />
                         </div>
                     </div>
 
