@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback  } from "react";
 import {
   Table,
   TableBody,
@@ -39,6 +39,8 @@ export default function Clients() {
 
   const [data, setData] = useState<any>([])
   const [current, setCurrent] = useState(1)
+  let [open, setOpen] = useState(false);
+const [selectedclient, setclient] = useState()
 
   const router = useRouter()
 
@@ -68,11 +70,16 @@ export default function Clients() {
   let prev = current - 1 > 1 ? current - 1 : 1
   let next = current + 1 < data?.last_page ? current + 1 : data?.last_page
 
+const options=(client: Client)=>{
+  setOpen(true)
+  setclient(client)
+}
+
   return (
     <main>
       <h1 className="text-3xl w-full border-b-2">Klienti</h1>
-      <Dialog>
-        <Newclient getmessage={getmessage} client={undefined} />
+      <Dialog open={open} onOpenChange={setOpen}>
+        {open && <Newclient getmessage={getmessage} client={undefined}  open={open} setOpen={setOpen}/>}
         <DialogTrigger asChild>
           <Button className="mt-2">  <Plus size={20} className="mr-2" />Jauns klients</Button>
         </DialogTrigger>
@@ -97,17 +104,13 @@ export default function Clients() {
             <TableCell>
               <TooltipProvider>
                 <Tooltip>
-                  <Dialog>
-                    <Newclient getmessage={getmessage} client={x} />
-                    <DialogTrigger asChild>
+                    {open && <Newclient getmessage={getmessage} client={selectedclient}  open={open} setOpen={setOpen}/>}
                       <TooltipTrigger >
                         <TooltipContent>
                           Labot
                         </TooltipContent>
-                        <Pencil />
+                        <Pencil onClick={()=>options(x)}/>
                       </TooltipTrigger>
-                    </DialogTrigger>
-                  </Dialog>
 
                 </Tooltip>
               </TooltipProvider></TableCell>

@@ -60,7 +60,7 @@ if(token){
   }, [item])
 
   const localizer = momentLocalizer(moment)
-  const lang: { week: string, work_week: string, day: string, month: string, previous: string, next: string, today: string, agenda: string } = {
+  const lang: { week: string, work_week: string, day: string, month: string, previous: string, next: string, today: string, agenda: string, date: string, event:string, time:string } = {
     week: 'Nedēļa',
     work_week: 'Darba nedēļa',
     day: 'Diena',
@@ -69,6 +69,9 @@ if(token){
     next: 'Uz priekšu',
     today: 'Šodien',
     agenda: 'Darba kārtība',
+    date: 'Datums',
+    event: 'Notikums',
+    time: "Laiks"
   }
 
   const handleSelectEvent = useCallback(
@@ -162,7 +165,7 @@ const getuser = () => {
 
         </DialogContent>
 
-        <DialogTrigger asChild >
+        {/* <DialogTrigger asChild > */}
           <Button
             variant="default"
             className="mb-2"
@@ -170,7 +173,7 @@ const getuser = () => {
           >
             <Plus size={20} /> Jauns pieraksts
           </Button>
-        </DialogTrigger>
+        {/* </DialogTrigger> */}
 
       </Dialog>
       <Calendar
