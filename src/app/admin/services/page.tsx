@@ -104,8 +104,8 @@ export default function Services() {
   return (
     <main>
       <h1 className="text-3xl w-full border-b-2">Pakalpojumi</h1>
-      <Dialog open={open} onOpenChange={(e) => setOpen(e)}>
-        {open && <Newservice getmessage={getmessage} setOpen={setOpen} />}
+      <Dialog open={open} onOpenChange={(e) => {setOpen(e), setSelectedservice(undefined)}}>
+        {open && <Newservice getmessage={getmessage} setOpen={setOpen} selectedservice={undefined}/>}
         <DialogTrigger asChild>
           <Button className="mt-2">  <Plus size={20} className="mr-2" />Jauns pakalpojums</Button>
         </DialogTrigger>
@@ -138,7 +138,7 @@ export default function Services() {
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
-                {open && <Newservice getmessage={getmessage} setOpen={setOpen} selectedservice={selectedservice} />}
+                {open && <Newservice getmessage={getmessage} setOpen={setOpen} selectedservice={selectedservice}  setSelectedservice={ setSelectedservice}/>}
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger onClick={() => { Options(x) }}>

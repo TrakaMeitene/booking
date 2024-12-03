@@ -78,7 +78,7 @@ const options=(client: Client)=>{
   return (
     <main>
       <h1 className="text-3xl w-full border-b-2">Klienti</h1>
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog open={open} onOpenChange={(e)=> {setOpen(e), setclient(undefined)}}>
         {open && <Newclient getmessage={getmessage} client={undefined}  open={open} setOpen={setOpen}/>}
         <DialogTrigger asChild>
           <Button className="mt-2">  <Plus size={20} className="mr-2" />Jauns klients</Button>

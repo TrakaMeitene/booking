@@ -17,7 +17,7 @@ import { serviceObject } from "../calendar/bookingdetails";
 interface propsin {
     getmessage: ({ message}: { message: string | undefined}) => void,
     setOpen: (arg: boolean) => void,
-    selectedservice: serviceObject
+    selectedservice: serviceObject | undefined
 }
 
 export default function Newcservice(propsIn: propsin) {
@@ -81,9 +81,10 @@ useEffect(()=>{
             })
 
     }
+
     return (
         <>
-            <DialogContent >
+            <DialogContent aria-describedby={undefined}>
                 <DialogHeader><DialogTitle>{propsIn.selectedservice ? "Labot pakalpojumu" : "Jauns pakalpojums"}</DialogTitle></DialogHeader>
                 <form onSubmit={handleSubmit(saveservice)}>
                     <div className="grid gap-4 py-4">
