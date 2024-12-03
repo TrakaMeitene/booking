@@ -42,9 +42,9 @@ export interface Service {
 
 export default function Services() {
   const router = useRouter()
-  const [services, setservices] = useState()
-  const [current, setCurrent] = useState(1)
-
+  const [services, setservices] = useState<Service[]>()
+  const [current, setCurrent] = useState<number>(1)
+  const [open, setOpen] = useState<boolean>(false)
 
   useEffect(() => {
     getdata()
@@ -54,7 +54,7 @@ export default function Services() {
     let token = Cookies.get('token')
 
     const headers = { 'Authorization': 'Bearer ' + token };
-    axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/getservices`, {current}, { headers })
+    axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/getservices`, { current }, { headers })
       .then(response => {
         setservices(response.data)
       })
@@ -98,8 +98,8 @@ export default function Services() {
   return (
     <main>
       <h1 className="text-3xl w-full border-b-2">Pakalpojumi</h1>
-      <Dialog>
-        <Newcservice getmessage={getmessage} />
+      <Dialog open={open} onOpenChange={(e) => setOpen(e)}>
+        <Newcservice getmessage={getmessage} setOpen={setOpen}/>
         <DialogTrigger asChild>
           <Button className="mt-2">  <Plus size={20} className="mr-2" />Jauns pakalpojums</Button>
         </DialogTrigger>
@@ -140,13 +140,13 @@ export default function Services() {
         </Table>
       </Dialog>
       <Pagination>
-                        <PaginationContent className="pagination flex-wrap w-full">
-                            {services?.links?.map((x:any, index: number) => <PaginationItem key={index}>
-                                <PaginationLink isActive={services?.current_page == x.label}  onClick={() => setCurrent(Number(x.label) ? Number(x.label) : x.label === "&laquo; Previous" ? prev : next)}>{x.label == "&laquo; Previous" ? "<" : x.label == "Next &raquo;" ? ">" : x.label}</PaginationLink>
-                            </PaginationItem>
-                            )}
-                        </PaginationContent>
-                    </Pagination>
+        <PaginationContent className="pagination flex-wrap w-full">
+          {services?.links?.map((x: any, index: number) => <PaginationItem key={index}>
+            <PaginationLink isActive={services?.current_page == x.label} onClick={() => setCurrent(Number(x.label) ? Number(x.label) : x.label === "&laquo; Previous" ? prev : next)}>{x.label == "&laquo; Previous" ? "<" : x.label == "Next &raquo;" ? ">" : x.label}</PaginationLink>
+          </PaginationItem>
+          )}
+        </PaginationContent>
+      </Pagination>
     </main>
   )
 }

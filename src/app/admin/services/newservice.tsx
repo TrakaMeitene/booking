@@ -12,9 +12,12 @@ import axios from "axios"
 import { useRouter } from 'next/navigation'
 import Cookies from "js-cookie";
 
+interface propsin {
+    getmessage: ({ message, type }: { message: string | undefined, type: string | undefined }) => void,
+    setOpen: (arg: boolean) => void
+}
 
-
-export default function Newcservice({getmessage}: {getmessage: ({message, type}: {message:string, type: string})=>void}) {
+export default function Newcservice(propsIn: propsin) {
     const [date, setDate] = useState<any>()
     const router = useRouter()
 
@@ -29,18 +32,21 @@ export default function Newcservice({getmessage}: {getmessage: ({message, type}:
         register,
         handleSubmit,
         watch,
+        reset,
         formState: { errors },
     } = useForm<Inputs>()
 
-    const saveservice: SubmitHandler<Inputs> = (data) => {   
-       {data.time ? data.time = date.getHours() * 60 + date.getMinutes() : data.time = 0  }
+    const saveservice: SubmitHandler<Inputs> = (data) => {
+        console.log(data)
+         data.time = date.getHours() * 60 + date.getMinutes() 
         let token = Cookies.get('token')
         data.price = data.price * 100
         const headers = { 'Authorization': 'Bearer ' + token };
         axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/addservice`, data, { headers })
             .then(response => {
-                getmessage({message: "Dati saglabāti veiksmīgi!"})
-
+                propsIn.getmessage({ message: "Dati saglabāti veiksmīgi!", type: "success" })
+                propsIn.setOpen(false)
+                reset()
             })
             .catch(function (error) {
                 if (error.response?.status == 401) {
@@ -60,18 +66,22 @@ export default function Newcservice({getmessage}: {getmessage: ({message, type}:
                             <Label htmlFor="name" className="text-right">
                                 Nosaukums *
                             </Label>
-                            <Input id="name" className="col-span-3"
-                                {...register("name")} required/>
+                            <Input id="name" className={`col-span-3 ${errors.name ? "error" : ""}`}
+                                {...register("name", { required: "This is required." })} />
 
                         </div>
+                        {errors.name && <div className="relative ml-28"><p></p><p className="text-xs">Lūdzu aizpildiet šo lauku</p></div>}
+
                         <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="price" className="text-right">
                                 Cena *
                             </Label>
-                            <Input id="price" type="number" className="col-span-3" step=".01" placeholder="0.00"
-                                {...register("price")} required/>
+                            <Input id="price" type="number" className={`col-span-3 ${errors.name ? "error" : ""}`} step=".01" placeholder="0.00"
+                                {...register("price", { required: "This is required." })} />
 
                         </div>
+                        {errors.price && <div className="relative ml-28"><p></p><p className="text-xs">Lūdzu aizpildiet šo lauku</p></div>}
+
                         <div className="flex flex-row items-center ml-16">
                             <Label htmlFor="phone" className="text-right mr-4 ">
                                 Ilgums *
@@ -109,9 +119,7 @@ export default function Newcservice({getmessage}: {getmessage: ({message, type}:
                     </div>
 
                     <DialogFooter>
-                        <DialogTrigger asChild>
-                            <Button type="submit" >Saglabāt</Button>
-                        </DialogTrigger>
+                        <Button type="submit" >Saglabāt</Button>
                     </DialogFooter>
                 </form>
 

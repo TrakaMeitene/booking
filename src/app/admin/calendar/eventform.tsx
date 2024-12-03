@@ -11,9 +11,7 @@ import moment from 'moment';
 import 'moment/locale/lv'
 import { TimePickerInput } from "@/components/ui/time-picker-input";
 import { useForm, SubmitHandler } from "react-hook-form"
-import {
-    DialogTrigger,
-} from "@/components/ui/dialog"
+
 import { Textarea } from "@/components/ui/textarea"
 import {
     Select,
@@ -35,7 +33,9 @@ interface prop {
     service: string | undefined,
     allservices: any,
     specialist: any,
-    getmessage: ({message}: {message: string|undefined}) => void,
+    getmessage: ({message, type}: {message: string|undefined, type: string|undefined}) => void,
+    open: boolean,
+    setOpenaddbooking: (arg: boolean)=>void
 }
 export default function Eventform(propsIn: prop) {
     const [date, setDate] = useState<Date | undefined>(new Date())
@@ -108,11 +108,12 @@ export default function Eventform(propsIn: prop) {
 
             .then(response => {
                 if (typeof response.data === "string") {
-                    propsIn.getmessage({message: response.data})
+                    propsIn.getmessage({message: response.data, type: "error"})
                 } else {
-                    propsIn.getmessage({message: "Dati saglabāti veiksmīgi"})
+                    propsIn.getmessage({message: "Dati saglabāti veiksmīgi", type: "success"})
                     itemtosave.booking = response.data.id
                     makeinvoice(itemtosave)
+                    propsIn.setOpenaddbooking(false)
                     propsIn.getdata()
                 }
             })
@@ -131,12 +132,30 @@ export default function Eventform(propsIn: prop) {
 
             .then(response => {
                if(response.data != ""){
-                propsIn.getmessage({message: "Rēķins izsūtīts!"})
+                propsIn.getmessage({message: "Rēķins izsūtīts!", type: "success"})
                }
             }
             )
     }
-console.log(propsIn.user)
+
+const changedate=(e:Date)=>{
+    if(date){
+    const hours = date.getHours();
+      const minutes = date.getMinutes();
+      const seconds = date.getSeconds();
+    
+    const updatedDate = new Date(
+        e.getFullYear(),
+        e.getMonth(),
+       e.getDate(),
+        hours,
+        minutes,
+        seconds
+      );
+      setDate(updatedDate)
+    }
+}
+
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
 
@@ -145,23 +164,28 @@ console.log(propsIn.user)
                     <Label htmlFor="name" className="text-right">
                         Klienta vārds *
                     </Label>
-                    <Input id="name" className="col-span-3" defaultValue={propsIn.user?.name} required disabled={propsIn.user?.name ? true: false}
-                        {...register("name")} />
+                    <Input id="name" className={`col-span-3 ${errors.name ? "error" : ""}`} defaultValue={propsIn.user?.name}  disabled={propsIn.user?.name ? true: false}
+                        {...register("name", { required: "This is required." })} />
 
                 </div>
-      
+                {errors.name && <div className="relative ml-28"><p></p><p className="text-xs">Lūdzu aizpildiet šo lauku</p></div>}
+
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="phone" className="text-right">
                         Telefona nr. *
                     </Label>
-                    <Input id="phone" type="phone" className="col-span-3"  {...register("phone")} defaultValue={propsIn.user?.phone} required disabled={propsIn.user?.phone ? true: false}/>
+                    <Input id="phone" type="phone" className={`col-span-3 ${errors.name ? "error" : ""}`}  {...register("phone", { required: "This is required." })} defaultValue={propsIn.user?.phone} disabled={propsIn.user?.phone ? true: false}/>
                 </div>
+                {errors.phone && <div className="relative ml-28"><p></p><p className="text-xs">Lūdzu aizpildiet šo lauku</p></div>}
+
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="email" className="text-right">
                         E-pasts *
                     </Label>
-                    <Input id="email" type="email" className="col-span-3"  {...register("email")} defaultValue={propsIn.user?.email} required disabled={propsIn.user?.email ? true: false}/>
+                    <Input id="email" type="email" className={`col-span-3 ${errors.name ? "error" : ""}`} {...register("email", { required: "This is required." })} defaultValue={propsIn.user?.email} disabled={propsIn.user?.email ? true: false}/>
                 </div>
+                {errors.email && <div className="relative ml-28"><p></p><p className="text-xs">Lūdzu aizpildiet šo lauku</p></div>}
+
                 <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="date" className="text-right">
                         Datums *
@@ -185,7 +209,7 @@ console.log(propsIn.user)
                             <Calendar
                                 mode="single"
                                 selected={date}
-                                onSelect={setDate}
+                                onSelect={changedate}
                                 initialFocus
                                 fromDate={new Date()}
                             />
@@ -252,9 +276,7 @@ console.log(propsIn.user)
                 </div>
             </div>
 {!selectedservice  && <div className="flex flex-col"><p className="text-xs">Jums nav pakalpojumu, izveidojiet tos spiežot uz saites</p><Link href="/admin/services" className="text-xs underline">šeit</Link></div>}
-                <DialogTrigger asChild>
                     <Button type="submit" disabled={!selectedservice ? true: false} >Saglabāt</Button>
-                </DialogTrigger>
             </>
         </form>
 

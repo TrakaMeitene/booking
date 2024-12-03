@@ -133,8 +133,8 @@ if(token){
   }
 
 
-  const getmessage = (message: { message: string | undefined }) => {
-    toast.success(message.message)
+  const getmessage = ({message, type}: { message: string | undefined, type: string|undefined }) => {
+    if(type === "error") {toast.error(message)}else{ toast.success(message)}
 }
 
 const getuser = () => {
@@ -161,7 +161,7 @@ const getuser = () => {
             <DialogTitle className="sm:text-center">Jauns pieraksts</DialogTitle>
 
           </DialogHeader>
-          <Eventform  getdata={getdata} getmessage={getmessage} specialist={[user]} dateFrompage={undefined} user={undefined} service={undefined} allservices={undefined}/>
+          <Eventform  getdata={getdata} getmessage={getmessage} specialist={[user]} dateFrompage={undefined} user={undefined} service={undefined} allservices={undefined} open={openaddbooking} setOpenaddbooking={setOpenaddbooking}/>
 
         </DialogContent>
 
