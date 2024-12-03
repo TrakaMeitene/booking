@@ -15,7 +15,7 @@ import { Service } from "./page";
 import { serviceObject } from "../calendar/bookingdetails";
 
 interface propsin {
-    getmessage: ({ message}: { message: string | undefined}) => void,
+    getmessage: ({ message, type}: { message: string | undefined; type: string}) => void,
     setOpen: (arg: boolean) => void,
     selectedservice: serviceObject | undefined
 }
@@ -70,7 +70,7 @@ useEffect(()=>{
         const headers = { 'Authorization': 'Bearer ' + token };
         axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/addservice`, data, { headers })
             .then(response => {
-                propsIn.getmessage({ message: "Dati saglabāti veiksmīgi!"})
+                propsIn.getmessage({ message: "Dati saglabāti veiksmīgi!", type: "success"})
                 propsIn.setOpen(false)
                 reset({})
             })

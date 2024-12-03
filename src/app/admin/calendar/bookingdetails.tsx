@@ -29,7 +29,13 @@ export interface serviceObject {
     user: number
 }
 
-export default function Bookingdetails({ data }: { data: Booking | undefined }) {
+interface propsin{
+    data: Booking |undefined,
+    setOpen: (arg:boolean)=>void,
+    getdata: ()=>void
+}
+
+export default function Bookingdetails(propsin: propsin) {
     type Inputs = {
         itemid: number | undefined;
         cancelreason: string,
@@ -52,7 +58,7 @@ export default function Bookingdetails({ data }: { data: Booking | undefined }) 
     useEffect(() => {
         if(token){
         const headers = { 'Authorization': 'Bearer ' + token };
-        axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/getservicebyid`, data, { headers })
+        axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/getservicebyid`, propsin.data, { headers })
             .then(response => setservice(response.data))
             .then(resp => getuser())
             .catch(function (error) {
@@ -63,7 +69,7 @@ export default function Bookingdetails({ data }: { data: Booking | undefined }) 
         }else{
             router.push('/')
         }
-    }, [data])
+    }, [propsin.data])
 
     const getuser = () => {
 
@@ -80,11 +86,13 @@ export default function Bookingdetails({ data }: { data: Booking | undefined }) 
     const save: SubmitHandler<Inputs> = (cancellation) => {
         const headers = { 'Authorization': 'Bearer ' + token };
 
-        cancellation.itemid = data?.id
+        cancellation.itemid = propsin.data?.id
         axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/cancelbooking`, cancellation, { headers })
             .then(response => {
                 if (response.statusText == "OK") {
                     toast.success('Dati saglabāti veiksmīgi!')
+                    propsin.setOpen(false)
+                    propsin.getdata()
                 } else {
                     toast.error('Kaut kas nogāja greizi!')
                 }
@@ -94,6 +102,7 @@ export default function Bookingdetails({ data }: { data: Booking | undefined }) 
 
     const clientvisited = () => {
         const headers = { 'Authorization': 'Bearer ' + token };
+        let data = propsin.data
 
         axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/clientvisited`, { data }, { headers })
             .then(response => {
@@ -105,11 +114,11 @@ export default function Bookingdetails({ data }: { data: Booking | undefined }) 
         <DialogContent className="max-w-[450px] flex items-center justify-center flex-col ">
             <DialogHeader className="text-center sm:text-center">
                 <DialogTitle>Pieraksta detaļas</DialogTitle>
-                <DialogDescription>{moment(data?.date).format('HH:mm  dddd, Do MMMM YYYY')}</DialogDescription>
+                <DialogDescription>{moment(propsin.data?.date).format('HH:mm  dddd, Do MMMM YYYY')}</DialogDescription>
             </DialogHeader>
-            <h1>{data?.title}</h1>
+            <h1>{propsin.data?.title}</h1>
             <p>{service?.name}</p>
-            <p className="text-xs">{data?.description}</p>
+            <p className="text-xs">{propsin.data?.description}</p>
             <div className="flex flex-row w-full place-content-evenly">
                 <Dialog>
                     <DialogContent >

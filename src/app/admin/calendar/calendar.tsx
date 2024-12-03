@@ -20,6 +20,7 @@ import { Plus } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import { Booking, User } from "./page";
 import { toast } from "sonner";
+import { Message } from "../profile/page";
 
 
 interface vacation{
@@ -133,8 +134,9 @@ if(token){
   }
 
 
-  const getmessage = ({message, type}: { message: string | undefined, type: string|undefined }) => {
-    if(type === "error") {toast.error(message)}else{ toast.success(message)}
+  const getmessage = (message: string, type: string) => {
+    console.log(message)
+    if(message.type === "error") {toast.error(message.message)}else{ toast.success(message.message)}
 }
 
 const getuser = () => {
@@ -165,7 +167,6 @@ const getuser = () => {
 
         </DialogContent>
 
-        {/* <DialogTrigger asChild > */}
           <Button
             variant="default"
             className="mb-2"
@@ -173,7 +174,6 @@ const getuser = () => {
           >
             <Plus size={20} /> Jauns pieraksts
           </Button>
-        {/* </DialogTrigger> */}
 
       </Dialog>
       <Calendar
@@ -199,7 +199,7 @@ const getuser = () => {
           }
         }}
       />
-      <Dialog open={open} onOpenChange={(event) => setOpen(event)}> <Bookingdetails data={item} /> </Dialog>
+      <Dialog open={open} onOpenChange={(event) => setOpen(event)}> <Bookingdetails data={item} setOpen={setOpen} getdata={getdata}/> </Dialog>
       <Dialog open={addevent} onOpenChange={(event) => setaddevenetopen(event)}><Addbreak data={slotitems} close={closedialog} getmessage={getmessage} /></Dialog>
 
     </div>
