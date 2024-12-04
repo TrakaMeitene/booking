@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
-import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
+import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon } from "lucide-react";
@@ -11,7 +11,7 @@ import moment from 'moment';
 import 'moment/locale/lv'
 import { TimePickerInput } from "@/components/ui/time-picker-input";
 import { useForm, SubmitHandler } from "react-hook-form"
-
+import { lv } from "date-fns/locale";
 import { Textarea } from "@/components/ui/textarea"
 import {
     Select,
@@ -122,7 +122,7 @@ export default function Eventform(propsIn: prop) {
                       };
                    propsIn.getmessage(newMessage)
                     itemtosave.booking = response.data.id
-                  //  makeinvoice(itemtosave)
+                    makeinvoice(itemtosave)
                    if(propsIn.close){ propsIn.close()}else {propsIn.setOpenaddbooking(false)}
                     
                     propsIn.getdata()
@@ -217,13 +217,19 @@ const changedate=(e:Date)=>{
                             </Button>
                         </PopoverTrigger>
                         <PopoverContent className="w-auto p-0">
+                        <PopoverClose>
+
                             <Calendar
                                 mode="single"
                                 selected={date}
                                 onSelect={changedate}
                                 initialFocus
                                 fromDate={new Date()}
+                                locale={lv}
+                                className="opacity-100"
                             />
+                            </PopoverClose>
+
                         </PopoverContent>
                     </Popover>
 
