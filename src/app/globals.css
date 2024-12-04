@@ -91,11 +91,16 @@ body{
   }
 }
 
-#personpage, #homefirst{
+ #homefirst{
   min-height: 80svh;
 justify-content: start;
 }
 
+#personpage{
+  min-height: 100dvh;
+  justify-content: start;
+
+}
 
 .homenav{
   padding: 10px 40px;

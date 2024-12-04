@@ -142,8 +142,8 @@ let id = pathname.slice(12, 13)
         setEventFormOpen(false)
     }
 
-    const getmessage = (message: string) => {
-        toast.success(message)
+    const getmessage = (message: string, type: string) => {
+        if(message.type === "success") { toast.success(message.message)} else {toast.error(message.message)}
     }
 const isToday = moment(today).format("DD,MM,YYYY") === moment(new Date()).format("DD,MM,YYYY")
     return (
