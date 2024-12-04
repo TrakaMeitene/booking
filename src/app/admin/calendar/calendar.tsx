@@ -61,7 +61,7 @@ if(token){
   }, [item])
 
   const localizer = momentLocalizer(moment)
-  const lang: { week: string, work_week: string, day: string, month: string, previous: string, next: string, today: string, agenda: string, date: string, event:string, time:string } = {
+  const lang: { week: string, work_week: string, day: string, month: string, previous: string, next: string, today: string, agenda: string, date: string, event:string, time:string,  noEventsInRange: string } = {
     week: 'Nedēļa',
     work_week: 'Darba nedēļa',
     day: 'Diena',
@@ -72,7 +72,8 @@ if(token){
     agenda: 'Darba kārtība',
     date: 'Datums',
     event: 'Notikums',
-    time: "Laiks"
+    time: "Laiks",
+    noEventsInRange: "Šājā laika posmā nav notikumu."
   }
 
   const handleSelectEvent = useCallback(
