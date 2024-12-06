@@ -44,6 +44,7 @@ export default function Eventform(propsIn: prop) {
     const [services, setservices] = useState([])
     const [selectedservice, setSelectedservices] = useState<string>()
     const router = useRouter()
+    const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
     useEffect(() => {
         let token = Cookies.get('token')
@@ -165,6 +166,7 @@ const changedate=(e:Date)=>{
       );
       setDate(updatedDate)
     }
+    setIsCalendarOpen(false)
 }
 
     return (
@@ -201,7 +203,7 @@ const changedate=(e:Date)=>{
                     <Label htmlFor="date" className="text-right">
                         Datums *
                     </Label>
-                    <Popover>
+                    <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
                         <PopoverTrigger asChild>
                             <Button
                                 variant={"outline"}
@@ -217,8 +219,6 @@ const changedate=(e:Date)=>{
                             </Button>
                         </PopoverTrigger>
                         <PopoverContent className="w-auto p-0">
-                        <PopoverClose>
-
                             <Calendar
                                 mode="single"
                                 selected={date}
@@ -228,8 +228,6 @@ const changedate=(e:Date)=>{
                                 locale={lv}
                                 className="opacity-100"
                             />
-                            </PopoverClose>
-
                         </PopoverContent>
                     </Popover>
 

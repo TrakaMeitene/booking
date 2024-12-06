@@ -8,7 +8,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog"
 import Bookingdetails from "./bookingdetails";
 import Eventform from "./eventform";
@@ -20,7 +19,6 @@ import { Plus } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import { Booking, User } from "./page";
 import { toast } from "sonner";
-import { Message } from "../profile/page";
 
 
 interface vacation{
@@ -34,6 +32,7 @@ user: number
 
 export default function Calendarview({ data }: any) {
   const dayLayoutAlgorithm = 'no-overlap'
+  const [key, setKey] = useState(0); // Key for forcing re-render
 
   const [item, setItem] = useState()
   const [open, setOpen] = useState<boolean>(false)
@@ -44,10 +43,13 @@ export default function Calendarview({ data }: any) {
   const [bookings, setbookings] = useState<Booking[]>()
   const [openaddbooking, setOpenaddbooking] = useState<boolean>(false)
 const [user, setUser] = useState<User>()
+const [view, setView] = useState('month')
 
   const router = useRouter()
 
   useEffect(() => {
+    setKey((prev) => prev + 1);
+
     let token = Cookies.get('token')
 if(token){
     if (item) {
@@ -77,26 +79,30 @@ if(token){
   }
 
   const handleSelectEvent = useCallback(
+  
     (event: any) => setItem(event), []
   )
 
-  const onSelectSlot = useCallback((slotInfo: any) => {
-    /**
-     * Here we are waiting 250 milliseconds prior to firing
-     * our method. Why? Because both 'click' and 'doubleClick'
-     * would fire, in the event of a 'doubleClick'. By doing
-     * this, the 'click' handler is overridden by the 'doubleClick'
-     * action.
-     */
-    setaddevenetopen(true)
-    setslotitems(slotInfo.slots)
-  }, [])
+  // const onSelectSlot = useCallback((slotInfo: any) => {
+ 
+
+  //   /**
+  //    * Here we are waiting 250 milliseconds prior to firing
+  //    * our method. Why? Because both 'click' and 'doubleClick'
+  //    * would fire, in the event of a 'doubleClick'. By doing
+  //    * this, the 'click' handler is overridden by the 'doubleClick'
+  //    * action.
+  //    */
+  //   setaddevenetopen(true)
+  //   setslotitems(slotInfo.slots)
+  // }, [])
 
   const closedialog = () => {
     setaddevenetopen(false)
   }
 
   const onRangeChange = useCallback((range: any) => {
+    console.log('ienak data get ')
     setrange(range)
     let token = Cookies.get('token')
     const headers = { 'Authorization': 'Bearer ' + token };
@@ -136,7 +142,6 @@ if(token){
 
 
   const getmessage = (message: string, type: string) => {
-    console.log(message)
     if(message.type === "error") {toast.error(message.message)}else{ toast.success(message.message)}
 }
 
@@ -155,8 +160,10 @@ const getuser = () => {
       })
 }
 
+const onView = useCallback((newView) => setView(newView), [setView])
 
-  return (
+return (
+    <>
     <div style={{ height: "800px" }} className="w-full mb-4">
       <Dialog open={openaddbooking} onOpenChange={(event) => setOpenaddbooking(event)} >
         <DialogContent className="sm:max-w-[425px] sm:text-center">
@@ -177,7 +184,9 @@ const getuser = () => {
           </Button>
 
       </Dialog>
+
       <Calendar
+      key={key}
       dayLayoutAlgorithm={dayLayoutAlgorithm}
         messages={lang}
         localizer={localizer}
@@ -187,22 +196,23 @@ const getuser = () => {
         startAccessor="date"
         endAccessor="end"
         onSelectEvent={handleSelectEvent}
-        selectable
-        onSelectSlot={onSelectSlot}
+        //selectable={view == "month"}
+       // onSelectSlot={onSelectSlot}
         onRangeChange={onRangeChange}
-
+       //onView={onView}
+       // view={view}
         dayPropGetter={(event) => {
-          const hasTodo = vacation?.find((item: any) => new Date(item.date).toLocaleDateString() == new Date(event).toLocaleDateString())
+          const isFree = vacation?.find((item: any) => new Date(item.date).toLocaleString() == new Date(event).toLocaleString())
           return {
             style: {
-              backgroundColor: hasTodo ? "hsl(115, 100%, 90%)" : "white",
+              backgroundColor: isFree ? "hsl(115, 100%, 90%)" : "white",
             },
           }
         }}
       />
       <Dialog open={open} onOpenChange={(event) => setOpen(event)}> <Bookingdetails data={item} setOpen={setOpen} getdata={getdata}/> </Dialog>
-      <Dialog open={addevent} onOpenChange={(event) => setaddevenetopen(event)}><Addbreak data={slotitems} close={closedialog} getmessage={getmessage} /></Dialog>
 
     </div>
+    </>
   )
 }

@@ -84,12 +84,15 @@ body{
   min-height: 100vh;
   ::-webkit-scrollbar {
     width: 5px;
+    height: 5px;
   }
   ::-webkit-scrollbar-thumb {
     background: #b8b7b7; 
     border-radius: 20px;
   }
 }
+
+
 
  #homefirst{
   min-height: 80svh;
