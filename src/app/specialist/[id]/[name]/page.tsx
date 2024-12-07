@@ -128,7 +128,6 @@ let id = pathname.slice(12, 13)
     const nextrange = () => {
         setToday(new Date(today.getFullYear(), today.getMonth(), today.getDate() + length))
         setRangened(new Date(rangeEnd.getFullYear(), rangeEnd.getMonth(), rangeEnd.getDate() + length))
-        console.log(new Date(today.getFullYear(), today.getMonth(), today.getDate() + length))
         if(selectedservice) gettimes()
     }
 
@@ -146,6 +145,8 @@ let id = pathname.slice(12, 13)
         if(message.type === "success") { toast.success(message.message)} else {toast.error(message.message)}
     }
 const isToday = moment(today).format("DD,MM,YYYY") === moment(new Date()).format("DD,MM,YYYY")
+
+console.log(times)
     return (
         <>
             <Nav />

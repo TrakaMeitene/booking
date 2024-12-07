@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/dialog"
 import Bookingdetails from "./bookingdetails";
 import Eventform from "./eventform";
-import Addbreak from "./addbreak";
 import axios from "axios"
 import Cookies from "js-cookie";
 import { useRouter } from 'next/navigation'
@@ -32,23 +31,19 @@ user: number
 
 export default function Calendarview({ data }: any) {
   const dayLayoutAlgorithm = 'no-overlap'
-  const [key, setKey] = useState(0); // Key for forcing re-render
 
   const [item, setItem] = useState()
   const [open, setOpen] = useState<boolean>(false)
-  const [addevent, setaddevenetopen] = useState<boolean>(false)
-  const [slotitems, setslotitems] = useState()
   const [vacation, setvacation] = useState<vacation>()
   const [range, setrange] = useState()
   const [bookings, setbookings] = useState<Booking[]>()
   const [openaddbooking, setOpenaddbooking] = useState<boolean>(false)
 const [user, setUser] = useState<User>()
-const [view, setView] = useState('month')
 
   const router = useRouter()
 
   useEffect(() => {
-    setKey((prev) => prev + 1);
+   // setKey((prev) => prev + 1);
 
     let token = Cookies.get('token')
 if(token){
@@ -83,26 +78,10 @@ if(token){
     (event: any) => setItem(event), []
   )
 
-  // const onSelectSlot = useCallback((slotInfo: any) => {
- 
 
-  //   /**
-  //    * Here we are waiting 250 milliseconds prior to firing
-  //    * our method. Why? Because both 'click' and 'doubleClick'
-  //    * would fire, in the event of a 'doubleClick'. By doing
-  //    * this, the 'click' handler is overridden by the 'doubleClick'
-  //    * action.
-  //    */
-  //   setaddevenetopen(true)
-  //   setslotitems(slotInfo.slots)
-  // }, [])
-
-  const closedialog = () => {
-    setaddevenetopen(false)
-  }
 
   const onRangeChange = useCallback((range: any) => {
-    console.log('ienak data get ')
+    console.log("te")
     setrange(range)
     let token = Cookies.get('token')
     const headers = { 'Authorization': 'Bearer ' + token };
@@ -160,8 +139,6 @@ const getuser = () => {
       })
 }
 
-const onView = useCallback((newView) => setView(newView), [setView])
-
 return (
     <>
     <div style={{ height: "800px" }} className="w-full mb-4">
@@ -186,8 +163,6 @@ return (
       </Dialog>
 
       <Calendar
-      key={key}
-      dayLayoutAlgorithm={dayLayoutAlgorithm}
         messages={lang}
         localizer={localizer}
         defaultView="day"
@@ -196,11 +171,7 @@ return (
         startAccessor="date"
         endAccessor="end"
         onSelectEvent={handleSelectEvent}
-        //selectable={view == "month"}
-       // onSelectSlot={onSelectSlot}
         onRangeChange={onRangeChange}
-       //onView={onView}
-       // view={view}
         dayPropGetter={(event) => {
           const isFree = vacation?.find((item: any) => new Date(item.date).toLocaleString() == new Date(event).toLocaleString())
           return {
