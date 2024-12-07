@@ -95,7 +95,7 @@ export default function InvoiceTable({ scope }: {scope: string}) {
 
     return (
         <>
-            <Card className="w-[1085px] mt-2 p-4 card">
+            <Card className="w-[1085px] mt-2 p-4 card invoices">
                 <CardHeader>
 
                     <CardTitle>Tavi rēķini</CardTitle>
