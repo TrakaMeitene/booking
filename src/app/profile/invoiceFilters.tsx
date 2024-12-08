@@ -22,7 +22,8 @@ const usePrevious = (value: string | number ) => {
 interface props{
 getdata: ( month: number, prevMonth: number, type: string, prevType: string, status: string, prevStatus: string)=>void,
 scope: string,
-page: number
+page: number,
+forcereload: boolean
 }
 
 export default function Invoicefilters(props: props) {
@@ -37,7 +38,7 @@ export default function Invoicefilters(props: props) {
 
   useEffect(() => {
     props.getdata(months.indexOf(month!) + 1, months.indexOf(prevMonth!) + 1, type, prevType!, status, prevStatus!)
-  }, [month, props.page, type, status])
+  }, [month, props.page, type, status, props.forcereload])
 
   const months = [
     'Janvāris',

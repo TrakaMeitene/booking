@@ -35,14 +35,15 @@ import {
 import { Download } from "lucide-react";
 import Invoicefilters from "./invoiceFilters";
 import { invoice } from "../admin/partscomponents/searchcard";
+import { toast } from "sonner"
 
-export default function InvoiceTable({ scope }: {scope: string}) {
+export default function InvoiceTable({ scope }: { scope: string }) {
     const [data, setData] = useState<any>()
     const router = useRouter()
     const [current, setCurrent] = useState(1)
+    const [forcereload, setForcereload] = useState(false)
 
-
-    const getdata = (month: number, prevmonth: number, type: string, prevType: string, status: string, prevStatus: string) => {
+    const getdata = (month: number | undefined, prevmonth: number | undefined, type: string | undefined, prevType: string | undefined, status: string | undefined, prevStatus: string | undefined) => {
         let token = Cookies.get('token')
         const headers = { 'Authorization': 'Bearer ' + token };
         const endpoint = scope === "all" ? "getCustomerInvoices" : "getSpecialistInvoices"
@@ -81,7 +82,8 @@ export default function InvoiceTable({ scope }: {scope: string}) {
 
         axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/updateInvoice`, invoice, { headers })
             .then(response => {
-                setData(response.data)
+                toast.success(response.data?.status)
+                setForcereload(true)
             })
             .catch(function (error) {
                 if (error.response.status == 401) {
@@ -101,7 +103,7 @@ export default function InvoiceTable({ scope }: {scope: string}) {
                     <CardTitle>Tavi rēķini</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <Invoicefilters getdata={getdata} scope={scope} page={current}/>
+                    <Invoicefilters getdata={getdata} scope={scope} page={current} forcereload={forcereload}/>
                     <Table className="max-h-[750px] mt-4">
                         <TableCaption>Saraksts ar Jums adresētiem rēķiniem.</TableCaption>
                         <TableHeader>
@@ -118,7 +120,7 @@ export default function InvoiceTable({ scope }: {scope: string}) {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {data?.data?.map((x:any) => (
+                            {data?.data?.map((x: any) => (
                                 <TableRow key={x.id} className={x.status === "cancelled" ? "bg-amber-500" : ""}>
                                     <TableCell>{x.serial_number}</TableCell>
                                     <TableCell>{moment(x.created_at).format("DD.MM.yyyy HH:mm")}</TableCell>
@@ -129,7 +131,7 @@ export default function InvoiceTable({ scope }: {scope: string}) {
                                     <TableCell className="text-right">{x.status === "cancelled" ? "Anulēts" : x.status === "paid" ? "Apmaksāts" : "Neapmaksāts"}</TableCell>
 
                                     <TableCell><div className="flex flex-row">
-                                       {x.invoice && <TooltipProvider>
+                                        {x.invoice && <TooltipProvider>
                                             <Tooltip>
                                                 <TooltipTrigger onClick={() => { getinvoice(x) }}>
                                                     <Download />
@@ -149,7 +151,7 @@ export default function InvoiceTable({ scope }: {scope: string}) {
                     <Pagination>
                         <PaginationContent className="pagination flex-wrap w-full">
                             {data?.links?.map((x: any, index: number) => <PaginationItem key={index}>
-                                <PaginationLink isActive={data?.current_page == x.label}  onClick={() => setCurrent(Number(x.label) ? Number(x.label) : x.label === "&laquo; Previous" ? prev : next)}>{x.label == "&laquo; Previous" ? "<" : x.label == "Next &raquo;" ? ">" : x.label}</PaginationLink>
+                                <PaginationLink isActive={data?.current_page == x.label} onClick={() => setCurrent(Number(x.label) ? Number(x.label) : x.label === "&laquo; Previous" ? prev : next)}>{x.label == "&laquo; Previous" ? "<" : x.label == "Next &raquo;" ? ">" : x.label}</PaginationLink>
                             </PaginationItem>
                             )}
                         </PaginationContent>
