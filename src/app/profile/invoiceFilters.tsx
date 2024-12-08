@@ -8,6 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { Button } from "@/components/ui/button";
 
 
 const usePrevious = (value: string | number ) => {
@@ -111,7 +112,7 @@ export default function Invoicefilters(props: props) {
           </SelectGroup>
         </SelectContent>
       </Select>
-
+<Button onClick={()=>setMonth(months[new Date().getMonth()])}>Šis mēnesis</Button>
     </div>
   )
 }
