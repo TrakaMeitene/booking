@@ -43,12 +43,12 @@ export default function InvoiceTable({ scope }: { scope: string }) {
     const [current, setCurrent] = useState(1)
     const [forcereload, setForcereload] = useState(false)
 
-    const getdata = (month: number | undefined, prevmonth: number | undefined, type: string | undefined, prevType: string | undefined, status: string | undefined, prevStatus: string | undefined) => {
+    const getdata = (month: number | undefined, prevmonth: number | undefined, type: string | undefined, prevType: string | undefined, status: string | undefined, prevStatus: string | undefined, selectedyear: string) => {
         let token = Cookies.get('token')
         const headers = { 'Authorization': 'Bearer ' + token };
         const endpoint = scope === "all" ? "getCustomerInvoices" : "getSpecialistInvoices"
 
-        axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/${endpoint}`, { month, current, prevmonth, type, prevType, status, prevStatus }, { headers })
+        axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/${endpoint}`, { month, current, prevmonth, type, prevType, status, prevStatus, selectedyear }, { headers })
             .then(response => {
                 setData(response.data)
             })
@@ -103,7 +103,7 @@ export default function InvoiceTable({ scope }: { scope: string }) {
                     <CardTitle>Tavi rēķini</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <Invoicefilters getdata={getdata} scope={scope} page={current} forcereload={forcereload}/>
+                    <Invoicefilters getdata={getdata} scope={scope} page={current} forcereload={forcereload} />
                     <Table className="max-h-[750px] mt-4">
                         <TableCaption>Saraksts ar Jums adresētiem rēķiniem.</TableCaption>
                         <TableHeader>
