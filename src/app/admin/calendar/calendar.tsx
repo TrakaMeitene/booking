@@ -81,7 +81,6 @@ if(token){
 
 
   const onRangeChange = useCallback((range: any) => {
-    console.log("te")
     setrange(range)
     let token = Cookies.get('token')
     const headers = { 'Authorization': 'Bearer ' + token };

@@ -11,6 +11,8 @@ import {
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
+import { setYear } from "date-fns";
 
 const usePrevious = (value: string | number) => {
   const ref = useRef();
@@ -28,19 +30,21 @@ interface props {
   forcereload: boolean
 }
 const yearslist = [
-  "2024",
-  "2023"
+  2024,
+  2023
 ]
+
 export default function Invoicefilters(props: props) {
 
   const [month, setMonth] = useState<string>("")
-  const [type, setType] = useState('Ieņēmumi/izdevumi')
-  const [status, setStatus] = useState('Visi')
+  const [type, setType] = useState<string>('Ieņēmumi/izdevumi')
+  const [status, setStatus] = useState<string>('Visi')
   const prevMonth = usePrevious(month);
   const prevType = usePrevious(type);
   const prevStatus = usePrevious(status);
-  const [years, setYears] = useState(yearslist)
-  const [selectedyear, setSelectedyear] = useState<string>("2024")
+  const [years, setYears] = useState<string[]>(yearslist)
+  const [selectedyear, setSelectedyear] = useState<string | number>(new Date().getFullYear())
+const router = useRouter()
 
   useEffect(() => {
     props.getdata(months.indexOf(month!) + 1, months.indexOf(prevMonth!) + 1, type, prevType!, status, prevStatus!, selectedyear)
@@ -85,11 +89,18 @@ export default function Invoicefilters(props: props) {
       })
       .catch(function (error) {
         if (error.response.status == 401) {
-          //return router.push('/login')
+          return router.push('/login')
         }
       })
   }
-  console.log(years)
+
+  const clearfilters=()=>{
+    setMonth("")
+    setStatus('Visi')
+    setType('Ieņēmumi/izdevumi')
+    setSelectedyear(new Date().getFullYear())
+  }
+
   return (
     <div className="flex flex-row">
       <Select value={month} onValueChange={(value) => {
@@ -147,8 +158,8 @@ export default function Invoicefilters(props: props) {
           </SelectGroup>
         </SelectContent>
       </Select>
+      <Button onClick={clearfilters} variant="outline" className="mr-2">Noņemt filtrus</Button>
 
-      <Button onClick={() => setMonth(months[new Date().getMonth()])}>Šis mēnesis</Button>
     </div>
   )
 }

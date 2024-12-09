@@ -72,8 +72,8 @@ export default function Searchcard(props: props) {
     }
 
     return (
-        <span ref={modalRef} className="absolute w-[400px] top-[7%] max-h-[500px] overflow-y-scroll">
-            {props.response?.length > 0 && <Card  >
+        <span ref={modalRef} className="absolute w-[400px] top-[7%] max-h-[500px] overflow-y-scroll ">
+            {props.response?.length > 0 && <Card className="border-2" >
                 <CardContent>
                     {props.response[0]?.clients.map(x => <div key={x.id} className="border-b-2">
                         <h1 className="font-medium">Klienti</h1>

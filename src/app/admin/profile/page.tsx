@@ -94,7 +94,6 @@ export default function Profile() {
     };
 
     const updateuser = (data: FormValues) => {
-        console.log(dirtyFields)
         const formData = new FormData();
         data.urlname = data.name.toLocaleLowerCase('tr').replace(/ /g, "-")
 

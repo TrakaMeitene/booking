@@ -22,10 +22,10 @@ import axios from "axios";
 import { toast } from "sonner";
 
 export default function Newinvoice({ close }: {close: ()=>void}) {
-    const [date, setDate] = useState<any>(new Date())
+    const [date, setDate] = useState<Date>(new Date())
     const [paydate, setPaydate] = useState<Date>()
     const [file, setFile] = useState()
-    const [selectedservice, setSelectedservices] = useState("")
+    const [selectedservice, setSelectedservices] = useState<string>("")
     const {
         register,
         handleSubmit,
@@ -154,7 +154,7 @@ export default function Newinvoice({ close }: {close: ()=>void}) {
 
                 <div className="flex items-center mt-2 ">
                     <Label htmlFor="minutes" className="text-sm mr-4 ">
-                        Darījuma partneris
+                        Darījuma partneris *
                     </Label>
                     <Input type="text"  {...register("partner")} required/>
                 </div>

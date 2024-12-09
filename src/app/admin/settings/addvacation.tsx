@@ -32,7 +32,6 @@ const router = useRouter()
 const operations=(date: Date)=>{
     setstartDate(date)
     setendDate(moment(date).add(1, 'days'))
-    console.log("teatnak")
      setIsCalendarOpen(false)
 }
 
@@ -45,7 +44,7 @@ data.end = enddate
 
     const headers = { 'Authorization': 'Bearer ' + token };
     axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/savevacation`, data, { headers })
-        .then(response =>{ console.log(response)
+        .then(response =>{ 
             props.setTab("Brīvdienas")
             if(response.data.length > 0){
            props.getmessage({message: "Dati saglabāti veiksmīgi!"})

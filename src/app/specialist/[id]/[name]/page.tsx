@@ -146,7 +146,6 @@ let id = pathname.slice(12, 13)
     }
 const isToday = moment(today).format("DD,MM,YYYY") === moment(new Date()).format("DD,MM,YYYY")
 
-console.log(times)
     return (
         <>
             <Nav />
@@ -194,9 +193,9 @@ console.log(times)
                     <div className="max-[390px]:w-[90%] flex max-[390px]:items-start min-h-72 items-start">
                         <div className="flex flex-row mt-4 w-full items-center justify-center max-[390px]:items-left">
 
-                            {times?.map((x, index) =>
+                            { times?.map((x, index) =>
                                 <div key={index} className={`flex flex-col w-[70px]  h-[30px] mr-2 text-center mb-4 font-bold ${x.isDayFree || x.isDayVacation ? "" : "text-red-600"}`}>{weekdays[new Date(x.date).getUTCDay()]}
-                                    <div className="font-light text-sm">{new Date(x.date).getDate()}.{new Date(x.date).getMonth() + 1}</div>
+                                   {x.interval && <div className="font-light text-sm">{new Date(x.date).getDate()}.{new Date(x.date).getMonth() + 1}</div> }
                                     <Dialog open={eventFormOpen}
                                         onOpenChange={(e) => setEventFormOpen(e)}
                                     >
@@ -214,11 +213,11 @@ console.log(times)
                                         <DialogTrigger asChild >
 
 
-                                            <div className="" >{x.interval.map(y => <button key={y} className="border-solid border-black border mt-2 p-1.5 rounded-md	w-[70px] hover:bg-stone-400 font-normal" onClick={() => getDate(y)} disabled={!x.isDayFree}>{moment(y).format("HH:mm")}</button>)}
-                                            </div>
+                                            {x.interval ? <div className="" >{x.interval?.map(y => <button key={y} className="border-solid border-black border mt-2 p-1.5 rounded-md	w-[70px] hover:bg-stone-400 font-normal" onClick={() => getDate(y)} disabled={!x.isDayFree}>{moment(y).format("HH:mm")}</button>)} 
+                                            </div> : <h1>Pieraksts aizvērts!</h1>}
                                         </DialogTrigger>
                                     </Dialog>
-                                </div>)}
+                                </div>) }
 
                         </div>
                     </div>
