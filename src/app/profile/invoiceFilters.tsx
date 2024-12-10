@@ -85,7 +85,7 @@ const router = useRouter()
 
     axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/getyearsofbills`, {}, { headers })
       .then(response => {
-        setYears(response.data)
+        setYears(response.data.length == 0 ? [new Date().getFullYear()] : response.data)
       })
       .catch(function (error) {
         if (error.response.status == 401) {

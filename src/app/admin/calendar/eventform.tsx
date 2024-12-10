@@ -123,7 +123,7 @@ export default function Eventform(propsIn: prop) {
                       };
                    propsIn.getmessage(newMessage)
                     itemtosave.booking = response.data.id
-                    makeinvoice(itemtosave)
+                   makeinvoice(itemtosave)
                    if(propsIn.close){ propsIn.close()}else {propsIn.setOpenaddbooking(false)}
                     
                     propsIn.getdata()
@@ -212,7 +212,7 @@ const changedate=(e:Date)=>{
                                     !date && "text-muted-foreground"
 
                                 )}
-                                readOnly= {propsIn.dateFrompage ? true : false}
+                                disabled= {propsIn.dateFrompage ? true : false}
                             >
                                 <CalendarIcon className="mr-2 h-4 w-4" />
                                 {date ? moment(date).format('dddd, Do MMMM YYYY') : <span>Pick a date</span>}
@@ -244,7 +244,7 @@ const changedate=(e:Date)=>{
                             picker="hours"
                             date={date}
                             setDate={setDate}
-                            readOnly={propsIn.dateFrompage ? true : false}
+                            disabled={propsIn.dateFrompage ? true : false}
                         />
                     </div>
                     <div className="grid gap-1 ">
@@ -255,7 +255,7 @@ const changedate=(e:Date)=>{
                             picker="minutes"
                             date={date}
                             setDate={setDate}
-                            readOnly={propsIn.dateFrompage ? true : false}
+                            disabled={propsIn.dateFrompage ? true : false}
 
                         />
                     </div>
