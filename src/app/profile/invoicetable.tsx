@@ -110,7 +110,7 @@ export default function InvoiceTable({ scope }: { scope: string }) {
                             <TableRow>
                                 <TableHead>Rēķina nr.</TableHead>
                                 <TableHead>Izrakstīšanas datums</TableHead>
-                                <TableHead>{scope === "all" ? "Paklpojumu sniedzējs" : "Pakalpojuma saņēmējs"}</TableHead>
+                                <TableHead>{scope === "all" ? "Pakalpojumu sniedzējs" : "Pakalpojuma saņēmējs"}</TableHead>
                                 <TableHead>Pakalpojums</TableHead>
                                 <TableHead className="text-right">Apmaksas datums</TableHead>
                                 <TableHead className="text-right">Cena</TableHead>

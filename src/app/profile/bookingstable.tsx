@@ -82,7 +82,7 @@ export default function Bookingstable({user}: {user: User}) {
                     <TableHeader>
                         <TableRow>
                             <TableHead >Veikšanas datums</TableHead>
-                            <TableHead>Paklpojumu sniedzējs</TableHead>
+                            <TableHead>Pakalpojumu sniedzējs</TableHead>
                             <TableHead>Pakalpojums</TableHead>
                             <TableHead className="text-right">Vizītes datums</TableHead>
                             <TableHead className="text-right">Cena</TableHead>

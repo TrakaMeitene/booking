@@ -66,9 +66,8 @@ export default function Nav(){
         height={100}
         /></Link>
         <div>
-        <Button>
-          <Link href="/business">Biznesam</Link>
-        </Button>
+     
+          <Link href="/business">   <Button>Biznesam</Button></Link>
        {isLoggedin ? <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -91,7 +90,7 @@ export default function Nav(){
                 <DropdownMenuItem onClick={logout}>Izrakstīties</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            : <Button><Link href="/login">Ielogoties</Link></Button>}
+            : <Link href="/login"><Button>Ielogoties</Button></Link>}
             </div>
       </nav>
     )
