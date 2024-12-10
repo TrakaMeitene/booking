@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/dialog"
 import Link from "next/link";
 import { toast } from "sonner";
+import Custom404 from "@/app/not-found";
 
 interface Times {
     date: Date
@@ -118,8 +119,9 @@ let id = pathname.slice(12, 13)
     }
 
     if (!specialist[0]) {
-        return <Loading />
+        return <Custom404/>
     }
+
     const months = ["Janvāris", "Februāris", "Marts", "Aprīlis", "Maijs", "Jūnijs", "Jūlijs", "Augusts", "Septembris", "Oktobris", "Novembris", "Decembris"]
     const weekdays = ["P.", "O.", "T.", "C.", "Pk.", "S.", "Sv."]
 
