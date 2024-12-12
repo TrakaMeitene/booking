@@ -43,7 +43,6 @@ const [user, setUser] = useState<User>()
   const router = useRouter()
 
   useEffect(() => {
-   // setKey((prev) => prev + 1);
 
     let token = Cookies.get('token')
 if(token){
