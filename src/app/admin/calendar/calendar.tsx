@@ -155,6 +155,7 @@ return (
             variant="default"
             className="mb-2"
             onClick={() => setOpenaddbooking(true)}
+         //   id="welcome-message"
           >
             <Plus size={20} /> Jauns pieraksts
           </Button>

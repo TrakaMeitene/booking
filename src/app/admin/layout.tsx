@@ -2,15 +2,18 @@ import React from "react";
 import Aside from "./partscomponents/aside";
 import Footer from "./partscomponents/footer";
 
-export default function Layout({children,
+
+export default function Layout({ children,
 }: Readonly<{
   children: React.ReactNode;
-}>){
-    return(
-<>
-<Aside />
-{children}
+}>) {
+  console.log('te ')
+  return (
+    <>
 
-</>
-    )
+          <Aside />
+          {children}
+
+    </>
+  )
 }

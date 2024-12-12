@@ -3,7 +3,77 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner"
 import Footer from "./admin/partscomponents/footer";
+import { OnbordaProvider, Onborda } from 'onborda';
+import { CustomCard } from "../app/admin/customonboard";
 
+
+
+const steps = [
+  {
+    tour: "firsttour",
+    steps: [
+      {
+        icon: "👋",
+        title: "Sveicināti 'Pieraksts Pie' biznesa sistēmā!",
+        content: "Kalendāra sadaļā atradīsis klientu rezervācijas un varēsi pievienot jaunas!",
+        selector: "#welcome-message",
+        side: "right",
+        showControls: true,
+        pointerPadding: 10,
+        pointerRadius: 10,
+        nextRoute: '/admin/clients'
+      },
+      {
+        icon: "👋",
+        title: "Lai sāktu darbu!",
+        content: "Sadaļā 'Pakalpojumi' redzēsi sarakstu ar Jūsu piedāvātajiem pakalpojumiem!",
+        selector: "#step2",
+        side: "right",
+        showControls: true,
+        pointerPadding: 10,
+        pointerRadius: 10,
+        nextRoute: "/admin/services",
+        prevRoute: "/admin/clients"
+
+      },
+      {
+        title: "Izveido pakalpojumu!",
+        content: "Izveido jaunu pakalpojmu, lai klienti varētu pierakstīties!",
+        selector: "#step3",
+        side: "right",
+        showControls: true,
+        pointerPadding: 10,
+        pointerRadius: 10,
+          nextRoute: "/admin/settings",
+        prevRoute: "/admin/calendar"
+      },
+      {
+ 
+        title: "Uzstādījumi!",
+        content: "Saglabā darba laiku, pārtraukumu un brīvās dienas!",
+        selector: "#step4",
+        side: "top",
+        showControls: true,
+        pointerPadding: 15,
+        pointerRadius: 10,
+  nextRoute: "/admin/profile",
+        prevRoute: "/admin/services"
+      },
+      {
+
+        title: "Profils!",
+        content: "Saglabā datus, lai rēķinu informācija būtu korekta, ja esi maksas klients. Kā arī vārdu, aprakstu un saziņas datus redzēs Tavs klients! !",
+        selector: "#step5",
+        side: "bottom",
+        showControls: true,
+        pointerPadding: 15,
+        pointerRadius: 10,
+        prevRoute: "/admin/settings"
+
+      },
+    ]
+  }
+];
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -15,6 +85,7 @@ export const metadata: Metadata = {
 };
 
 
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -22,11 +93,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-     
+
       <body className={inter.className}>
-        {children}
-        <Toaster  richColors />
-        <Footer/>
+        <OnbordaProvider>
+          <Onborda steps={steps}
+            showOnborda={true}
+            shadowRgb="18,18,19"
+            shadowOpacity="0.5"
+             cardComponent={CustomCard}
+            cardTransition={{ duration: 2, type: "spring" }}>
+            {children}
+            <Toaster richColors />
+            <Footer />
+          </Onborda>
+        </OnbordaProvider>
       </body>
     </html>
   );

@@ -28,20 +28,26 @@ import { User } from "./header"
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { useOnborda } from "onborda";
 
 export default function Aside() {
   const pathname = usePathname()
   const [user, setUser] = useState<User>()
-const router = useRouter()
+  const [isFirstTime, setIsFirstTime] = useState<boolean>(true)
+  const { startOnborda, closeOnborda } = useOnborda()
+
+  const router = useRouter()
   useEffect(() => {
     let token = Cookies.get('token')
+    isFirstTimeIn()
 
-    if(token){
+    if (token) {
       getuser(token)
-      }else {router.push('/')}
+    } else { router.push('/') }
   }, [])
 
-  const getuser = (token:string) => {
+
+  const getuser = (token: string) => {
 
     const headers = { 'Authorization': 'Bearer ' + token };
     axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/user`, {}, { headers })
@@ -52,13 +58,25 @@ const router = useRouter()
       })
 
   }
+
+
+  const isFirstTimeIn = () => {
+    let token = Cookies.get('token')
+    const headers = { 'Authorization': 'Bearer ' + token };
+
+    axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/getonboardtime`, {}, { headers })
+      .then(response => 
+        { response.data.onboarder !== null ? setIsFirstTime(false) : startOnborda("firsttour") })
+  }
+
   const base = "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
   const active = "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8 bg-accent text-accent-foreground transition-colors"
+
   return (
     <TooltipProvider>
 
-      <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
-        <nav className="flex flex-col items-center gap-4 px-2 py-4">
+      <aside className="fixed inset-y-0 left-0  hidden w-14 flex-col border-r bg-background sm:flex" >
+        <nav className="flex flex-col items-center gap-4 px-2 py-4" >
           <Link
             href="/admin/calendar"
             className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base "
@@ -78,7 +96,8 @@ const router = useRouter()
                 href="/admin/calendar"
                 className={pathname === "/admin/calendar" ? active : base}
               >
-                <CalendarDays className="h-5 w-5" />
+                <CalendarDays className="h-5 w-5" id="welcome-message"
+                />
                 <span className="sr-only">Kalendārs</span>
               </Link>
             </TooltipTrigger>
@@ -102,7 +121,7 @@ const router = useRouter()
                 href="/admin/services"
                 className={pathname === "/admin/services" ? active : base}
               >
-                <Package className="h-5 w-5" />
+                <Package className="h-5 w-5" id="step2" />
                 <span className="sr-only">Pakalpojumi</span>
               </Link>
             </TooltipTrigger>
@@ -111,7 +130,7 @@ const router = useRouter()
           <Tooltip>
             <TooltipTrigger asChild>
               <Link
-                href={user?.abonament != "bezmaksas" ? "/admin/invoices": "/admin/update"}
+                href={user?.abonament != "bezmaksas" ? "/admin/invoices" : "/admin/update"}
                 className={pathname === "/admin/invoices" ? active : base}
               >
                 <ReceiptEuro className="h-5 w-5" />
@@ -132,7 +151,7 @@ const router = useRouter()
                 href="/admin/settings"
                 className={pathname === "/admin/settings" ? active : base}
               >
-                <Settings className="h-5 w-5" />
+                <Settings className="h-5 w-5" id="step4" />
                 <span className="sr-only">Uzstādījumi</span>
               </Link>
             </TooltipTrigger>
@@ -141,7 +160,7 @@ const router = useRouter()
         </nav>
       </aside>
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
-        <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
+        <header className="sticky top-0  flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
           <Header />
           <Sheet>
             <SheetTrigger asChild>
@@ -169,14 +188,15 @@ const router = useRouter()
                   href="/admin/calendar"
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                 >
-                  <CalendarDays className="h-5 w-5" />
+                  <CalendarDays className="h-5 w-5" id="welcome-message"
+                  />
                   Kalendārs
                 </Link>
                 <Link
                   href="/admin/clients"
                   className="flex items-center gap-4 px-2.5 text-foreground"
                 >
-                  <Users  className="h-5 w-5" />
+                  <Users className="h-5 w-5" />
                   Klienti
                 </Link>
                 <Link
@@ -187,10 +207,10 @@ const router = useRouter()
                   Pakalpojumi
                 </Link>
                 <Link
-                href={user?.abonament != "bezmaksas" ? "/admin/invoices": "/admin/update"}
-                className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                  href={user?.abonament != "bezmaksas" ? "/admin/invoices" : "/admin/update"}
+                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                 >
-                   {user?.abonament == "bezmaksas" && <Badge variant="destructive" className="absolute  translate-x-28	rounded-full  "><Star size={12} /></Badge>}
+                  {user?.abonament == "bezmaksas" && <Badge variant="destructive" className="absolute  translate-x-28	rounded-full  "><Star size={12} /></Badge>}
 
                   <Package className="h-5 w-5" />
                   Rēķini

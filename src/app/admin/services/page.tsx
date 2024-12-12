@@ -107,7 +107,7 @@ export default function Services() {
       <Dialog open={open} onOpenChange={(e) => {setOpen(e), setSelectedservice(undefined)}}>
         {open && <Newservice getmessage={getmessage} setOpen={setOpen} selectedservice={undefined}/>}
         <DialogTrigger asChild>
-          <Button className="mt-2">  <Plus size={20} className="mr-2" />Jauns pakalpojums</Button>
+          <Button className="mt-2" id="step3">  <Plus size={20} className="mr-2" />Jauns pakalpojums</Button>
         </DialogTrigger>
 
         <Table className="mt-4">

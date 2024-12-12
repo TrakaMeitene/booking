@@ -72,7 +72,7 @@ export default function Searchcard(props: props) {
     }
 
     return (
-        <span ref={modalRef} className="absolute w-[400px] top-[7%] max-h-[500px] overflow-y-scroll ">
+        <span ref={modalRef} className="absolute w-[400px] top-[7%] max-h-[500px] overflow-y-scroll " >
             {props.response?.length > 0 && <Card className="border-2" >
                 <CardContent>
                     {props.response[0]?.clients.map(x => <div key={x.id} className="border-b-2">
@@ -87,7 +87,7 @@ export default function Searchcard(props: props) {
                         <p className="text-sm">Partneris: {x.customer?.name}</p>
                         <p className="text-sm">Summa: {x.price.toFixed(2)} Eur</p>
                         <p className="text-sm">Statuss: {x.status === "cancelled" ? "Atcelts" : x.status === "paid" ? "Apmaksāts" : "Neapmaksāts"}</p>
-                        <p className="text-sm">Paklpojums: {x.service}</p>
+                        <p className="text-sm">Pakalpojums: {x.service}</p>
                         <div className=" flex flex-row w-full items-center mb-2"> <a href={x.invoice} target="_blank"><Download /></a>
                             <Button className="ml-4" onClick={() => statusspaid(x)} disabled={x.paid_date ? true : false}>Apmaksāts</Button>
                         </div>

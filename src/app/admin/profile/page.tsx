@@ -25,6 +25,9 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { toast } from 'sonner'
+import { useOnborda } from "onborda";
+
+
 export interface FormValues {
     name: string,
     personalnr: string,
@@ -55,6 +58,7 @@ export default function Profile() {
     const [selectedcity, setSelectedcity] = useState("Rīga")
     const [cities] = useState(["Rīga", "Daugavpils", "Jelgava", "Jēkabpils", "Jūrmala", "Liepāja", "Rēzekne", "Valmiera", "Ventspils", "Aizkraukles rajons", "Alūksnes rajons", "Balvu rajons", "Bauskas rajons", "Cēsu rajons", "Daugavpils rajons", "Dobeles rajons", "Gulbenes rajons", "Jēkabpils rajons", "Jelgavas rajons", "Krāslavas rajons", "Kuldīgas rajons", "Liepājas rajons", "Limbažu rajons", "Ludzas rajons", "Madonas rajons", "Ogres rajons", "Preiļu rajons", "Rēzeknes rajons", "Rīgas rajons", "Saldus rajons", "Talsu rajons", "Tukuma rajons", "Valkas rajons", "Valmieras rajons", "Ventspils rajons", "Ārpus Latvijas"])
     const [message, setMessage] = useState<Message>()
+    const { startOnborda, closeOnborda } = useOnborda();
 
     useEffect(() => {
         let token = Cookies.get('token')
@@ -122,6 +126,10 @@ export default function Profile() {
                     return router.push('/login')
                 }
             })
+    }
+
+    const options=()=>{
+        startOnborda("firsttour")
     }
 
     return (
@@ -287,6 +295,8 @@ export default function Profile() {
                     {user?.abonament === "bezmaksas" && <Button className="mt-2 ">Mainīt uz Biznesa plāns</Button>}
                     </CardContent>
             </Card>
+
+            <Button className="ml-2 mt-2" onClick={options}>Instrukcija</Button>
             </div>
         </main>
     )
