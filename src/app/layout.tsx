@@ -7,7 +7,6 @@ import { OnbordaProvider, Onborda } from 'onborda';
 import { CustomCard } from "../app/admin/customonboard";
 
 
-
 const steps = [
   {
     tour: "firsttour",

@@ -41,10 +41,10 @@ export interface FormValues {
     bank: string,
     urlname: string
 }
- export interface Message{
-    message: string, 
-    type:  string
- }
+export interface Message {
+    message: string,
+    type: string
+}
 
 export default function Profile() {
     const [user, setUser] = useState<User>()
@@ -109,18 +109,20 @@ export default function Profile() {
         { image && formData.append('file', image) }
         formData.append('occupation', selectedOccupation)
         formData.append('city', selectedcity)
-        {data.name.length !== 0 && formData.append('urlname', data.urlname)}
+        { data.name.length !== 0 && formData.append('urlname', data.urlname) }
         let token = Cookies.get('token')
         const headers = { 'Authorization': 'Bearer ' + token };
 
         axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/updateuser`, formData, { headers })
-            .then(response => {if(response.data.id) {
-                setMessage({ message: "Dati atjaunināti veiksmīgi", type: "success" })
-                toast.success("Dati atjaunināti veiksmīgi")
-            }else{
-                setMessage({ message: "Neizdevās atjaunināt datus. Mēģini vēlreiz!", type: "error" })
-                toast.error("Neizdevās atjaunināt datus. Mēģini vēlreiz!")
-            }}) 
+            .then(response => {
+                if (response.data.id) {
+                    setMessage({ message: "Dati atjaunināti veiksmīgi", type: "success" })
+                    toast.success("Dati atjaunināti veiksmīgi")
+                } else {
+                    setMessage({ message: "Neizdevās atjaunināt datus. Mēģini vēlreiz!", type: "error" })
+                    toast.error("Neizdevās atjaunināt datus. Mēģini vēlreiz!")
+                }
+            })
             .catch(function (error) {
                 if (error.response.status == 401) {
                     return router.push('/login')
@@ -128,175 +130,188 @@ export default function Profile() {
             })
     }
 
-    const options=()=>{
+    const options = () => {
         startOnborda("firsttour")
+    }
+
+    const abonament = async (e: any) => {
+        e.preventDefault()
+       const price = e.target['priceId'].value
+        let token = Cookies.get('token')
+        const headers = { 'Authorization': 'Bearer ' + token };
+       await  axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/stripesession`, {price}, { headers })
+        .then(response => window.open(response.data.url, '_blank', 'noopener,noreferrer'))
     }
 
     return (
         <main>
             <h1 className="text-3xl w-full border-b-2">Profils</h1>
-<div className="flex flex-row">
-            <Card className="w-[350px] mt-2">
-                <CardHeader>
-                    <CardTitle>Profila dati</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <div className="flex w-full justify-center  align-center">
-                        <Avatar className="h-[100px] w-[100px] cursor-pointer" onClick={handleClick}>
-                            <AvatarImage src={userimg} />
-                            <AvatarFallback>CN</AvatarFallback>
-                        </Avatar>
-                        <input type="file"
-                            ref={hiddenFileInput}
-                            onChange={handleChange}
-                            accept="image/*"
-                            style={{ display: 'none' }} />
-
-                    </div>
-                    <form onSubmit={handleSubmit(updateuser)}>
-
-                        <div className="grid gap-4 mt-2">
-                            <div className="grid gap-2">
-                                <Label htmlFor="name">Vārds Uzvārds *</Label>
-                                <Input
-                                    id="name"
-                                    type="text"
-                                    placeholder="Jānis Bērziņš"
-                                    required
-                                    defaultValue={user?.name}
-                                    {...register('name')}
-                                />
-                            </div>
-                        </div>
-                        <div className="grid gap-4 mt-2">
-                            <div className="grid gap-2">
-                                <Label htmlFor="name">Reģistrācijas nr. *</Label>
-                                <Input
-                                    id="pk"
-                                    type="text"
-                                    placeholder="1xxxxxxxxxx"
-                                    required
-                                    defaultValue={user?.personalnr}
-                                    {...register('personalnr')}
-                                />
-                            </div>
-                        </div>
-                        <div className="grid gap-4 mt-2">
-                            <div className="grid gap-2">
-                                <Label htmlFor="email">Epasts *</Label>
-                                <Input
-                                    id="email"
-                                    type="email"
-                                    placeholder="m@example.lv"
-                                    required
-                                    defaultValue={user?.email}
-
-                                    {...register('email')}
-                                />
-                            </div>
-                        </div>
-                        <div className="grid gap-4 mt-2">
-                            <div className="grid gap-2">
-                                <Label htmlFor="phone">Telefona numurs *</Label>
-                                <Input
-                                    id="pgone"
-                                    type="text"
-                                    placeholder="+371 xxxxxxx"
-                                    required
-                                    defaultValue={user?.phone}
-                                    {...register('phone')}
-                                />
-                            </div>
-                        </div>
-                        <div className="grid gap-4 mt-2">
-                            <div className="grid gap-2">
-                                <Label htmlFor="city">Pilsēta, rajons *</Label>
-                                <Select value={selectedcity} onValueChange={(value) => {
-                                    setSelectedcity(value)
-                                }} >
-                                    <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Izvēlies nodarbošanos" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectGroup>
-
-                                            {cities.map(x => <SelectItem key={x} value={x}>{x}</SelectItem>)}
-
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
-                            </div>
-                        </div>
-                        <div className="grid gap-4 mt-2">
-                            <div className="grid gap-2">
-                                <Label htmlFor="adress">Adrese *</Label>
-                                <Input
-                                    id="adress"
-                                    type="text"
-                                    placeholder="Adrese"
-                                    required
-                                    defaultValue={user?.adress}
-
-                                    {...register('adress')}
-                                />
-                            </div>
-                        </div>
-                        <div className="grid gap-4 mt-2">
-                            <div className="grid gap-2">
-                                <Label htmlFor="bank">Konta nr. *</Label>
-                                <Input
-                                    id="bank"
-                                    type="text"
-                                    placeholder="Konta nr"
-                                    required
-                                    defaultValue={user?.bank}
-
-                                    {...register('bank')}
-                                />
-                            </div>
-                        </div>
-                        <div className="grid gap-4 mt-2">
-                            <div className="grid gap-2">
-                                <Label htmlFor="occupation">Nozare,nodarbošanās *</Label>
-
-                                <Select value={selectedOccupation} onValueChange={(value) => {
-                                    setSelectedOccuption(value)
-                                }} >
-                                    <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Izvēlies nodarbošanos" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectGroup>
-                                            {occupations.map(x => <SelectItem key={x} value={x}>{x}</SelectItem>)}
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
-                            </div>
-                        </div>
-                        <div className="grid gap-4 mt-2">
-                            <div className="grid gap-2">
-                                <Label htmlFor="bio">Apraksts</Label>
-                                <Textarea placeholder="Apraksti savu darbu, kas būs galvenais informācijas avots klientiem."
-                                    defaultValue={user?.bio}
-                                    {...register('bio')} />
-                            </div>
-                        </div>
-                        <Button type="submit" className="mt-2 w-full">Atjaunināt</Button>
-                    </form>
-                </CardContent>
-            </Card>
-
-            <Card className="h-[150px] mt-2 ml-2 mb-2">
-                <CardContent>
+            <div className="flex flex-row">
+                <Card className="w-[350px] mt-2">
                     <CardHeader>
-                        <CardTitle>Abonaments</CardTitle>
+                        <CardTitle>Profila dati</CardTitle>
                     </CardHeader>
-                    <p className="font-bold">Jums ir aktīvs - {user?.abonament} abonaments</p>
-                    {user?.abonament === "bezmaksas" && <Button className="mt-2 ">Mainīt uz Biznesa plāns</Button>}
-                    </CardContent>
-            </Card>
+                    <CardContent>
+                        <div className="flex w-full justify-center  align-center">
+                            <Avatar className="h-[100px] w-[100px] cursor-pointer" onClick={handleClick}>
+                                <AvatarImage src={userimg} />
+                                <AvatarFallback>CN</AvatarFallback>
+                            </Avatar>
+                            <input type="file"
+                                ref={hiddenFileInput}
+                                onChange={handleChange}
+                                accept="image/*"
+                                style={{ display: 'none' }} />
 
-            <Button className="ml-2 mt-2" onClick={options}>Instrukcija</Button>
+                        </div>
+                        <form onSubmit={handleSubmit(updateuser)}>
+
+                            <div className="grid gap-4 mt-2">
+                                <div className="grid gap-2">
+                                    <Label htmlFor="name">Vārds Uzvārds *</Label>
+                                    <Input
+                                        id="name"
+                                        type="text"
+                                        placeholder="Jānis Bērziņš"
+                                        required
+                                        defaultValue={user?.name}
+                                        {...register('name')}
+                                    />
+                                </div>
+                            </div>
+                            <div className="grid gap-4 mt-2">
+                                <div className="grid gap-2">
+                                    <Label htmlFor="name">Reģistrācijas nr. *</Label>
+                                    <Input
+                                        id="pk"
+                                        type="text"
+                                        placeholder="1xxxxxxxxxx"
+                                        required
+                                        defaultValue={user?.personalnr}
+                                        {...register('personalnr')}
+                                    />
+                                </div>
+                            </div>
+                            <div className="grid gap-4 mt-2">
+                                <div className="grid gap-2">
+                                    <Label htmlFor="email">Epasts *</Label>
+                                    <Input
+                                        id="email"
+                                        type="email"
+                                        placeholder="m@example.lv"
+                                        required
+                                        defaultValue={user?.email}
+
+                                        {...register('email')}
+                                    />
+                                </div>
+                            </div>
+                            <div className="grid gap-4 mt-2">
+                                <div className="grid gap-2">
+                                    <Label htmlFor="phone">Telefona numurs *</Label>
+                                    <Input
+                                        id="pgone"
+                                        type="text"
+                                        placeholder="+371 xxxxxxx"
+                                        required
+                                        defaultValue={user?.phone}
+                                        {...register('phone')}
+                                    />
+                                </div>
+                            </div>
+                            <div className="grid gap-4 mt-2">
+                                <div className="grid gap-2">
+                                    <Label htmlFor="city">Pilsēta, rajons *</Label>
+                                    <Select value={selectedcity} onValueChange={(value) => {
+                                        setSelectedcity(value)
+                                    }} >
+                                        <SelectTrigger className="w-full">
+                                            <SelectValue placeholder="Izvēlies nodarbošanos" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectGroup>
+
+                                                {cities.map(x => <SelectItem key={x} value={x}>{x}</SelectItem>)}
+
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                            </div>
+                            <div className="grid gap-4 mt-2">
+                                <div className="grid gap-2">
+                                    <Label htmlFor="adress">Adrese *</Label>
+                                    <Input
+                                        id="adress"
+                                        type="text"
+                                        placeholder="Adrese"
+                                        required
+                                        defaultValue={user?.adress}
+
+                                        {...register('adress')}
+                                    />
+                                </div>
+                            </div>
+                            <div className="grid gap-4 mt-2">
+                                <div className="grid gap-2">
+                                    <Label htmlFor="bank">Konta nr. *</Label>
+                                    <Input
+                                        id="bank"
+                                        type="text"
+                                        placeholder="Konta nr"
+                                        required
+                                        defaultValue={user?.bank}
+
+                                        {...register('bank')}
+                                    />
+                                </div>
+                            </div>
+                            <div className="grid gap-4 mt-2">
+                                <div className="grid gap-2">
+                                    <Label htmlFor="occupation">Nozare,nodarbošanās *</Label>
+
+                                    <Select value={selectedOccupation} onValueChange={(value) => {
+                                        setSelectedOccuption(value)
+                                    }} >
+                                        <SelectTrigger className="w-full">
+                                            <SelectValue placeholder="Izvēlies nodarbošanos" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                {occupations.map(x => <SelectItem key={x} value={x}>{x}</SelectItem>)}
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                            </div>
+                            <div className="grid gap-4 mt-2">
+                                <div className="grid gap-2">
+                                    <Label htmlFor="bio">Apraksts</Label>
+                                    <Textarea placeholder="Apraksti savu darbu, kas būs galvenais informācijas avots klientiem."
+                                        defaultValue={user?.bio}
+                                        {...register('bio')} />
+                                </div>
+                            </div>
+                            <Button type="submit" className="mt-2 w-full">Atjaunināt</Button>
+                        </form>
+                    </CardContent>
+                </Card>
+
+                <Card className="h-[150px] mt-2 ml-2 mb-2">
+                    <CardContent>
+                        <CardHeader>
+                            <CardTitle>Abonaments</CardTitle>
+                        </CardHeader>
+                        <p className="font-bold">Jums ir aktīvs - {user?.abonament} abonaments</p>
+                        {user?.abonament === "bezmaksas" &&
+                            <form onSubmit={abonament}>
+                                <input type="hidden" name="priceId" value="price_1QVUsn2K3ttu5uf5yTBUHB55" />
+                                <Button className="mt-2 " type="submit">Mainīt uz Biznesa plāns</Button>
+                            </form>}
+                    </CardContent>
+                </Card>
+
+                <Button className="ml-2 mt-2" onClick={options}>Instrukcija</Button>
             </div>
         </main>
     )
