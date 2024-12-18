@@ -1,5 +1,4 @@
-
-//import './App.css';
+'use client'
 import Navigation from './components/nav';
 import Home from './components/home';
 import Features from './components/features';
@@ -15,7 +14,6 @@ export default function Business() {
 <Features/>
 <Item/>
 <Pricing/>
-<Footer/>
 </div>
   );
 }

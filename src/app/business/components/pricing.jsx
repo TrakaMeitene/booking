@@ -1,19 +1,23 @@
-'use client'
-import React, {useState} from "react";
+import React, {useState, useRef} from "react";
 import "../App.css"
+import ReCAPTCHA from "react-google-recaptcha";
+import { Button } from "@/components/ui/button";
 
 export default function Pricing(){
     const [email, setemail] = useState("")
     window.scrollTo(0, 0)
+    const recaptcha = useRef(null);
 
     const Addtolist =(e)=> {
 e.preventDefault()
+if(recaptcha.current.getValue()){
+
         fetch("https://api.brevo.com/v3/contacts", {
             method: 'POST',
             headers: {
                 "accept": 'application/json',
                 'content-type': 'application/json',
-                "api-key": process.env.REACT_APP_API_KEY
+                "api-key": process.env.NEXT_PUBLIC_APP_API_KEY
             },
             body: JSON.stringify({
                 "email": email,
@@ -32,6 +36,7 @@ e.preventDefault()
             .catch(function (error) {
                 console.log('Request failure: ', error);
             });
+        }
     }
     return(
         <section id="pricing">
@@ -43,7 +48,7 @@ e.preventDefault()
                 <h3>Bezmaksas</h3>
                 <p>Izmēģināšanai pieejams vienmēr bez maksas</p>
                 <ul>
-                    <li>Divas rezervācijas dienā</li>
+                    <li><b>20 rezervācijas mēnesī</b></li>
                     <li>E-pasts klientam par rezervācijas veikšanu</li>
                     <li>E-pasts pakalpojuma sniedzējam par rezervāciju</li>
                 </ul>
@@ -55,9 +60,12 @@ e.preventDefault()
                 <p className="under">mēnesī</p>
                 <ul>
                     <li>Bezlimita rezervācijas</li>
+                    <li>Rēķinu izsūtne pirms vizītes</li>
+                    <li>Ienākumu/izdevumu uzskaite</li>
                     <li>Klientu pārvaldība</li>
                     <li>E-pasta izsūtnes un atgādinājumi</li>
                     <li>Iespēja atzīmēt atvaļinājumus neirobežotu laiku uz priekšu</li>
+
                 </ul>
             </div>
 
@@ -66,9 +74,11 @@ e.preventDefault()
             <h2>Gribi būt primais, kurš uzzina, kad sistēma tiek palaista ? Pieraksties jaunumiem </h2>
             <p>Apsolām, nebūs kaitinošu reklāmu. Tikai ziņa, ka Tev ir iespēja platformu izmantot pirmajam un iespējams
                 ar labākiem mēneša maksas nosacījumiem!</p>
-            <form id="formsecond" onSubmit={Addtolist}>
+            <form id="formsecond" onSubmit={Addtolist} className="flex flex-col items-center justify-center">
                 <input type="e-mail" placeholder="E-pasta adrese" id="second" required onChange={(e)=> setemail(e.target.value)}/>
-            <button type="submit" value="submit" className="button-black">Pierakstīties</button>
+                <ReCAPTCHA sitekey={process.env.NEXT_PUBLIC_APP_SITE_KEY} ref={recaptcha} style={{marginTop: "10px"}}/>
+
+<Button type="submit" value="Submit" disabled={!recaptcha.current} className={recaptcha.current ? "" : "disabled"}>Pierakstīties</Button>
         </form>
         <p id="successsecond" className="green none"></p>
 

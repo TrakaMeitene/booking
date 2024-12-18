@@ -143,6 +143,12 @@ export default function Profile() {
         .then(response => window.open(response.data.url, '_blank', 'noopener,noreferrer'))
     }
 
+    const changeabonament=()=>{
+        window.open('https://billing.stripe.com/p/login/test_28o5lo1Xx2pD9Py000', "_blank", "noreferrer");
+
+    }
+
+//te vel vajag stripe klientu portālu 
     return (
         <main>
             <h1 className="text-3xl w-full border-b-2">Profils</h1>
@@ -308,6 +314,7 @@ export default function Profile() {
                                 <input type="hidden" name="priceId" value="price_1QVUsn2K3ttu5uf5yTBUHB55" />
                                 <Button className="mt-2 " type="submit">Mainīt uz Biznesa plāns</Button>
                             </form>}
+                            {user?.abonament != "bezmaksas" && <Button onClick={changeabonament}>Abonamenta informācija</Button>}
                     </CardContent>
                 </Card>
 

@@ -18,34 +18,34 @@ export default function Features(){
             <div className="text-md">
             <IoMdPeople className="material-icons" size={30}/>
 
-                <h6>Klientu pārvaldība</h6>
+                <h6 className="font-bold">Klientu pārvaldība</h6>
                 <p className="text-sm text-muted">Pārskati, sazinies un veido savu datubāzi</p>
             </div>
 
             <div className="text-md">
             <IoLayers className="material-icons" size={30}/>
-                <h6>Personīgais profils</h6>
+                <h6 className="font-bold">Personīgais profils</h6>
                 <p className="text-sm text-muted">Ļauj klientiem Tevi atrast, redzēt un iepazīt</p>
             </div>
-            <div className="text-md">
+            <div className="text-md ">
             <MdOutlineStorage className="material-icons" size={30}/>
-                <h6>Neierobežots datu apjoms</h6>
+                <h6 className="font-bold">Neierobežots datu apjoms</h6>
                 <p className="text-sm text-muted">Uzglabā savus datus bez ierobežojuma</p>
             </div>
             <div className="text-md">
             <FaHeadphonesAlt className="material-icons" size={30}/>
-                <h6>Bezmaksas atbalsts</h6>
+                <h6 className="font-bold">Bezmaksas atbalsts</h6>
                 <p className="text-sm text-muted">Sazinies un saņem personisku atbildi </p>
             </div>
             <div className="text-md">
                 <FaBook className="material-icons" size={30}/>
-                <h6>Plānotājs vienmēr kabatā</h6>
+                <h6 className="font-bold">Plānotājs vienmēr kabatā</h6>
                 <p className="text-sm text-muted">Digitālā pieraksta sistēma Tev vienmēr pieejama ierīcē ar interneta
                     pieslēgumu</p>
             </div>
             <div className="text-md">
             <FaPeopleArrows className="material-icons" size={30}/>
-                <h6>Radīts Tavām vajadzībām</h6>
+                <h6 className="font-bold">Radīts Tavām vajadzībām</h6>
                 <p className="text-sm text-muted">Sasniedz vairāk, esi piekļūstamāks</p>
             </div>
         </div>

@@ -12,18 +12,18 @@ export default function Item(){
             <p></p>
             <div className="text-md">
             <IoMdCheckmark className="material-icons" size={30}/>
-            <h6>Personīgais profils</h6>
+            <h6 className="font-bold">Personīgais profils</h6>
                 <p className="text-sm text-muted">Ļauj klientiem Tevi atrast, redzēt un iepazīt</p>
             </div>
             <div className="text-md">
             <IoMdCheckmark className="material-icons" size={30}/>
-                <h6>Plānotājs vienmēr kabatā</h6>
+                <h6 className="font-bold">Plānotājs vienmēr kabatā</h6>
                 <p className="text-sm text-muted">Digitālā pieraksta sistēma Tev vienmēr pieejama ierīcē ar interneta
                     pieslēgumu</p>
             </div>
             <div className="text-md">
             <IoMdCheckmark className="material-icons" size={30}/>
-                <h6>Radīts Tavām vajadzībām</h6>
+                <h6 className="font-bold">Radīts Tavām vajadzībām</h6>
                 <p className="text-sm text-muted">Sasniedz vairāk, esi piekļūstamāks</p>
             </div>
 
