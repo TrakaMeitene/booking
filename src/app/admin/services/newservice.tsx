@@ -14,9 +14,10 @@ import { Service } from "./page";
 import { serviceObject } from "../calendar/bookingdetails";
 
 interface propsin {
-    getmessage: ({ message, type}: { message: string | undefined; type: string}) => void,
+    getmessage: ({ message}: { message: string ; type: string}) => void,
     setOpen: (arg: boolean) => void,
-    selectedservice: serviceObject | undefined
+    selectedservice: serviceObject | undefined,
+    setSelectedservice: any
 }
 
 export default function Newcservice(propsIn: propsin) {
@@ -121,7 +122,7 @@ useEffect(()=>{
                                 <TimePickerInput
                                     picker="hours"
                                     date={date}
-                                    setDate={setDate}
+                                    setDate={()=>setDate}
                                 />
                             </div>
                             <div className="grid gap-1">
@@ -131,7 +132,7 @@ useEffect(()=>{
                                 <TimePickerInput
                                     picker="minutes"
                                     date={date}
-                                    setDate={setDate}
+                                    setDate={()=>setDate}
 
                                 />
                             </div>

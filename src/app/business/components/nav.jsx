@@ -9,8 +9,9 @@ import Link from "next/link";
 export default function Navigation(){
 
     const scroll=()=>{
+        if(typeof window !== "undefined") {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-
+        }
     }
     return(
         <nav className="landingnav">

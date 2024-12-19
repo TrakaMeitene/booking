@@ -14,7 +14,7 @@ export interface invoice {
     customer?: User,
     external_customer: string,
     id: number,
-    invoice: string | null,
+    invoice: string 
     paid_date: Date,
     price: number,
     serial_number: string,

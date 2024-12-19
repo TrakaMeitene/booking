@@ -1,5 +1,5 @@
 'use client'
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, Key} from "react";
 import 'moment/locale/lv'
 import "../admin.css"
 import Calendarview from "./calendar";
@@ -11,7 +11,7 @@ export interface Booking {
 }
 
 export interface User {
-  id: BigInteger,
+  id: BigInteger | Key | null | undefined 
   name: string,
   email: string,
   email_verified_at: Date,

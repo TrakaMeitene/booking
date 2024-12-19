@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation'
 import { toast } from "sonner";
 import { Dialog, DialogTrigger, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import Addvacation from "./addvacation";
+import { Message } from "postcss";
 
 interface inprops {
     setActiveTab: (arg: string) => void
@@ -19,7 +20,7 @@ interface inprops {
 
 export default function Vacations(props: inprops) {
     const [current, setCurrent] = useState(1)
-    const [data, setdata] = useState()
+    const [data, setdata] = useState<any>()
     const router = useRouter()
     const [open, setOpen] = useState(false)
 
@@ -51,7 +52,7 @@ export default function Vacations(props: inprops) {
             })
     }
 
-    const getmessage = (message) => {
+    const  getmessage = (message: Message) => {
         toast.success(message.message)
     }
 

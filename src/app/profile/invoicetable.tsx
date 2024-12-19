@@ -59,13 +59,15 @@ export default function InvoiceTable({ scope }: { scope: string }) {
             })
     }
 
-    const getinvoice = (invoice: invoice) => {
-        let extension = invoice.invoice.split(/[#?]/)[0].split('.').pop().trim()
+    const getinvoice = (invoice: any) => {
+ 
+        let extension =  invoice?.invoice?.split(/[#?]/)[0].split('.').pop().trim() 
+
         const link = document.createElement('a');
         if (extension === ("jpg" || "png" || "jpeg")) {
             link.href = `${process.env.NEXT_PUBLIC_REQUEST_STORAGE}/${invoice.invoice}`;
         } else {
-            link.href = invoice.invoice;
+            link.href = invoice.invoice!;
 
         }
         link.target = '_blank'; // Open in a new tab

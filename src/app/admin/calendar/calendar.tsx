@@ -18,6 +18,7 @@ import { Plus } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import { Booking, User } from "./page";
 import { toast } from "sonner";
+import { Message } from "../profile/page";
 
 
 interface vacation{
@@ -26,7 +27,8 @@ created_at: Date,
 date: Date,
 id: number,
 updated_at: Date
-user: number
+user: number,
+find: any
 }
 
 export default function Calendarview({ data }: any) {
@@ -118,8 +120,8 @@ if(token){
   }
 
 
-  const getmessage = (message: string, type: string) => {
-    if(message.type === "error") {toast.error(message.message)}else{ toast.success(message.message)}
+  const getmessage = (message: Message) => {
+    if(message.type == "error") {toast.error(message.message)}else{ toast.success(message.message)}
 }
 
 const getuser = () => {
@@ -146,7 +148,7 @@ return (
             <DialogTitle className="sm:text-center">Jauns pieraksts</DialogTitle>
 
           </DialogHeader>
-          <Eventform  getdata={getdata} getmessage={getmessage} specialist={[user]} dateFrompage={undefined} user={undefined} service={undefined} allservices={undefined} open={openaddbooking} setOpenaddbooking={setOpenaddbooking}/>
+          <Eventform  getdata={getdata} getmessage={getmessage} specialist={[user]} dateFrompage={undefined} user={undefined} service={undefined} allservices={undefined} open={openaddbooking} setOpenaddbooking={setOpenaddbooking} close={()=> undefined}/>
 
         </DialogContent>
 
@@ -154,7 +156,6 @@ return (
             variant="default"
             className="mb-2"
             onClick={() => setOpenaddbooking(true)}
-         //   id="welcome-message"
           >
             <Plus size={20} /> Jauns pieraksts
           </Button>

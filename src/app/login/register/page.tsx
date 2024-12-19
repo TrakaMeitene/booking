@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from "react"
+import React, { Suspense, useState } from "react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -34,20 +34,20 @@ export default function Register() {
 
     const [success, setSuccess] = useState({ type: "", message: "" })
     const [selectedOption, setSelectedOption] = useState(type || "all")
-const router = useRouter()
+    const router = useRouter()
 
     const registeruser = (data: FormValues) => {
         data.scope = selectedOption
         data.urlname = data.Name.toLocaleLowerCase('tr').replace(/ /g, "-")
-        
+
         try {
             axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/register`, data)
                 .then(response => {
                     if (response.data.user?.id) {
                         setSuccess({ type: "success", message: "Reģistrācija veiksmīga!" })
                         setTimeout(() => {
-                           router.push('/login')
-                          }, 3000);
+                            router.push('/login')
+                        }, 3000);
                     } else {
                         setSuccess({ type: "error", message: "E-pasts jau ir reģistrēts!" })
                     }
@@ -73,7 +73,7 @@ const router = useRouter()
                     </Alert>}
                     <div className="grid gap-2 text-center">
 
-                        <h1 className="text-3xl font-bold">Izveido kontu "Pieraksts pie" </h1>
+                        <h1 className="text-3xl font-bold">Izveido kontu `Pieraksts pie` </h1>
                         <p className="text-balance text-muted-foreground">
                             Ielogojies vai izveido savu kontu.
                         </p>
@@ -113,20 +113,21 @@ const router = useRouter()
                                     {...register('Password')}
                                 />
                             </div>
-
-                            <Select
-                                defaultValue={selectedOption}
-                                onValueChange={(value) => {
-                                    setSelectedOption(value)
-                                }}>
-                                <SelectTrigger >
-                                    <SelectValue placeholder="Konta tips" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="business">Biznesa, speciālista konts</SelectItem>
-                                    <SelectItem value="all">Lietotāja konts</SelectItem>
-                                </SelectContent>
-                            </Select>
+                            <Suspense>
+                                <Select
+                                    defaultValue={selectedOption}
+                                    onValueChange={(value) => {
+                                        setSelectedOption(value)
+                                    }}>
+                                    <SelectTrigger >
+                                        <SelectValue placeholder="Konta tips" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="business">Biznesa, speciālista konts</SelectItem>
+                                        <SelectItem value="all">Lietotāja konts</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </Suspense>
                             <Button type="submit" className="w-full"
                             >
                                 Reģistrēties
@@ -146,5 +147,6 @@ const router = useRouter()
                 />
             </div>
         </div>
+
     )
 }

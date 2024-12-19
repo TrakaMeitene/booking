@@ -32,7 +32,7 @@ import {
 } from "@/components/ui/tooltip"
 import { Pencil } from "lucide-react";
 export interface Client {
-  id: number, name: String, surname: string, email: string, phone: string, reiting: number
+  id: number, name: string, surname: string, email: string, phone: string, reiting: number, prevState:undefined 
 }
 
 export default function Clients() {
@@ -40,7 +40,7 @@ export default function Clients() {
   const [data, setData] = useState<any>([])
   const [current, setCurrent] = useState(1)
   let [open, setOpen] = useState(false);
-const [selectedclient, setclient] = useState()
+const [selectedclient, setclient] = useState<Client>()
 
   const router = useRouter()
 

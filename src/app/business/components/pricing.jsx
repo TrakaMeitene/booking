@@ -5,7 +5,10 @@ import { Button } from "@/components/ui/button";
 
 export default function Pricing(){
     const [email, setemail] = useState("")
+    if (typeof window !== "undefined") {
+
     window.scrollTo(0, 0)
+    }
     const recaptcha = useRef(null);
 
     const Addtolist =(e)=> {

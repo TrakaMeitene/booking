@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 
 export default function Home(){
     const [email, setemail] = useState("")
-    window.scrollTo(0, 0)
+   // window.scrollTo(0, 0)
     const recaptcha = useRef(null);
 
     const Addtolist =(e)=> {

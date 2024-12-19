@@ -20,7 +20,7 @@ import { toast } from "sonner";
 
 export interface serviceObject {
     created_at: Date,
-    description: String,
+    description: string,
     id: number,
     name: string,
     price: number,

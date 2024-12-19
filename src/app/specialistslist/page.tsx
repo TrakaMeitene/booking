@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState} from "react";
+import React, { Suspense, useEffect, useState} from "react";
 import Nav from "../components/nav"
 import Searchspecialist from "../components/search";
 import axios from "axios";
@@ -41,10 +41,12 @@ export default function Specialists() {
     return (
         <>
             <Nav />
+            <Suspense fallback={<div>Loading...</div>}>
+
             <section id="homefirst" className="justify-center home">
                 <Searchspecialist />
                 <div className="flex flex-wrap flex-row">
-                    {specialists.length > 0 ? specialists?.map(x =>
+                    {specialists.length > 0 ? specialists?.map((x: any) =>
                         <div className="flex border flex-row rounded-2xl bg-white p-5 cursor-pointer hover:scale-105" key={x.id} onClick={() => topersonalpage(x)}>
                             <Avatar className="h-[100px] w-[100px]" >
                                 <AvatarImage src={`${process.env.NEXT_PUBLIC_REQUEST_STORAGE}/${x.avatar}`} />
@@ -62,7 +64,9 @@ export default function Specialists() {
                         </div>
                     ) : <div className=" p-2 rounded-lg bg-white" style={{ border: "1px solid hsl(220 13% 91%)"}}><p>Diemžēl nekas netika atrasts!</p></div>}
                 </div >
+
             </section>
+            </Suspense>
         </>
     )
 }

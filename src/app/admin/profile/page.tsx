@@ -29,7 +29,7 @@ import { useOnborda } from "onborda";
 
 
 export interface FormValues {
-    name: string,
+    "name": string,
     personalnr: string,
     email: string,
     phone: string,
@@ -39,7 +39,8 @@ export interface FormValues {
     File: File,
     city: string,
     bank: string,
-    urlname: string
+    urlname: string,
+
 }
 export interface Message {
     message: string,
@@ -51,7 +52,7 @@ export default function Profile() {
     const [userimg, setUserimg] = useState("")
     const [image, setImage] = useState<File>()
     const router = useRouter()
-    const hiddenFileInput = useRef(null);
+    const hiddenFileInput = useRef<any>(null);
     const [occupations] = useState(["Frizieris", "Vizāžists", "Manikīrs", "Kosmetologs", "Skropst meistars", "Masieris", "Stilists", "Lāzerepilācija", "Tetovēšana/pīrsingi", "Fitness", "Masāža"])
     const [selectedOccupation, setSelectedOccuption] = useState("")
     const { register, handleSubmit, formState: { isDirty, dirtyFields } } = useForm<FormValues>();
@@ -82,7 +83,7 @@ export default function Profile() {
             })
     }
 
-    const handleClick = (event: any) => {
+    const handleClick = () => {
         hiddenFileInput?.current?.click();
     };
 
@@ -100,10 +101,10 @@ export default function Profile() {
     const updateuser = (data: FormValues) => {
         const formData = new FormData();
         data.urlname = data.name.toLocaleLowerCase('tr').replace(/ /g, "-")
-
         Object.fromEntries(
             Object.keys(dirtyFields).map((key: string) => [
-                formData.append(key, data[key])
+                
+                formData.append(key, (data as any)[key])
             ])
         );
         { image && formData.append('file', image) }
@@ -148,7 +149,6 @@ export default function Profile() {
 
     }
 
-//te vel vajag stripe klientu portālu 
     return (
         <main>
             <h1 className="text-3xl w-full border-b-2">Profils</h1>

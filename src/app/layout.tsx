@@ -7,7 +7,7 @@ import { OnbordaProvider, Onborda } from 'onborda';
 import { CustomCard } from "../app/admin/customonboard";
 
 
-const steps = [
+const steps: any = [
   {
     tour: "firsttour",
     steps: [
@@ -72,7 +72,8 @@ const steps = [
       },
     ]
   }
-];
+]
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {

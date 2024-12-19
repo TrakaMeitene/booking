@@ -4,7 +4,6 @@ import Home from './components/home';
 import Features from './components/features';
 import Item from './components/item';
 import Pricing from './components/pricing';
-import Footer from './components/footer';
 
 export default function Business() {
   return (

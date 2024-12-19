@@ -5,40 +5,41 @@ import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { CalendarIcon } from "lucide-react";
 import React, { useState } from "react";
-import moment, { now } from "moment";
+import moment, { Moment, now } from "moment";
 import { lv } from "date-fns/locale";
 import { cn } from "@/lib/utils";
 import 'moment/locale/lv'
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import { Message } from "postcss";
 
 interface inprops{
     setTab: (arg:string)=>void,
-    getmessage: (message:string)=>void,
+    getmessage: (message: Message)=>void,
     setOpen: (arg:boolean)=>void
 }
 
 export default function Addvacation(props:inprops) {
 
-    const [startdate, setstartDate] = useState(moment())
+    const [startdate, setstartDate] = useState<any>(moment())
     const [isCalendarOpen, setIsCalendarOpen] = useState(false)
-    const [enddate, setendDate] = useState(moment().add(1, 'days'))
+    const [enddate, setendDate] = useState<any>(moment().add(1, 'days'))
     const [isCalendarOpenend, setIsCalendarOpenend] = useState(false)
 const router = useRouter()
 
     let token = Cookies.get('token')
 
-const operations=(date: Date)=>{
+const operations=(date: any)=>{
     setstartDate(date)
     setendDate(moment(date).add(1, 'days'))
      setIsCalendarOpen(false)
 }
 
 
-const savevacation = (e) => {
+const savevacation = (e: any) => {
     e.preventDefault()
-const data = {}
+const data = {start: moment(new Date), end: moment(new Date)}
 data.start = startdate
 data.end = enddate
 
@@ -47,7 +48,7 @@ data.end = enddate
         .then(response =>{ 
             props.setTab("Brīvdienas")
             if(response.data.length > 0){
-           props.getmessage({message: "Dati saglabāti veiksmīgi!"})
+           props.getmessage( {message: "Dati saglabāti veiksmīgi!", type: "success"})
            props.setOpen(false)
 }
         }
@@ -86,7 +87,7 @@ data.end = enddate
                                     <Calendar
                                         mode="single"
                                         selected={startdate}
-                                        onSelect={(e:Date)=>operations(e)}
+                                        onSelect={(e: Date | undefined)=>operations(e)}
                                         initialFocus
                                         fromDate={new Date()}
                                         locale={lv}
@@ -118,7 +119,7 @@ data.end = enddate
                                     <Calendar
                                         mode="single"
                                         selected={enddate}
-                                        onSelect={setendDate}
+                                        onSelect={()=>setendDate}
                                         initialFocus
                                         fromDate={new Date()}
                                         locale={lv}

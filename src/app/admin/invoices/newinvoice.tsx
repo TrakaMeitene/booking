@@ -61,7 +61,7 @@ export default function Newinvoice({ close }: {close: ()=>void}) {
         partner: string,
         partnerRegNr: string,
         paydate: Date,
-        sumofbill:  string | number
+        sumofbill:  string 
     }
 
     const changefile = (event: any) => {
@@ -72,6 +72,7 @@ export default function Newinvoice({ close }: {close: ()=>void}) {
         }
     }
 
+    
     const onSubmit: SubmitHandler<Inputs> = (data) => {
         const formData = new FormData();
 
@@ -80,7 +81,7 @@ export default function Newinvoice({ close }: {close: ()=>void}) {
         formData.append('documentNr', data.documentNr)
         formData.append('customer', data.partner)
         formData.append('partnerReg', data.partnerRegNr)
-        formData.append('sumofbill', Number(data.sumofbill) * 100)
+        formData.append('sumofbill', data.sumofbill)
         formData.append('service', selectedservice)
         { file && formData.append('file', file) }
 
@@ -122,7 +123,7 @@ export default function Newinvoice({ close }: {close: ()=>void}) {
                             <Calendar
                                 mode="single"
                                 selected={date}
-                                onSelect={setDate}
+                                onSelect={() => setDate}
                                 initialFocus
                             />
                         </PopoverContent>

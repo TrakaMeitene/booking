@@ -20,12 +20,15 @@ export default function LoginForm() {
     const [password, setPaswword] = useState<string>()
     const [validation, setValidation] = useState<Message>()
     const { register, handleSubmit } = useForm<FormValues>();
-const router = useRouter()
-    const urlSearchString = window.location.search;
-
+    const router = useRouter()
+    let urlSearchString = ""
+    if (typeof window !== "undefined") {
+  
+   urlSearchString = window.location.search;
+    }
     const params = new URLSearchParams(urlSearchString);
-   
-   let token = params.get('token');
+
+    let token = params.get('token');
 
     type FormValues = {
         password: string,
@@ -34,7 +37,7 @@ const router = useRouter()
     }
 
 
-    const compare = (e:any) => {
+    const compare = (e: any) => {
         const value = e.target.value
         if (value != password) {
             setValidation({ 'type': "error", 'message': "Paroles nesakrīt!" })
@@ -52,7 +55,7 @@ const router = useRouter()
                     toast.info(response.data.status)
                     setTimeout(() => {
                         router.push('/login')
-                       }, 2000);
+                    }, 2000);
                 }
             })
     }

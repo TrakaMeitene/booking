@@ -12,10 +12,9 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import { setYear } from "date-fns";
 
-const usePrevious = (value: string | number) => {
-  const ref = useRef();
+const usePrevious = (value: string | number|undefined) => {
+  const ref = useRef<any>();
   useEffect(() => {
     ref.current = value;
   });
@@ -42,8 +41,8 @@ export default function Invoicefilters(props: props) {
   const prevMonth = usePrevious(month);
   const prevType = usePrevious(type);
   const prevStatus = usePrevious(status);
-  const [years, setYears] = useState<string[]>(yearslist)
-  const [selectedyear, setSelectedyear] = useState<string | number>(new Date().getFullYear())
+  const [years, setYears] = useState<any>(yearslist)
+  const [selectedyear, setSelectedyear] = useState<any>(new Date().getFullYear())
 const router = useRouter()
 
   useEffect(() => {
@@ -153,7 +152,7 @@ const router = useRouter()
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            {years?.map(x => <SelectItem key={x} value={x}>{x}</SelectItem>)}
+            {years?.map((x:any) => <SelectItem key={x} value={x}>{x}</SelectItem>)}
 
           </SelectGroup>
         </SelectContent>

@@ -33,7 +33,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import InvoiceTable from "./invoicetable";
 
 export default function Prifileall() {
-    const hiddenFileInput = useRef(null);
+    const hiddenFileInput = useRef<any>(null);
     const [user, setUser] = useState<User>()
     const [userimg, setUserimg] = useState("")
     const [image, setImage] = useState<File>()
@@ -83,12 +83,12 @@ export default function Prifileall() {
         }
     };
 
-    const updateuser = (data: FormValues) => {
+    const updateuser = (data: FormValues | any) => {
         const formData = new FormData();
 
         Object.fromEntries(
-            Object.keys(dirtyFields).map((key: string ) => [
-                formData.append(key, data[key])
+            Object.keys(dirtyFields).map((key: string) => [
+                formData.append(key , data[key])
             ])
         );
         { image && formData.append('file', image) }

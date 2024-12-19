@@ -2,7 +2,6 @@
 import React from "react";
 import Specialistpage from "./specialist";
 import Nav from "@/app/components/nav";
-import type { Metadata, ResolvingMetadata } from 'next'
 
 // type Props = {
 //   params: Promise<{ id: string }>

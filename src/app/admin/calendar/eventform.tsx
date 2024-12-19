@@ -37,7 +37,7 @@ interface prop {
     getmessage: (message: Message) => void,
     open: boolean,
     setOpenaddbooking: (arg: boolean)=>void
-    close: ()=>void
+    close: ()=>void|undefined
 }
 export default function Eventform(propsIn: prop) {
     const [date, setDate] = useState<Date | undefined>(new Date())
@@ -222,7 +222,7 @@ const changedate=(e:Date)=>{
                             <Calendar
                                 mode="single"
                                 selected={date}
-                                onSelect={changedate}
+                                onSelect={()=> changedate}
                                 initialFocus
                                 fromDate={new Date()}
                                 locale={lv}
@@ -268,7 +268,7 @@ const changedate=(e:Date)=>{
                         if (propsIn.service) { setSelectedservices(propsIn.service) } else {
                             setSelectedservices(value)
                         }
-                    }} readOnly={propsIn?.service ? true : false} required
+                    }} disabled={propsIn?.service ? true : false} required
                     >
                         <SelectTrigger className="w-full">
                             <SelectValue placeholder="Izvēlies pakalpojumu" />

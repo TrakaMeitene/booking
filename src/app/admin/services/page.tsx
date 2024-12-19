@@ -33,15 +33,16 @@ import {
   PaginationItem,
   PaginationLink,
 } from "@/components/ui/pagination"
+import { Message } from "../profile/page";
 
 export interface Service {
   map(arg0: (x: serviceObject) => React.JSX.Element): React.ReactNode;
-  id: number, name: string, price: string, time: number, description: string
+  id: number, name: string, price: string, time: number, description: string, 
 }
 
 export default function Services() {
   const router = useRouter()
-  const [services, setservices] = useState<Service[]>()
+  const [services, setservices] = useState<Service[] | any>()
   const [current, setCurrent] = useState<number>(1)
   const [open, setOpen] = useState<boolean>(false)
   const [selectedservice, setSelectedservice] = useState<serviceObject>()
@@ -85,7 +86,7 @@ export default function Services() {
       })
   }
 
-  const getmessage = (message: string, type: string) => {
+  const getmessage = (message: Message) => {
     toast.success(message.message)
     getdata()
   }
@@ -105,7 +106,7 @@ export default function Services() {
     <main>
       <h1 className="text-3xl w-full border-b-2">Pakalpojumi</h1>
       <Dialog open={open} onOpenChange={(e) => {setOpen(e), setSelectedservice(undefined)}}>
-        {open && <Newservice getmessage={getmessage} setOpen={setOpen} selectedservice={undefined}/>}
+        {open && <Newservice getmessage={getmessage} setOpen={setOpen} selectedservice={undefined} setSelectedservice={undefined}/>}
         <DialogTrigger asChild>
           <Button className="mt-2" id="step3">  <Plus size={20} className="mr-2" />Jauns pakalpojums</Button>
         </DialogTrigger>
@@ -138,7 +139,7 @@ export default function Services() {
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
-                {open && <Newservice getmessage={getmessage} setOpen={setOpen} selectedservice={selectedservice}  setSelectedservice={ setSelectedservice}/>}
+                {open && <Newservice getmessage={getmessage} setOpen={setOpen} selectedservice={selectedservice}  setSelectedservice={setSelectedservice}/>}
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger onClick={() => { Options(x) }}>

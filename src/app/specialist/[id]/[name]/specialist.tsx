@@ -31,6 +31,7 @@ import {
 import Link from "next/link";
 import { toast } from "sonner";
 import Custom404 from "@/app/not-found";
+import { Message } from "postcss";
 
 interface Times {
     date: Date
@@ -143,9 +144,10 @@ let id = pathname.slice(12, 13)
         setEventFormOpen(false)
     }
 
-    const getmessage = (message: string, type: string) => {
+    const getmessage = (message: Message) => {
         if(message.type === "success") { toast.success(message.message)} else {toast.error(message.message)}
     }
+
 const isToday = moment(today).format("DD,MM,YYYY") === moment(new Date()).format("DD,MM,YYYY")
 
     return (
@@ -206,7 +208,7 @@ const isToday = moment(today).format("DD,MM,YYYY") === moment(new Date()).format
 
                                             </DialogHeader>
                                             {user ?
-                                                <Eventform getdata={getuser} close={close} dateFrompage={datetopass} user={user} service={selectedservice} allservices={services} specialist={specialist} getmessage={getmessage} />
+                                                <Eventform getdata={getuser} close={close} dateFrompage={datetopass} user={user} service={selectedservice} allservices={services} specialist={specialist} getmessage={getmessage} open={false} setOpenaddbooking={(arg)=>false}/>
                                                 : <div className="flex flex-col"><p>Lai veiktu pierakstu, ielogojies sistēmā!</p><Link href="/login/signin?type=all"><Button className="mt-4">IELOGOTIES</Button></Link></div>}
 
                                         </DialogContent>
