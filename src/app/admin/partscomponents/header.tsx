@@ -146,7 +146,7 @@ export default function Header() {
                 className="overflow-hidden rounded-full"
               >
                 <Image
-                  src={user ? `${process.env.NEXT_PUBLIC_REQUEST_STORAGE}/${user?.avatar}` : "/placeholder-user.jpg"}
+                  src={user.avatar !== null ? `${process.env.NEXT_PUBLIC_REQUEST_STORAGE}/${user?.avatar}` : "/placeholder-user.jpg"}
                   width={36}
                   height={36}
                   alt="Avatar"
