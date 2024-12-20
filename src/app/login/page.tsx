@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { ArrowRight } from "lucide-react";
 
 import "../login/login.css"
 
@@ -21,7 +22,7 @@ export default function Loginbefore() {
                 query: { type: 'business' },
               }}>
                 <Button className="card">
-                  <h2>Biznesam -&#853;</h2>
+                  <span className="flex flex-row"><h2>Biznesam </h2><ArrowRight /></span>
                   <p>Pārvaldi savu biznesu, vizītes, klientus. </p>
                 </Button>
               </Link>
@@ -32,8 +33,8 @@ export default function Loginbefore() {
                 query: { type: 'all' },
               }}>
                 <Button className="card">
-                  <h2>Visiem -&#853;</h2>
-                  <p className="text-wrap text-left">Meklē speciālistus, pieraksties ātri un ērti sev vēlamā laikā!</p>
+                <span className="flex flex-row"><h2>Visiem</h2><ArrowRight /></span>
+                <p className="text-wrap text-left">Meklē speciālistus, pieraksties ātri un ērti sev vēlamā laikā!</p>
                 </Button>
               </Link>
             </div>
