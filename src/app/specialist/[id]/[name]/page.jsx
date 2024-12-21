@@ -17,7 +17,9 @@ export async function generateMetadata({ params, searchParams }, parent) {
       title: product.name,
       description: product.bio,
       openGraph: {
-        images: ['/some-specific-page-image.jpg', ...previousImages],
+        title: product.name,
+        description: product.bio,
+        images: [`https://api.pierakstspie.lv/storage/${product.avatar}`, ...previousImages],
       },
     }
   }
