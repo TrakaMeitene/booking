@@ -145,7 +145,8 @@ export default function Profile() {
     }
 
     const changeabonament=()=>{
-        window.open('https://billing.stripe.com/p/login/test_28o5lo1Xx2pD9Py000', "_blank", "noreferrer");
+       // window.open('https://billing.stripe.com/p/login/test_28o5lo1Xx2pD9Py000', "_blank", "noreferrer"); //test
+        window.open('https://billing.stripe.com/p/login/aEUfZ3bLf5Dpcp2144', "_blank", "noreferrer"); // live
 
     }
 

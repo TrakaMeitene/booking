@@ -222,11 +222,11 @@ const changedate=(e:Date)=>{
                             <Calendar
                                 mode="single"
                                 selected={date}
-                                onSelect={()=> changedate}
+                                onSelect={(e:any)=>changedate(e)}
                                 initialFocus
                                 fromDate={new Date()}
                                 locale={lv}
-                                className="opacity-100"
+                                className="absolute opacity-100"
                             />
                         </PopoverContent>
                     </Popover>
@@ -290,7 +290,7 @@ const changedate=(e:Date)=>{
 
                 </div>
             </div>
-{!selectedservice  && <div className="flex flex-col"><p className="text-xs">Jums nav pakalpojumu, izveidojiet tos spiežot uz saites</p><Link href="/admin/services" className="text-xs underline">šeit</Link></div>}
+{services.length == 0  && <div className="flex flex-col"><p className="text-xs">Jums nav pakalpojumu, izveidojiet tos spiežot uz saites</p><Link href="/admin/services" className="text-xs underline">šeit</Link></div>}
                     <Button type="submit" disabled={!selectedservice ? true: false} >Saglabāt</Button>
             </>
         </form>
