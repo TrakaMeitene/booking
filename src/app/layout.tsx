@@ -80,6 +80,8 @@ export const metadata: Metadata = {
   title: "Pieraksts Pie",
   description: "Rezervāciju sistēma pakalpojumu sniedzējiem Latvijā.",
   openGraph: {
+    title: "Pieraksts Pie",
+    description: "Rezervāciju sistēma pakalpojumu sniedzējiem Latvijā.",
     images: "./favicon.ico",
   }
 };
