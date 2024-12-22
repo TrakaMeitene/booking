@@ -5,6 +5,7 @@ import Features from './components/features';
 import Item from './components/item';
 import Pricing from './components/pricing';
 
+
 export default function Business() {
   return (
 <div className='landing'>

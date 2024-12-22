@@ -5,6 +5,16 @@ import logo from "../../assets/logo1.png"
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+ 
+export const metadata = {
+    title: "Pieraksts Pie",
+    description: "Rezervāciju sistēma pakalpojumu sniedzējiem Latvijā.",
+    openGraph: {
+      title: "Pieraksts Pie",
+      description: "Rezervāciju sistēma pakalpojumu sniedzējiem Latvijā.",
+      images: "./favicon.ico",
+    }
+  };
 
 export default function Navigation(){
 
