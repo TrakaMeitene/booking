@@ -6,6 +6,7 @@ import Footer from "./admin/partscomponents/footer";
 import { OnbordaProvider, Onborda } from 'onborda';
 import { CustomCard } from "../app/admin/customonboard";
 import Script from "next/script";
+import React, {useState, useEffect} from "react";
 
 
 const steps: any = [
@@ -15,7 +16,7 @@ const steps: any = [
       {
         icon: "👋",
         title: "Sveicināti 'Pieraksts Pie' biznesa sistēmā!",
-        content: "Kalendāra sadaļā atradīsis klientu rezervācijas un varēsi pievienot jaunas!",
+        content: "Kalendāra sadaļā atradīsiet klientu rezervācijas un varēsiet pievienot jaunas!",
         selector: "#welcome-message",
         side: "right",
         showControls: true,
@@ -26,7 +27,7 @@ const steps: any = [
       {
         icon: "👋",
         title: "Lai sāktu darbu!",
-        content: "Sadaļā 'Pakalpojumi' redzēsi sarakstu ar Jūsu piedāvātajiem pakalpojumiem!",
+        content: "Sadaļā 'Pakalpojumi' redzēsiet sarakstu ar Jūsu piedāvātajiem pakalpojumiem!",
         selector: "#step2",
         side: "right",
         showControls: true,
@@ -62,7 +63,7 @@ const steps: any = [
       {
 
         title: "Profils!",
-        content: "Saglabā datus, lai rēķinu informācija būtu korekta, ja esi maksas klients. Kā arī vārdu, aprakstu un saziņas datus redzēs Tavs klients! !",
+        content: "Saglabā datus, lai rēķinu informācija būtu korekta, ja esi maksas klients. Kā arī vārdu, aprakstu un saziņas datus redzēs Tavs klients!",
         selector: "#step5",
         side: "bottom",
         showControls: true,
@@ -94,6 +95,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+      const [windowWidth, setWindowWidth] = useState<number>(0)
+  
+         useEffect(() => {
+              setWindowWidth(window.innerWidth)
+        
+      
+          }, [])
+
   return (
     <html lang="en">
 
@@ -101,7 +110,7 @@ export default function RootLayout({
       <Script defer src="https://cloud.umami.is/script.js" data-website-id="e84db11e-f6c1-42fa-b6ea-c1570bbd19a8"/>
         <OnbordaProvider>
           <Onborda steps={steps}
-            showOnborda={true}
+            showOnborda={windowWidth >390 ? true : false}
             shadowRgb="18,18,19"
             shadowOpacity="0.5"
              cardComponent={CustomCard}
