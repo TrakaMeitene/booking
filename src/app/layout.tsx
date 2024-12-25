@@ -6,7 +6,6 @@ import Footer from "./admin/partscomponents/footer";
 import { OnbordaProvider, Onborda } from 'onborda';
 import { CustomCard } from "../app/admin/customonboard";
 import Script from "next/script";
-import React, {useState, useEffect} from "react";
 
 
 const steps: any = [
@@ -95,13 +94,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-      const [windowWidth, setWindowWidth] = useState<number>(0)
-  
-         useEffect(() => {
-              setWindowWidth(window.innerWidth)
-        
-      
-          }, [])
+ 
 
   return (
     <html lang="en">
@@ -110,7 +103,7 @@ export default function RootLayout({
       <Script defer src="https://cloud.umami.is/script.js" data-website-id="e84db11e-f6c1-42fa-b6ea-c1570bbd19a8"/>
         <OnbordaProvider>
           <Onborda steps={steps}
-            showOnborda={windowWidth >390 ? true : false}
+            showOnborda={true}
             shadowRgb="18,18,19"
             shadowOpacity="0.5"
              cardComponent={CustomCard}

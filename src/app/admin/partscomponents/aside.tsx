@@ -35,11 +35,14 @@ export default function Aside() {
   const [user, setUser] = useState<User>()
   const [isFirstTime, setIsFirstTime] = useState<boolean>(true)
   const { startOnborda, closeOnborda } = useOnborda()
+    const [windowWidth, setWindowWidth] = useState<number>(0)
 
   const router = useRouter()
   useEffect(() => {
     let token = Cookies.get('token')
-    isFirstTimeIn()
+    setWindowWidth(window.innerWidth)
+
+    window.innerWidth > 800 &&  isFirstTimeIn()
 
     if (token) {
       getuser(token)
@@ -188,7 +191,7 @@ export default function Aside() {
                   href="/admin/calendar"
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                 >
-                  <CalendarDays className="h-5 w-5" id="welcome-message"
+                  <CalendarDays className="h-5 w-5" 
                   />
                   Kalendārs
                 </Link>
