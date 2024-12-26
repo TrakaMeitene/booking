@@ -1,4 +1,3 @@
-import React from "react";
 import "../App.css"
 import logo from "../../assets/logo1.png"
 import Image from "next/image";
@@ -7,7 +6,7 @@ export default function Footer(){
     return(
         <footer>
         <div className="flex row justify-sides align" style={{borderBottom: "1px solid gray", padding: 10}}>
-            <Image src={logo} alt="logo" width={90} />
+            <Image src={logo} alt="logo" width={90} height="auto" />
             <a href="/privacy" target="_blank">Privātuma politika</a>
         </div>
         <div className="flex row justify-sides">

@@ -111,7 +111,7 @@ export default function Bookingdetails(propsin: propsin) {
     }
 
     return (
-        <DialogContent className="max-w-[450px] flex items-center justify-center flex-col ">
+        <DialogContent className="max-w-[450px] flex items-center justify-center flex-col " aria-label="Vizītes detaļas" aria-describedby={undefined}>
             <DialogHeader className="text-center sm:text-center">
                 <DialogTitle>Pieraksta detaļas</DialogTitle>
                 <DialogDescription>{moment(propsin.data?.date).format('HH:mm  dddd, Do MMMM YYYY')}</DialogDescription>
@@ -121,7 +121,7 @@ export default function Bookingdetails(propsin: propsin) {
             <p className="text-xs">{propsin.data?.description}</p>
             <div className="flex flex-row w-full place-content-evenly">
                 <Dialog>
-                    <DialogContent >
+                    <DialogContent aria-label="Vizītes detaļas" aria-describedby={undefined}>
                         <DialogHeader>
                             <DialogTitle>Atcelšanas iemesls</DialogTitle>
                         </DialogHeader>

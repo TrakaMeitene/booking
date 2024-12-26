@@ -1,6 +1,5 @@
 'use client'
-import Link from "next/link";
-import React from "react";
+
 import Cookies from "js-cookie";
 import axios from "axios";
 import { Button } from "@/components/ui/button";

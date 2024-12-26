@@ -1,4 +1,3 @@
-import React from "react";
 import "../App.css"
 import { IoMdPeople } from "react-icons/io";
 import { IoLayers } from "react-icons/io5";

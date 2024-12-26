@@ -60,7 +60,7 @@ export default function Vacations(props: inprops) {
         <div>
   
             <Dialog open={open} onOpenChange={setOpen}>
-                <DialogContent>
+                <DialogContent aria-label="Jauna brīvdiena" aria-describedby={undefined}>
                     <DialogTitle>Pieteikt jaunu brīvdienu</DialogTitle>
                     <Addvacation setTab={props.setActiveTab} getmessage={getmessage} setOpen={setOpen}/>
                 </DialogContent>

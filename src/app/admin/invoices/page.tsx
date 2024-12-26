@@ -139,7 +139,7 @@ export default function Invoices() {
                             <Button className="w-[150px] mt-2" onClick={() => setType("izdevums")}>Jauns izdevums</Button>
                         </DialogTrigger>
                     </div>
-                    <DialogContent className="sm:max-w-[425px]">
+                    <DialogContent className="sm:max-w-[425px]" aria-label="juans izdeums/ieņēmums" aria-describedby={undefined}>
                         <DialogHeader>
                             <DialogTitle>{type === "ieņēmums" ? "Pievienot jaunu ieņēmumu" : "Pievienot jaunu izdevumu"}</DialogTitle>
 

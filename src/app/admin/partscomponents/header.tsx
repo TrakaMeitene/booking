@@ -69,12 +69,17 @@ export default function Header() {
   const [user, setUser] = useState<User | null>(null)
   const [searchvalue, setSearchvalue] = useState<string>()
   const [searchresponse, setSearchresponse] = useState([])
+  const [windowWidth, setWindowWidth] = useState<number>(0)
 
   useEffect(() => {
     let token = Cookies.get('token')
+    setWindowWidth(window.innerWidth)
+
     if(token){
     getuser(token)
     }else {router.push('/')}
+
+
   }, [])
 
   const getuser = (token: any) => {
@@ -123,8 +128,8 @@ export default function Header() {
     <>
       <div className="flex flex-col  w-full header" >
         <header className="sticky top-0 flex h-10 items-center gap-4 bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
-          <div className="relative ml-auto flex-1 ">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+        {windowWidth > 600 ?  <><div className="relative ml-auto flex-1 ">
+          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               type="search"
               placeholder="Search..."
@@ -136,6 +141,8 @@ export default function Header() {
               onChange={(e) => setSearchvalue(e.target.value)}
             />
           </div>
+          </>
+          : <div/>}
           <Searchcard response={searchresponse} close={closesearching}/>
    
           <DropdownMenu>

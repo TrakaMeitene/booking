@@ -1,5 +1,4 @@
 'use client'
-import React from "react";
 import "../App.css"
 import logo from "../../assets/logo1.png"
 import Image from "next/image";

@@ -54,7 +54,7 @@ export default function Newclient(propsin: propsin) {
     return (
         <>
         <Dialog open={propsin.open}  onOpenChange={propsin.setOpen}>
-            <DialogContent aria-describedby={undefined}>
+            <DialogContent aria-describedby={undefined} aria-label="Jauns klients" >
                 <DialogHeader><DialogTitle>{propsin.client ? "Labot klienta datus" : "Jauns klients"}</DialogTitle></DialogHeader>
                 <form onSubmit={handleSubmit(saveclient)}>
                     <div className="grid gap-4 py-4">

@@ -60,9 +60,12 @@ export default function Profile() {
     const [cities] = useState(["Rīga", "Daugavpils", "Jelgava", "Jēkabpils", "Jūrmala", "Liepāja", "Rēzekne", "Valmiera", "Ventspils", "Aizkraukles rajons", "Alūksnes rajons", "Balvu rajons", "Bauskas rajons", "Cēsu rajons", "Daugavpils rajons", "Dobeles rajons", "Gulbenes rajons", "Jēkabpils rajons", "Jelgavas rajons", "Krāslavas rajons", "Kuldīgas rajons", "Liepājas rajons", "Limbažu rajons", "Ludzas rajons", "Madonas rajons", "Ogres rajons", "Preiļu rajons", "Rēzeknes rajons", "Rīgas rajons", "Saldus rajons", "Talsu rajons", "Tukuma rajons", "Valkas rajons", "Valmieras rajons", "Ventspils rajons", "Ārpus Latvijas"])
     const [message, setMessage] = useState<Message>()
     const { startOnborda, closeOnborda } = useOnborda();
+  const [windowWidth, setWindowWidth] = useState<number>(0)
 
     useEffect(() => {
         let token = Cookies.get('token')
+        setWindowWidth(window.innerWidth)
+
         getuser(token)
 
     }, [])
@@ -151,9 +154,9 @@ export default function Profile() {
     }
 
     return (
-        <main>
+        <main >
             <h1 className="text-3xl w-full border-b-2">Profils</h1>
-            <div className="flex flex-row">
+            <div className="flex flex-row flex-wrap">
                 <Card className="w-[350px] mt-2">
                     <CardHeader>
                         <CardTitle>Profila dati</CardTitle>
@@ -304,7 +307,7 @@ export default function Profile() {
                     </CardContent>
                 </Card>
 
-                <Card className="h-[150px] mt-2 ml-2 mb-2">
+                <Card className="h-fit mt-2 ml-2 mb-2">
                     <CardContent>
                         <CardHeader>
                             <CardTitle>Abonaments</CardTitle>
@@ -319,7 +322,7 @@ export default function Profile() {
                     </CardContent>
                 </Card>
 
-                <Button className="ml-2 mt-2" onClick={options}>Instrukcija</Button>
+               {windowWidth > 600 ?  <Button className="ml-2 mt-2" onClick={options}>Instrukcija</Button> : <div/>}
             </div>
         </main>
     )

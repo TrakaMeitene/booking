@@ -202,7 +202,7 @@ const isToday = moment(today).format("DD,MM,YYYY") === moment(new Date()).format
                                     <Dialog open={eventFormOpen}
                                         onOpenChange={(e) => setEventFormOpen(e)}
                                     >
-                                        <DialogContent className="sm:max-w-[425px] sm:text-center ">
+                                        <DialogContent className="sm:max-w-[425px] sm:text-center " aria-label="Jauna vizīte" aria-describedby={undefined}>
                                             <DialogHeader>
                                                 <DialogTitle className="sm:text-center">Jauns pieraksts</DialogTitle>
 

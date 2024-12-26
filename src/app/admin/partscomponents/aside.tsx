@@ -18,7 +18,7 @@ import {
   TooltipTrigger,
   TooltipProvider
 } from "@/components/ui/tooltip"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import Header from "./header";
 import { usePathname } from 'next/navigation'
@@ -35,14 +35,14 @@ export default function Aside() {
   const [user, setUser] = useState<User>()
   const [isFirstTime, setIsFirstTime] = useState<boolean>(true)
   const { startOnborda, closeOnborda } = useOnborda()
-    const [windowWidth, setWindowWidth] = useState<number>(0)
+  const [windowWidth, setWindowWidth] = useState<number>(0)
 
   const router = useRouter()
   useEffect(() => {
     let token = Cookies.get('token')
     setWindowWidth(window.innerWidth)
 
-    window.innerWidth > 800 &&  isFirstTimeIn()
+    window.innerWidth > 800 && isFirstTimeIn()
 
     if (token) {
       getuser(token)
@@ -68,8 +68,7 @@ export default function Aside() {
     const headers = { 'Authorization': 'Bearer ' + token };
 
     axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/getonboardtime`, {}, { headers })
-      .then(response => 
-        { response.data.onboarder !== null ? setIsFirstTime(false) : startOnborda("firsttour") })
+      .then(response => { response.data.onboarder !== null ? setIsFirstTime(false) : startOnborda("firsttour") })
   }
 
   const base = "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
@@ -166,6 +165,9 @@ export default function Aside() {
         <header className="sticky top-0  flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
           <Header />
           <Sheet>
+              <SheetTitle className="hidden">
+                Menu
+              </SheetTitle>
             <SheetTrigger asChild>
               <Button size="icon" variant="outline" className="sm:hidden">
                 <PanelLeft className="h-5 w-5" />
@@ -191,7 +193,7 @@ export default function Aside() {
                   href="/admin/calendar"
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                 >
-                  <CalendarDays className="h-5 w-5" 
+                  <CalendarDays className="h-5 w-5"
                   />
                   Kalendārs
                 </Link>

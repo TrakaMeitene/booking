@@ -1,4 +1,3 @@
-import React from "react";
 import Specialistpage from "./specialist";
 import Nav from "@/app/components/nav";
 

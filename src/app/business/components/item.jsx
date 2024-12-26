@@ -1,4 +1,3 @@
-import React from "react";
 import phone from "../../assets/phone-mockup.png"
 import "../App.css"
 import Image from "next/image";

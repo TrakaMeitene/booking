@@ -215,7 +215,7 @@ justify-content: center;
 @keyframes l1 {to{clip-path: inset(0 -34% 0 0)}}
 
 main{
-  transform: translate(65px, 10px) !important;
+  transform: translate(65px, 10px) ;
    width: auto;
 overflow: auto; 
 width: 95vw;

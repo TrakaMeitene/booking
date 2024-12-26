@@ -143,7 +143,7 @@ return (
     <>
     <div style={{ height: "800px" }} className="w-full mb-4">
       <Dialog open={openaddbooking} onOpenChange={(event) => setOpenaddbooking(event)} >
-        <DialogContent className="sm:max-w-[425px] sm:text-center">
+        <DialogContent className="sm:max-w-[425px] sm:text-center" aria-label="Jauna vizīte" aria-describedby={undefined}>
           <DialogHeader>
             <DialogTitle className="sm:text-center">Jauns pieraksts</DialogTitle>
 
