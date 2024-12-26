@@ -84,7 +84,7 @@ useEffect(()=>{
 
     return (
         <>
-            <DialogContent aria-describedby={undefined} aria-label="Jauns pakalpojums" aria-describedby={undefined}>
+            <DialogContent aria-describedby={undefined} aria-label="Jauns pakalpojums">
                 <DialogHeader><DialogTitle>{propsIn.selectedservice ? "Labot pakalpojumu" : "Jauns pakalpojums"}</DialogTitle></DialogHeader>
                 <form onSubmit={handleSubmit(saveservice)}>
                     <div className="grid gap-4 py-4">
