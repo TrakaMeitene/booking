@@ -74,9 +74,8 @@ if(recaptcha.current.getValue()){
 
         </div>
         <div style={{marginTop: 90}}>
-            <h2>Gribi būt primais, kurš uzzina, kad sistēma tiek palaista ? Pieraksties jaunumiem </h2>
-            <p>Apsolām, nebūs kaitinošu reklāmu. Tikai ziņa, ka Tev ir iespēja platformu izmantot pirmajam un iespējams
-                ar labākiem mēneša maksas nosacījumiem!</p>
+            <h2>Pieraksties jaunumiem </h2>
+    
             <form id="formsecond" onSubmit={Addtolist} className="flex flex-col items-center justify-center">
                 <input type="e-mail" placeholder="E-pasta adrese" id="second" required onChange={(e)=> setemail(e.target.value)}/>
                 <ReCAPTCHA sitekey={process.env.NEXT_PUBLIC_APP_SITE_KEY} ref={recaptcha} style={{marginTop: "10px"}}/>
