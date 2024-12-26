@@ -160,7 +160,8 @@ export default function Services() {
       <Pagination>
         <PaginationContent className="pagination flex-wrap w-full">
           {services?.links?.map((x: any, index: number) => <PaginationItem key={index}>
-            <PaginationLink isActive={services?.current_page == x.label} onClick={() => setCurrent(Number(x.label) ? Number(x.label) : x.label === "&laquo; Previous" ? prev : next)}>{x.label == "&laquo; Previous" ? "<" : x.label == "Next &raquo;" ? ">" : x.label}</PaginationLink>
+            <PaginationLink isActive={services?.current_page == x.label} onClick={() => setCurrent(Number(x.label) ? Number(x.label) : (x.label === "&laquo; Previous" || x.label == "pagination.previous") ? prev : next)}>{(x.label == "&laquo; Previous" || x.label == "pagination.previous" ) ? "<" : (x.label == "Next &raquo;" || x.label == "pagination.next")? ">" : x.label}</PaginationLink>
+         
           </PaginationItem>
           )}
         </PaginationContent>
