@@ -10,40 +10,39 @@ import { TimePickerInput } from "@/components/ui/time-picker-input";
 import axios from "axios"
 import { useRouter } from 'next/navigation'
 import Cookies from "js-cookie";
-import { Service } from "./page";
 import { serviceObject } from "../calendar/bookingdetails";
 
 interface propsin {
-    getmessage: ({ message}: { message: string ; type: string}) => void,
+    getmessage: ({ message }: { message: string; type: string }) => void,
     setOpen: (arg: boolean) => void,
     selectedservice: serviceObject | undefined,
     setSelectedservice: any
 }
 
 export default function Newcservice(propsIn: propsin) {
-    const [date, setDate] = useState<Date>(new Date())
+    const [date, setDate] = useState<Date | undefined>(new Date())
     const router = useRouter()
 
-    let hours = date.getHours()
-let minutes = date.getMinutes()
-let seconds = 0
+    let hours = new Date().getHours()
+    let minutes = new Date().getMinutes()
+    let seconds = 0
 
-if(propsIn?.selectedservice?.time){
-     hours = Math.trunc(propsIn.selectedservice.time /60)
-    minutes = propsIn.selectedservice.time -(60* hours)
-}
+    if (propsIn?.selectedservice?.time) {
+        hours = Math.trunc(propsIn.selectedservice.time / 60)
+        minutes = propsIn.selectedservice.time - (60 * hours)
+    }
 
-useEffect(()=>{
-    const updatedDate = new Date(
-        new Date().getFullYear(),
-        new Date().getMonth(),
-        new Date().getDate(),
-        hours,
-        minutes,
-    seconds
-      )
-      setDate(updatedDate)
-},[])
+    useEffect(() => {
+        const updatedDate = new Date(
+            new Date().getFullYear(),
+            new Date().getMonth(),
+            new Date().getDate(),
+            hours,
+            minutes,
+            seconds
+        )
+        setDate(updatedDate)
+    }, [])
 
 
     type Inputs = {
@@ -63,14 +62,14 @@ useEffect(()=>{
     } = useForm<Inputs>()
 
     const saveservice: SubmitHandler<Inputs> = (data) => {
-        data.time = date.getHours() * 60 + date.getMinutes()
-       if(propsIn.selectedservice){ data.id = propsIn.selectedservice?.id}
+        if (date){data.time = date.getHours() * 60 + date.getMinutes()}
+        if (propsIn.selectedservice) { data.id = propsIn.selectedservice?.id }
         let token = Cookies.get('token')
         data.price = data.price * 100
         const headers = { 'Authorization': 'Bearer ' + token };
         axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/addservice`, data, { headers })
             .then(response => {
-                propsIn.getmessage({ message: "Dati saglabāti veiksmīgi!", type: "success"})
+                propsIn.getmessage({ message: "Dati saglabāti veiksmīgi!", type: "success" })
                 propsIn.setOpen(false)
                 reset({})
             })
@@ -84,7 +83,7 @@ useEffect(()=>{
 
     return (
         <>
-            <DialogContent aria-describedby={undefined} aria-label="Jauns pakalpojums">
+            <DialogContent >
                 <DialogHeader><DialogTitle>{propsIn.selectedservice ? "Labot pakalpojumu" : "Jauns pakalpojums"}</DialogTitle></DialogHeader>
                 <form onSubmit={handleSubmit(saveservice)}>
                     <div className="grid gap-4 py-4">
@@ -104,7 +103,7 @@ useEffect(()=>{
                                 Cena *
                             </Label>
                             <Input id="price" type="number" className={`col-span-3 ${errors.name ? "error" : ""}`} step=".01" placeholder="0.00"
-                                defaultValue={propsIn?.selectedservice ? (propsIn.selectedservice?.price /100).toFixed(2) : ""}
+                                defaultValue={propsIn?.selectedservice ? (propsIn.selectedservice?.price / 100).toFixed(2) : ""}
 
                                 {...register("price", { required: "This is required." })} />
 
@@ -122,7 +121,8 @@ useEffect(()=>{
                                 <TimePickerInput
                                     picker="hours"
                                     date={date}
-                                    setDate={()=>setDate}
+                                    setDate={setDate}
+                                    disabled={false}
                                 />
                             </div>
                             <div className="grid gap-1">
@@ -132,8 +132,8 @@ useEffect(()=>{
                                 <TimePickerInput
                                     picker="minutes"
                                     date={date}
-                                    setDate={()=>setDate}
-
+                                    setDate={setDate}
+                                    disabled={false}
                                 />
                             </div>
 
@@ -144,8 +144,8 @@ useEffect(()=>{
                                 Apraksts
                             </Label>
 
-                            <Textarea className="col-span-3" 
-                            defaultValue={propsIn?.selectedservice  ? propsIn.selectedservice?.description : ""}
+                            <Textarea className="col-span-3"
+                                defaultValue={propsIn?.selectedservice ? propsIn.selectedservice?.description : ""}
                                 {...register("description")} />
                         </div>
                     </div>
