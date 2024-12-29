@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/select"
 import { toast } from 'sonner'
 import { useOnborda } from "onborda";
+import Link from "next/link";
 
 
 export interface FormValues {
@@ -60,7 +61,7 @@ export default function Profile() {
     const [cities] = useState(["Rīga", "Daugavpils", "Jelgava", "Jēkabpils", "Jūrmala", "Liepāja", "Rēzekne", "Valmiera", "Ventspils", "Aizkraukles rajons", "Alūksnes rajons", "Balvu rajons", "Bauskas rajons", "Cēsu rajons", "Daugavpils rajons", "Dobeles rajons", "Gulbenes rajons", "Jēkabpils rajons", "Jelgavas rajons", "Krāslavas rajons", "Kuldīgas rajons", "Liepājas rajons", "Limbažu rajons", "Ludzas rajons", "Madonas rajons", "Ogres rajons", "Preiļu rajons", "Rēzeknes rajons", "Rīgas rajons", "Saldus rajons", "Talsu rajons", "Tukuma rajons", "Valkas rajons", "Valmieras rajons", "Ventspils rajons", "Ārpus Latvijas"])
     const [message, setMessage] = useState<Message>()
     const { startOnborda, closeOnborda } = useOnborda();
-  const [windowWidth, setWindowWidth] = useState<number>(0)
+    const [windowWidth, setWindowWidth] = useState<number>(0)
 
     useEffect(() => {
         let token = Cookies.get('token')
@@ -106,7 +107,7 @@ export default function Profile() {
         data.urlname = data.name.toLocaleLowerCase('tr').replace(/ /g, "-")
         Object.fromEntries(
             Object.keys(dirtyFields).map((key: string) => [
-                
+
                 formData.append(key, (data as any)[key])
             ])
         );
@@ -140,18 +141,20 @@ export default function Profile() {
 
     const abonament = async (e: any) => {
         e.preventDefault()
-       const price = e.target['priceId'].value
+        const price = e.target['priceId'].value
         let token = Cookies.get('token')
         const headers = { 'Authorization': 'Bearer ' + token };
-       await  axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/stripesession`, {price}, { headers })
-        .then(response => window.open(response.data.url, '_blank', 'noopener,noreferrer'))
+        await axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/stripesession`, { price }, { headers })
+            .then(response => window.open(response.data.url, '_blank', 'noopener,noreferrer'))
     }
 
-    const changeabonament=()=>{
-       // window.open('https://billing.stripe.com/p/login/test_28o5lo1Xx2pD9Py000', "_blank", "noreferrer"); //test
+    const changeabonament = () => {
+        // window.open('https://billing.stripe.com/p/login/test_28o5lo1Xx2pD9Py000', "_blank", "noreferrer"); //test
         window.open('https://billing.stripe.com/p/login/aEUfZ3bLf5Dpcp2144', "_blank", "noreferrer"); // live
 
     }
+
+  
 
     return (
         <main >
@@ -318,11 +321,11 @@ export default function Profile() {
                                 <input type="hidden" name="priceId" value="price_1QVUsn2K3ttu5uf5yTBUHB55" />
                                 <Button className="mt-2 " type="submit">Mainīt uz Biznesa plāns</Button>
                             </form>}
-                            {user?.abonament != "bezmaksas" && <Button onClick={changeabonament}>Abonamenta informācija</Button>}
+                        {user?.abonament != "bezmaksas" && <Button onClick={changeabonament}>Abonamenta informācija</Button>}
                     </CardContent>
                 </Card>
-
-               {windowWidth > 600 ?  <Button className="ml-2 mt-2" onClick={options}>Instrukcija</Button> : <div/>}
+              <Link target="_blank" href={`https://pierakstspie.lv/specialist/${user?.id}/${user?.name.toLocaleLowerCase('tr').replace(/ /g, "-")}`}><Button className="ml-2 mt-2" >Publiskais profils</Button></Link>
+                {windowWidth > 600 ? <Button className="ml-2 mt-2" onClick={options}>Instrukcija</Button> : <div />}
             </div>
         </main>
     )
