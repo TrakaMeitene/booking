@@ -56,7 +56,9 @@ if(token){
   } else{
     router.push('/')
   }
-  }, [item])
+      //eslint-disable-next-line react-hooks/exhaustive-deps
+
+  }, [item, router])
 
   const localizer = momentLocalizer(moment)
   const lang: { week: string, work_week: string, day: string, month: string, previous: string, next: string, today: string, agenda: string, date: string, event:string, time:string,  noEventsInRange: string } = {

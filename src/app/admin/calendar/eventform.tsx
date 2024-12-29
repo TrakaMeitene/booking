@@ -72,7 +72,8 @@ export default function Eventform(propsIn: prop) {
         if (propsIn.service) {
             setSelectedservices(propsIn.service)
         }
-    }, [])
+
+    }, [propsIn.allservices, propsIn.dateFrompage,propsIn.service,router])
 
     type Inputs = {
         name: string,

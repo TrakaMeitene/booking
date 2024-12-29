@@ -46,6 +46,7 @@ const [selectedclient, setclient] = useState<Client>()
 
   useEffect(() => {
     getdata()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [current])
 
   const getdata = () => {

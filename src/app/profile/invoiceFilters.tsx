@@ -48,6 +48,7 @@ const router = useRouter()
   useEffect(() => {
     props.getdata(months.indexOf(month!) + 1, months.indexOf(prevMonth!) + 1, type, prevType!, status, prevStatus!, selectedyear)
     getyears()
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [month, props.page, type, status, props.forcereload, selectedyear])
 
   const months = [

@@ -46,7 +46,7 @@ export default function Prifileall() {
     useEffect(() => {
         let token = Cookies.get('token')
         getuser(token)
-
+// eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const getuser = (token: any) => {

@@ -21,6 +21,7 @@ export default function Upgrade(){
 
     useEffect(() => {
       getuser()
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     
     const getuser = () => {

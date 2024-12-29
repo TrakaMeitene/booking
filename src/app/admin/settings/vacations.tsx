@@ -29,6 +29,7 @@ export default function Vacations(props: inprops) {
 
     useEffect(() => {
         getdata()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [current])
 
     let token = Cookies.get('token')

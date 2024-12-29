@@ -69,7 +69,7 @@ export default function Bookingdetails(propsin: propsin) {
         }else{
             router.push('/')
         }
-    }, [propsin.data])
+    }, [propsin.data, token])
 
     const getuser = () => {
 

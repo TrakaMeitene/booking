@@ -41,6 +41,7 @@ export default function Searchcard(props: props) {
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.response]);
 
 

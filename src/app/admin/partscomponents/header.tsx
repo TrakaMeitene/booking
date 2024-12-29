@@ -79,7 +79,7 @@ export default function Header() {
     getuser(token)
     }else {router.push('/')}
 
-
+// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const getuser = (token: any) => {
