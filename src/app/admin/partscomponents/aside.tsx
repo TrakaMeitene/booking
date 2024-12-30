@@ -75,6 +75,7 @@ export default function Aside() {
   const base = "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
   const active = "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8 bg-accent text-accent-foreground transition-colors"
 
+
   return (
     <TooltipProvider>
 
@@ -91,7 +92,7 @@ export default function Aside() {
               alt="logo"
               style={{ transform: "translate(1px, -1px)" }}
             />
-            <span className="sr-only">Acme Inc</span>
+            <span className="sr-only">Pieraksts Pie</span>
           </Link>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -188,11 +189,12 @@ export default function Aside() {
                     alt="logo"
                     style={{ transform: "translate(1px, -1px)" }}
                   />
-                  <span className="sr-only">Acme Inc</span>
+                  <span className="sr-only">Pieraksts Pie</span>
                 </Link>
                 <Link
                   href="/admin/calendar"
-                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                 className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+
                 >
                   <CalendarDays className="h-5 w-5"
                   />
@@ -201,6 +203,7 @@ export default function Aside() {
                 <Link
                   href="/admin/clients"
                   className="flex items-center gap-4 px-2.5 text-foreground"
+
                 >
                   <Users className="h-5 w-5" />
                   Klienti
@@ -208,6 +211,7 @@ export default function Aside() {
                 <Link
                   href="/admin/services"
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+
                 >
                   <Package className="h-5 w-5" />
                   Pakalpojumi
@@ -224,6 +228,7 @@ export default function Aside() {
                 <Link
                   href="/admin/settings"
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+
                 >
                   <LineChart className="h-5 w-5" />
                   Uzstādījumi
