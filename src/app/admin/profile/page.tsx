@@ -54,7 +54,7 @@ export default function Profile() {
     const [image, setImage] = useState<File>()
     const router = useRouter()
     const hiddenFileInput = useRef<any>(null);
-    const [occupations] = useState(["Frizieris", "Vizāžists", "Manikīrs", "Kosmetologs", "Skropst meistars", "Masieris", "Stilists", "Lāzerepilācija", "Tetovēšana/pīrsingi", "Fitness", "Masāža"])
+    const [occupations] = useState(["Frizieris", "Vizāžists", "Manikīrs", "Kosmetologs", "Skropst meistars", "Masieris", "Stilists", "Lāzerepilācija", "Tetovēšana/pīrsingi", "Fitness", "Masāža", "Fotogrāfs"])
     const [selectedOccupation, setSelectedOccuption] = useState("")
     const { register, handleSubmit, formState: { isDirty, dirtyFields } } = useForm<FormValues>();
     const [selectedcity, setSelectedcity] = useState("Rīga")
