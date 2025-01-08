@@ -10,7 +10,7 @@ export default function Footer(){
             <a href="/privacy" target="_blank">Privātuma politika</a>
         </div>
         <div className="flex row justify-sides">
-            <p id="demo">© 2024 Pieraksts Pie. Visas tiesības aizsargātas. </p>
+            <p id="demo">© 2025 Pieraksts Pie. Visas tiesības aizsargātas. </p>
 
         </div>
     </footer>
