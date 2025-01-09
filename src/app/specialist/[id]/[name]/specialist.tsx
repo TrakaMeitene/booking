@@ -150,7 +150,7 @@ let id = pathname.slice(12, 13)
 
 const isToday = moment(today).format("DD,MM,YYYY") === moment(new Date()).format("DD,MM,YYYY")
 
-    return (
+return (
         <>
             <section id="personpage" className="flex justify-center items-center flex-col ">
                 <div className="flex w-[80%]  p-5 flex-row items-center max-[390px]:flex-col max-[390px]:w-[90%]">
@@ -181,7 +181,7 @@ const isToday = moment(today).format("DD,MM,YYYY") === moment(new Date()).format
                             <SelectContent>
                                 <SelectGroup>
 
-                                    {services.map(x => <SelectItem key={x.id} value={x.id.toString()}>{x.name}</SelectItem>)}
+                                    {services.map(x => <SelectItem key={x.id} value={x.id.toString()}><div className="flex justify-between w-[300px]"><div>{x.name}</div> <div>{(Number(x.price)/100).toFixed(2)} Eur / {(x.time/60).toFixed(2) } St.</div></div></SelectItem>)}
 
                                 </SelectGroup>
                             </SelectContent>
