@@ -8,7 +8,7 @@ export default function Settingstabs(){
 
     const [activeTab, setActiveTab] = useState("Uzstādījumi")
     return(
-        <main>
+        <main className="bg-white">
         <Tabs value={activeTab} onValueChange={setActiveTab} >
         <TabsList>
             <TabsTrigger value="Uzstādījumi">Uzstādījumi</TabsTrigger>

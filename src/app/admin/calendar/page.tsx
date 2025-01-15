@@ -45,7 +45,7 @@ checklimits()
   }
   return (
     <>
-          <main className="flex justify-around p-2 w-[95vw] flex-wrap mb-[20px]" >
+          <main className="flex justify-around p-2 w-[95vw] flex-wrap mb-[20px] bg-white" >
             {message && <Alertcomp success={{message: message, type: "error"}} />}
               <Calendarview   />
             </main> 

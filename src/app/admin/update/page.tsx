@@ -42,7 +42,7 @@ export default function Upgrade(){
     }
 
     return(
-        <main id="update">
+        <main id="update bg-white">
                   <Card className="h-[150px] mt-2 ml-2 mb-2">
                 <CardContent>
                     <CardHeader>

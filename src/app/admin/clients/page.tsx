@@ -77,7 +77,7 @@ const options=(client: Client)=>{
 }
 
   return (
-    <main>
+    <main className="bg-white">
       <h1 className="text-3xl w-full border-b-2">Klienti</h1>
       <Dialog open={open} onOpenChange={(e)=> {setOpen(e), setclient(undefined)}}>
         {open && <Newclient getmessage={getmessage} client={undefined}  open={open} setOpen={setOpen}/>}
@@ -85,7 +85,7 @@ const options=(client: Client)=>{
           <Button className="mt-2">  <Plus size={20} className="mr-2" />Jauns klients</Button>
         </DialogTrigger>
       </Dialog>
-      <Table className="mt-4">
+      <Table className="mt-4 bg-white">
         <TableCaption>Klientu saraksts</TableCaption>
         <TableHeader>
           <TableRow>

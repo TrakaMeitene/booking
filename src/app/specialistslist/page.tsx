@@ -7,6 +7,7 @@ import { useSearchParams } from 'next/navigation'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useRouter, usePathname } from 'next/navigation'
 import { User } from "../admin/calendar/page";
+import Footer from "../admin/partscomponents/footer";
 
 
 export default function Specialists() {
@@ -69,6 +70,7 @@ export default function Specialists() {
 
             </section>
             </Suspense>
+            <Footer/>
         </>
     )
 }

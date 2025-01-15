@@ -15,9 +15,9 @@
 
 main{
     transform: translate(65px, 10px) !important;
-     width: auto;
+     width: 100%;
 overflow: auto; 
-width: 95vw;
+
 padding: 20px;
 }
 

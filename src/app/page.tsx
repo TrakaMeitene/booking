@@ -8,6 +8,7 @@ import Searchspecialist from "./components/search";
 
 const syne = Syne({ subsets: ['latin'], weight: "700" });
 import Head from "next/head";
+import Footer from "./admin/partscomponents/footer";
 
 export default function Home() {
 
@@ -25,6 +26,7 @@ export default function Home() {
 
         
       </section>
+      <Footer/>
     </>
   );
 }

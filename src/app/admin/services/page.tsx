@@ -104,7 +104,7 @@ export default function Services() {
     return <Loading />
 
   return (
-    <main>
+    <main className="bg-white">
       <h1 className="text-3xl w-full border-b-2">Pakalpojumi</h1>
       <Dialog open={open} onOpenChange={(e) => {setOpen(e), setSelectedservice(undefined)}}>
         {open && <Newservice getmessage={getmessage} setOpen={setOpen} selectedservice={undefined} setSelectedservice={undefined}/>}

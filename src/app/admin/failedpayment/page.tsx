@@ -15,7 +15,7 @@ export default function Sucesspayment(){
     }
 
     return(
-        <main id="notfound" className=" flex justify-center items-center flex-col h-[80vh]">
+        <main id="notfound" className=" flex justify-center items-center flex-col h-[80vh] bg-white">
         <h2 className="text-7xl flex justify-center text-center">Kaut kas nogājis greizi un maksājums nav izdevies!</h2>
         <Button onClick={abonament}>Mēģināt vēlreiz!</Button>
      </main>

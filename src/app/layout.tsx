@@ -110,7 +110,7 @@ export default function RootLayout({
             cardTransition={{ duration: 2, type: "spring" }}>
             {children}
             <Toaster richColors />
-            <Footer />
+            {/* <Footer /> */}
           </Onborda>
         </OnbordaProvider>
       </body>

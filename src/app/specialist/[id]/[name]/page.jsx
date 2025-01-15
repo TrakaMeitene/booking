@@ -1,3 +1,4 @@
+import Footer from "@/app/admin/partscomponents/footer";
 import Specialistpage from "./specialist";
 import Nav from "@/app/components/nav";
 
@@ -30,6 +31,7 @@ export default async function Specialistlayout({ params, searchParams }){
         <>
         <Nav/>
         <Specialistpage/>
+        <Footer/>
         </>
     )
 }

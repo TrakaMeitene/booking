@@ -157,7 +157,7 @@ export default function Profile() {
   
 
     return (
-        <main >
+        <main className="bg-white">
             <h1 className="text-3xl w-full border-b-2">Profils</h1>
             <div className="flex flex-row flex-wrap">
                 <Card className="w-[350px] mt-2">
