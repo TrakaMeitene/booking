@@ -4,18 +4,22 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react";
 
 import "../login/login.css"
+import { Card, CardContent} from "@/components/ui/card";
 
 export default function Loginbefore() {
   return (
-    <div className="w-full lg:grid lg:min-h-[800px] lg:grid-cols-2 xl:min-h-[800px] h-full">
-      <div className="flex items-center justify-center py-12 px-12">
+    <div className="flex min-h-svh flex-col items-center justify-center bg-muted p-6 md:p-10">
+      <div className="w-full max-w-sm md:max-w-3xl">
+      <Card className="overflow-hidden">
+      <CardContent className="grid p-0 md:grid-cols-2">
+              <div className="flex items-center justify-center py-12 px-12">
         <div className="mx-auto grid  gap-6">
           <div className="grid gap-2 text-center">
             <h1 className="text-3xl font-bold">Norādi savu virzienu</h1>
 
           </div>
           <div className=" clienttype flex flex-col justify-center items-center">
-            <div className="w-full">
+            <div >
               <Link href={{
                 pathname: 'login/signin',
                 query: { type: 'business' },
@@ -44,13 +48,16 @@ export default function Loginbefore() {
       </div>
       <div className="hidden bg-muted lg:block">
         <Image
-          src="/logo1.png"
+          src="/asset3.png"
           alt="Image"
-          width="1920"
+          width="450"
           height="1080"
           className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
         />
       </div>
+      </CardContent>
+      </Card>
+    </div>
     </div>
 
   )

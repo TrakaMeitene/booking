@@ -7,7 +7,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Label } from "@/components/ui/label"
 import { User } from "../../../admin/calendar/page";
 import { Service } from "../../../admin/services/page";
-import Loading from "../../../admin/partscomponents/loading";
 import {
     Select,
     SelectContent,
@@ -153,18 +152,22 @@ const isToday = moment(today).format("DD,MM,YYYY") === moment(new Date()).format
 return (
         <>
             <section id="personpage" className="flex justify-center items-center flex-col ">
-                <div className="flex w-[80%]  p-5 flex-row items-center max-[390px]:flex-col max-[390px]:w-[90%]">
+                
+                <div className="flex w-[80%]  p-5 flex-row items-center max-[390px]:flex-col max-[390px]:w-[90%] z-[2]">
                     <Avatar className="h-[150px] w-[150px] mr-4" >
                         <AvatarImage src={`${process.env.NEXT_PUBLIC_REQUEST_STORAGE}/${specialist[0].avatar}`} />
                         <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
                     <div className="text-left">
                         <h4 className="font-bold text-xl">{specialist[0]?.name}</h4>
+                        <div style={{ height: "auto", backgroundColor: "hsl(32, 25%, 99%)", padding: "10px",  borderRadius: "10px",  marginTop: "20px"}}>
+
                         <p className="max-[390px]:text-sm">{specialist[0].bio}</p>
                         <p className="text-stone-400 text-sm mt-2 text-left">{specialist[0].occupation}</p>
                         <div className="flex flex-row text-left">
                             <p className="text-stone-400 text-sm">{specialist[0].city},</p>
                             <p className="text-stone-400 text-sm">{specialist[0].adress}</p>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -188,16 +191,17 @@ return (
                         </Select>
                         <Button onClick={gettimes} disabled={!selectedservice}>Atlasīt laikus</Button>
                     </div>
+                    <div style={{ height: "auto", backgroundColor: "hsl(32, 25%, 99%)", padding: "10px",  borderRadius: "10px",  marginTop: "20px"}}>
                     <div className="w-full flex flex-row items-center justify-center mt-4">
                         <ChevronLeft onClick={!isToday ? previousrange : ()=>{}} className="cursor-pointer " color={isToday ? "grey" : "black"}/>
                         <p className="max-[390px]:text-sm">{today.getDate()}  {months[today.getMonth()]} - {rangeEnd.getDate()} {months[rangeEnd.getMonth()]}</p>
                         <ChevronRight onClick={nextrange} className="cursor-pointer" />
                     </div>
-                    <div className="max-[390px]:w-[90%] flex max-[390px]:items-start min-h-72 items-start">
+                    <div className="max-[390px]:w-[90%] flex max-[390px]:items-start  items-start">
                         <div className="flex flex-row mt-4 w-full items-center justify-center max-[390px]:items-left">
 
                             { times?.map((x, index) =>
-                                <div key={index} className={`flex flex-col w-[70px]  h-[30px] mr-2 text-center mb-4 font-bold ${x.isDayFree || x.isDayVacation ? "" : "text-red-600"}`}>{weekdays[new Date(x.date).getUTCDay()]}
+                                <div key={index} className={`flex flex-col w-[70px]  mr-2 text-center mb-4 font-bold ${x.isDayFree || x.isDayVacation ? "" : "text-red-600"}`}>{weekdays[new Date(x.date).getUTCDay()]}
                                    {x.interval && <div className="font-light text-sm">{new Date(x.date).getDate()}.{new Date(x.date).getMonth() + 1}</div> }
                                     <Dialog open={eventFormOpen}
                                         onOpenChange={(e) => setEventFormOpen(e)}
@@ -224,8 +228,10 @@ return (
 
                         </div>
                     </div>
+                    </div>
 
                 </div>
+
             </section>
         </>
     )

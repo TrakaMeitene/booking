@@ -126,6 +126,7 @@ button:hover:not(.search button, #personpage button, .select button), .button:ho
 
 #home{
   padding-top:100px;
+  background-color: white;
 }
 
 

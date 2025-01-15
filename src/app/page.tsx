@@ -4,7 +4,6 @@ import Nav from "./components/nav"
 import 'moment/locale/lv'
 
 import { Syne } from 'next/font/google';
-
 import Searchspecialist from "./components/search";
 
 const syne = Syne({ subsets: ['latin'], weight: "700" });
@@ -21,8 +20,10 @@ export default function Home() {
       <Nav />
 
       <section id="homefirst" className="home">
-        <h1 className={` ${syne.className}`}>Atrodiet savu labsajūtas speciālistu jebkurā laikā, jebkurā vietā!</h1>
+        <h1 className={` ${syne.className} z-[1] mt-6` }>Atrodiet savu labsajūtas speciālistu jebkurā laikā, jebkurā vietā!</h1>
         <Searchspecialist />
+
+        
       </section>
     </>
   );

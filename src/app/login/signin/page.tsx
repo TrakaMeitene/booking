@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation'
 import { useSearchParams } from 'next/navigation'
 import Alertcomp from "@/app/admin/partscomponents/alert";
 import { toast } from "sonner";
-
+import { Card, CardContent} from "@/components/ui/card";
 
 export default function Signin() {
   type FormValues = {
@@ -54,10 +54,12 @@ export default function Signin() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
 
-    <div className="w-full lg:grid lg:min-h-[800px] lg:grid-cols-2 xl:min-h-[800px] h-full">
-
+<div className="flex min-h-svh flex-col items-center justify-center bg-muted p-6 md:p-10">
+      <div className="w-full max-w-sm md:max-w-3xl">
+      <Card className="overflow-hidden">
+      <CardContent className="grid p-0 md:grid-cols-2">
         <div className="flex items-center justify-center py-12 px-12">
-          <div className="mx-auto grid w-[350px] gap-6">
+          <div className="mx-auto grid  gap-6">
             {message && <Alertcomp success={message} />}
 
             <div className="grid gap-2 text-center">
@@ -94,10 +96,10 @@ export default function Signin() {
                 <Button type="submit" className="w-full">
                   Pieslēgties
                 </Button>
-                <div className="mt-4 text-center text-sm">
-                  Tev vēl nav savs konts?{" "}
+                <div className="mt-4 text-center text-sm flex flex-col ">
+                 <p className="mb-2">Tev vēl nav savs konts?{" "}</p>
                   <Link href={`/login/register?type=${type}`} className="underline">
-                    Izveidot
+                  <Button variant="outline" className="w-full">Izveidot</Button>
                   </Link>
                 </div>
               </div>
@@ -107,12 +109,15 @@ export default function Signin() {
 
           <div className="hidden bg-muted lg:block">
             <Image
-              src="/logo1.png"
+              src="/asset3.png"
               alt="Image"
-              width="1920"
-              height="1080"
+              width="382"
+              height="390"
               className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
             />
+          </div>
+          </CardContent>
+          </Card>
           </div>
         </div>
         </Suspense>

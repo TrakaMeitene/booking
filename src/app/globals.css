@@ -122,11 +122,26 @@ justify-content: start;
   justify-content: space-evenly;
 
 }
-#homefirst, #privacy, #notfound{
-  background-image: url("/feelings.jpg");
+/* #homefirst, #privacy, #notfound{
+   background-image: url("/feelings.jpg"); 
   background-size:cover;
+  background-image: url("/back.png");
+} */
+
+body{
+  background-size:cover;
+  background-image: url("/back.png");
 
 }
+
+#homefirst, #privacy, #notfound, #personpage{
+background-color: rgba(255, 255, 255, 0.6);
+}
+
+.homenav, footer{
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
 #privacy div{
 background-color: white;
 opacity: 0.9;
@@ -170,6 +185,8 @@ flex-direction: column;
   /* margin-left: -130px; */
   position:relative;
 }
+
+
 
 #homefirst h1{
   font-size: 3.75rem;
@@ -298,7 +315,6 @@ footer{
   }
 
   #homefirst{
-    padding-top: 30%;
     height: auto;
   }
 
@@ -327,6 +343,10 @@ footer{
     overflow: scroll;
   }
 
+  .image{
+    display: none !important;
+  }
+
 }
 
 @media screen and (max-width: 1400px){
@@ -352,10 +372,16 @@ footer{
     min-height: 80vh !important;
     height:auto !important;
   }
+
+  .image{
+    display:none;
+  }
 }
 
 @media only screen and (min-width: 1432px) and (max-width: 2000px){
   #homefirst{
-    height:130vh;
+    height:auto;
   }
+
+
 }

@@ -8,6 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useRouter, usePathname } from 'next/navigation'
 import { User } from "../admin/calendar/page";
 
+
 export default function Specialists() {
     const searchParams = useSearchParams()
     const router = useRouter()
@@ -40,14 +41,15 @@ export default function Specialists() {
 
     return (
         <>
+        
             <Nav />
             <Suspense fallback={<div>Loading...</div>}>
 
             <section id="homefirst" className="justify-center home">
                 <Searchspecialist />
-                <div className="flex flex-wrap flex-row">
+                <div className="flex flex-wrap flex-row justify-center items-center z-[2]">
                     {specialists.length > 0 ? specialists?.map((x: any) =>
-                        <div className="flex border flex-row rounded-2xl bg-white p-5 cursor-pointer hover:scale-105" key={x.id} onClick={() => topersonalpage(x)}>
+                        <div className="flex border flex-row rounded-2xl bg-white p-5 cursor-pointer hover:scale-105 mr-4 mb-4" key={x.id} onClick={() => topersonalpage(x)}>
                             <Avatar className="h-[100px] w-[100px]" >
                                 <AvatarImage src={`${process.env.NEXT_PUBLIC_REQUEST_STORAGE}/${x.avatar}`} />
                                 <AvatarFallback>CN</AvatarFallback>

@@ -38,7 +38,7 @@ export default function LoginForm() {
   }
 
   return (
-    <div className="flex  justify-center items-center h-[100vh]">
+    <div className="flex  justify-center items-center h-[100vh] bg-muted">
     <Card className="mx-auto max-w-sm">
       <CardHeader>
         <CardTitle className="text-2xl">Aizmirsi paroli?</CardTitle>
@@ -66,10 +66,10 @@ export default function LoginForm() {
         </div>
         </form>
 
-        <div className="mt-4 text-center text-sm">
-        Tev vēl nav savs konts?{" "}
+        <div className="mt-4 text-center text-sm flex flex-col">
+       <p>Tev vēl nav savs konts?</p>
                 <Link href={`/login`} className="underline">
-                  Izveidot
+                  <Button variant="outline" className="w-full" >Izveidot</Button>
                 </Link>
         </div>
       </CardContent>
