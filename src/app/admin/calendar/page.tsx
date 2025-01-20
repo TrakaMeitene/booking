@@ -57,8 +57,6 @@ export default function Admin() {
         {message && <Alertcomp success={{ message: message, type: "error" }} />}
         <Calendarview />
       </main>
-      <Footer/>
-
     </>
 
 
