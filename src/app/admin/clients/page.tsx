@@ -128,5 +128,6 @@ const options=(client: Client)=>{
         </PaginationContent>
       </Pagination>
     </main>
+    
   )
 }

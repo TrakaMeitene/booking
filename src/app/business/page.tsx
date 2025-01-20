@@ -15,7 +15,7 @@ export default function Business() {
 <Features/>
 <Item/>
 <Pricing/>
-<Footer/>
+<Footer />
 </div>
   );
 }

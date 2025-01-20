@@ -5,6 +5,7 @@ import type { CardComponentProps } from "onborda";
 import { useOnborda } from "onborda"
 import axios from "axios";
 import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 export const CustomCard = ({
   step,
@@ -15,12 +16,18 @@ export const CustomCard = ({
   arrow,
 }: CardComponentProps) => {
   const { startOnborda, closeOnborda } = useOnborda();
+const router = useRouter()
 
   const closeandupdate = () => {
     closeOnborda()
     let token = Cookies.get('token')
     const headers = { 'Authorization': 'Bearer ' + token };
     axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/setonboardtime`, {}, {headers})
+    .catch(function (error) {
+      if (error.response.status == 401) {
+        return router.push('/login')
+      }
+    })
   }
 
   return (

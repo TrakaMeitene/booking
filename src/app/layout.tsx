@@ -101,7 +101,7 @@ export default function RootLayout({
 
       <body className={inter.className}>
       <Script defer src="https://cloud.umami.is/script.js" data-website-id="e84db11e-f6c1-42fa-b6ea-c1570bbd19a8"/>
-        <OnbordaProvider>
+        <OnbordaProvider >
           <Onborda steps={steps}
             showOnborda={true}
             shadowRgb="18,18,19"
@@ -110,7 +110,6 @@ export default function RootLayout({
             cardTransition={{ duration: 2, type: "spring" }}>
             {children}
             <Toaster richColors />
-            {/* <Footer /> */}
           </Onborda>
         </OnbordaProvider>
       </body>

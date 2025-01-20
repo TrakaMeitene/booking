@@ -70,6 +70,11 @@ export default function Aside() {
 
     axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/getonboardtime`, {}, { headers })
       .then(response => { response.data.onboarder !== null ? setIsFirstTime(false) : startOnborda("firsttour") })
+      .catch(function (error) {
+        if (error.response.status == 401) {
+          return router.push('/login')
+        }
+      })
   }
 
   const base = "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"

@@ -1,10 +1,19 @@
+import  Image  from "next/image"
 
 export default function Footer(){
     return(
-        <footer className="w-full flex justify-center items center p-5 text-[90%]">
+        <footer >
+            <div className={`w-[90%] ml-[100px] flex flex-row justify-between items center p-5 text-[90%] `}>
+                      <a href="/privacy"> Privātuma politika </a>
+
             <p>© 2025 Pieraksts Pie. Visas tiesības aizsargātas. </p>
-            <p></p>
-            <a href="/privacy"> Privātuma politika </a>
+           
+            <div className="flex flex-row">
+                <a href="https://www.facebook.com/profile.php?id=61572238082848" target="_blank" className="mr-2"><Image src="/facebook.svg" alt="Facebook" width="20" height="20"/></a>
+                <a href="https://www.tiktok.com/@pierakstspie" target="_blank"><Image src="/tiktok.svg" alt="Facebook" width="20" height="20"/></a>
+
+            </div>
+            </div>
         </footer>
     )
 }
