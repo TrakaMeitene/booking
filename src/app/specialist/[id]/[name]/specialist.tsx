@@ -153,14 +153,14 @@ return (
         <>
             <section id="personpage" className="flex justify-center items-center flex-col ">
                 
-                <div className="flex w-[80%]  p-5 flex-row items-center max-[390px]:flex-col max-[390px]:w-[90%] z-[2]">
+                <div className="flex w-[80%]  p-5 flex-col items-center justify-center max-[390px]:flex-col max-[390px]:w-[90%] z-[2]">
                     <Avatar className="h-[150px] w-[150px] mr-4" >
                         <AvatarImage src={`${process.env.NEXT_PUBLIC_REQUEST_STORAGE}/${specialist[0].avatar}`} />
                         <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
-                    <div className="text-left">
-                        <h4 className="font-bold text-xl">{specialist[0]?.name}</h4>
-                        <div style={{ height: "auto", backgroundColor: "hsl(32, 25%, 99%)", padding: "10px",  borderRadius: "10px",  marginTop: "20px"}}>
+                    <div >
+                        <h4 className="font-bold text-xl text-center">{specialist[0]?.name}</h4>
+                        <div style={{ height: "auto", backgroundColor: "hsl(32, 25%, 99%)", padding: "10px",  borderRadius: "10px",  marginTop: "20px", border: "1px solid hsl(33, 27%, 92%)"}}>
 
                         <p className="max-[390px]:text-sm">{specialist[0].bio}</p>
                         <p className="text-stone-400 text-sm mt-2 text-left">{specialist[0].occupation}</p>
@@ -191,17 +191,17 @@ return (
                         </Select>
                         <Button onClick={gettimes} disabled={!selectedservice}>Atlasīt laikus</Button>
                     </div>
-                    <div style={{ height: "auto", backgroundColor: "hsl(32, 25%, 99%)", padding: "10px",  borderRadius: "10px",  marginTop: "20px"}}>
-                    <div className="w-full flex flex-row items-center justify-center mt-4">
+                    <div style={{ height: "auto", backgroundColor: "hsl(32, 25%, 99%)", padding: "10px",  borderRadius: "10px",  marginTop: "20px", border: "1px solid hsl(33, 27%, 92%)"}}>
+                    <div className="w-full flex flex-row items-start justify-center mt-4">
                         <ChevronLeft onClick={!isToday ? previousrange : ()=>{}} className="cursor-pointer " color={isToday ? "grey" : "black"}/>
                         <p className="max-[390px]:text-sm">{today.getDate()}  {months[today.getMonth()]} - {rangeEnd.getDate()} {months[rangeEnd.getMonth()]}</p>
                         <ChevronRight onClick={nextrange} className="cursor-pointer" />
                     </div>
                     <div className="max-[390px]:w-[90%] flex max-[390px]:items-start  items-start">
-                        <div className="flex flex-row mt-4 w-full items-center justify-center max-[390px]:items-left">
+                        <div className="flex flex-row mt-4 w-full items-start justify-center max-[390px]:items-left">
 
                             { times?.map((x, index) =>
-                                <div key={index} className={`flex flex-col w-[70px]  mr-2 text-center mb-4 font-bold ${x.isDayFree || x.isDayVacation ? "" : "text-red-600"}`}>{weekdays[new Date(x.date).getUTCDay()]}
+                                <div key={index} className={`flex flex-col w-[70px]  mr-2 text-center mb-4 font-bold ${x.isDayFree || x.isDayVacation ? "" : "text-zinc-300 z-index-[-2] hover:bg-white"}`}>{weekdays[new Date(x.date).getUTCDay()]}
                                    {x.interval && <div className="font-light text-sm">{new Date(x.date).getDate()}.{new Date(x.date).getMonth() + 1}</div> }
                                     <Dialog open={eventFormOpen}
                                         onOpenChange={(e) => setEventFormOpen(e)}
