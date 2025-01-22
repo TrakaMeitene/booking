@@ -105,12 +105,38 @@ export default function Settings() {
                                         <label htmlFor="from" className="mr-2" >No:</label>
                                         <input type="time" id="from" name="from" defaultValue={workingdays[index]?.breakfrom} 
                                         disabled={!workingdays[index]?.statuss}
-                                         onChange={(e) =>setWorkingdays(workingdays => workingdays.with(index, { ...workingdays[index], breakfrom: e.target.value == "" ? "00:00" :  e.target.value }))} 
-                                         style={{ border: "1px solid hsl(220 13% 91%)", borderRadius: "10px", padding: 4 }} className="mb-2" required />
+                                         onChange={(e) =>setWorkingdays(workingdays => workingdays.with(index, { ...workingdays[index], breakfrom: e.target.value == "" ? "00:00" :  e.target.value }))}          
+                                        style={{ border: "1px solid hsl(220 13% 91%)", borderRadius: "10px", padding: 4 }} className="mb-2" 
+                                        onBlur={(e) => {
+                                            if (e.target.value === "") {
+                                              e.target.value = "00:00";
+                                              setWorkingdays((workingdays) =>
+                                                workingdays.with(index, {
+                                                  ...workingdays[index],
+                                                  breakfrom: "00:00",
+                                                })
+                                              );
+                                            }
+                                          }}
+                                          required />
                                     </div>
                                     <div>
                                         <label htmlFor="to" className="mr-2">Līdz:</label>
-                                        <input type="time" id="to" name="to" defaultValue={workingdays[index]?.breakto} disabled={!workingdays[index]?.statuss} onChange={(e) => setWorkingdays(workingdays => workingdays.with(index, { ...workingdays[index], breakto: e.target.value == "" ? "00:00" :  e.target.value  }))} style={{ border: "1px solid hsl(220 13% 91%)", borderRadius: "10px", padding: 4 }} required />
+                                        <input type="time" id="to" name="to" defaultValue={workingdays[index]?.breakto }
+                                         disabled={!workingdays[index]?.statuss} onChange={(e) => setWorkingdays(workingdays => workingdays.with(index, { ...workingdays[index], breakto: e.target.value == "" ? "00:00" :  e.target.value  }))}
+                                          style={{ border: "1px solid hsl(220 13% 91%)", borderRadius: "10px", padding: 4 }} 
+                                          onBlur={(e) => {
+                                            if (e.target.value === "") {
+                                              e.target.value = "00:00";
+                                              setWorkingdays((workingdays) =>
+                                                workingdays.with(index, {
+                                                  ...workingdays[index],
+                                                  breakto: "00:00",
+                                                })
+                                              );
+                                            }
+                                          }}
+                                          required />
                                     </div>
                             </CardContent>
                         </Card>
