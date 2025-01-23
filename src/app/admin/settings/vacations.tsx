@@ -58,7 +58,7 @@ export default function Vacations(props: inprops) {
     }
 
     return (
-        <div>
+        <div className="mb-[60px]">
   
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogContent aria-label="Jauna brīvdiena" aria-describedby={undefined}>
@@ -70,7 +70,7 @@ export default function Vacations(props: inprops) {
                     <Button><Plus />Pieteikt</Button>
                 </DialogTrigger>
             </Dialog>
-            <div>
+            <div >
                 <Table className="max-h-[750px] mt-4">
                     <TableCaption>Saraksts ar pieteiktajām brīvdienām</TableCaption>
                     <TableHeader>

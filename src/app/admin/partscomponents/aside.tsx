@@ -77,8 +77,8 @@ export default function Aside() {
       })
   }
 
-  const base = "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-  const active = "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8 bg-accent text-accent-foreground transition-colors"
+  const base = "flex h-9 md:justify-center items-center  rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+  const active = "flex h-9 md:justify-center items-center  rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8 bg-accent text-accent-foreground transition-colors"
 
 
   return (
@@ -196,48 +196,63 @@ export default function Aside() {
                   />
                   <span className="sr-only">Pieraksts Pie</span>
                 </Link>
+                <SheetTrigger asChild>
                 <Link
                   href="/admin/calendar"
-                 className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                 className={`flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground ${pathname === "/admin/calendar" ? active : base}`}
 
                 >
                   <CalendarDays className="h-5 w-5"
                   />
                   Kalendārs
                 </Link>
+                </SheetTrigger>
+                <SheetTrigger asChild>
                 <Link
                   href="/admin/clients"
-                  className="flex items-center gap-4 px-2.5 text-foreground"
+                  className={`flex items-center gap-4 px-2.5 text-foreground ${pathname === "/admin/clients" ? active : base}`}
 
                 >
                   <Users className="h-5 w-5" />
                   Klienti
                 </Link>
+                </SheetTrigger>
+
+                <SheetTrigger asChild>
+
                 <Link
                   href="/admin/services"
-                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                  className={`flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground  ${pathname === "/admin/services" ? active : base}`}
 
                 >
                   <Package className="h-5 w-5" />
                   Pakalpojumi
                 </Link>
+                </SheetTrigger>
+                <SheetTrigger asChild>
+
                 <Link
                   href={user?.abonament != "bezmaksas" ? "/admin/invoices" : "/admin/update"}
-                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                  className={`flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground ${pathname === "/admin/invoices" ? active : base}`}
                 >
                   {user?.abonament == "bezmaksas" && <Badge variant="destructive" className="absolute  translate-x-28	rounded-full  "><Star size={12} /></Badge>}
 
                   <Package className="h-5 w-5" />
                   Rēķini
                 </Link>
+                </SheetTrigger>
+
+                <SheetTrigger asChild>
+
                 <Link
                   href="/admin/settings"
-                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                  className={`flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground ${pathname === "/admin/settings" ? active : base}`}
 
                 >
                   <LineChart className="h-5 w-5" />
                   Uzstādījumi
                 </Link>
+                </SheetTrigger>
               </nav>
             </SheetContent>
           </Sheet>
