@@ -53,7 +53,7 @@ export default function Admin() {
   }
   return (
     <>
-      <main className="flex justify-around p-2 w-[95vw] flex-wrap mb-[20px] bg-white" >
+      <main className="flex justify-around  w-[95vw] flex-wrap  bg-white" >
         {message && <Alertcomp success={{ message: message, type: "error" }} />}
         <Calendarview />
       </main>

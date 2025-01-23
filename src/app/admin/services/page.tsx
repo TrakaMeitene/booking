@@ -37,7 +37,7 @@ import { Message } from "../profile/page";
 
 export interface Service {
   map(arg0: (x: serviceObject) => React.JSX.Element): React.ReactNode;
-  id: number, name: string, price: string, time: number, description: string, 
+  id: number, name: string, price: string, time: number, description: string,
 }
 
 export default function Services() {
@@ -95,7 +95,7 @@ export default function Services() {
   let next = current + 1 < services?.last_page ? current + 1 : services?.last_page
 
 
-  const Options = (service:serviceObject) => {
+  const Options = (service: serviceObject) => {
     setOpen(true)
     setSelectedservice(service)
   }
@@ -106,67 +106,114 @@ export default function Services() {
   return (
     <main className="bg-white">
       <h1 className="text-3xl w-full border-b-2">Pakalpojumi</h1>
-      <Dialog open={open} onOpenChange={(e) => {setOpen(e), setSelectedservice(undefined)}}>
-        {open && <Newservice getmessage={getmessage} setOpen={setOpen} selectedservice={undefined} setSelectedservice={undefined}/>}
-        <DialogTrigger asChild>
-          <Button className="mt-2" id="step3">  <Plus size={20} className="mr-2" />Jauns pakalpojums</Button>
-        </DialogTrigger>
+      <div className="hidden md:block">
 
-        <Table className="mt-4">
-          <TableCaption>Paklapojumu saraksts</TableCaption>
-          <TableHeader>
-            <TableRow>
-              <TableHead >Nosaukums</TableHead>
-              <TableHead>Cena</TableHead>
-              <TableHead>Ilgums</TableHead>
-              <TableHead className="max-w-5">Apraksts</TableHead>
-              <TableHead className="max-w-5">Iespējas</TableHead>
+        <Dialog open={open} onOpenChange={(e) => { setOpen(e), setSelectedservice(undefined) }}>
+          {open && <Newservice getmessage={getmessage} setOpen={setOpen} selectedservice={undefined} setSelectedservice={undefined} />}
+          <DialogTrigger asChild>
+            <Button className="mt-2" id="step3">  <Plus size={20} className="mr-2" />Jauns pakalpojums</Button>
+          </DialogTrigger>
+          <Table className="mt-4">
+            <TableCaption>Paklapojumu saraksts</TableCaption>
+            <TableHeader>
+              <TableRow>
+                <TableHead >Nosaukums</TableHead>
+                <TableHead>Cena</TableHead>
+                <TableHead>Ilgums</TableHead>
+                <TableHead className="max-w-5">Apraksts</TableHead>
+                <TableHead className="max-w-5">Iespējas</TableHead>
 
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {services?.data.map((x: serviceObject) => <TableRow key={x.id} >
-              <TableCell>{x.name}</TableCell>
-              <TableCell >{(Number(x.price) / 100).toFixed(2)} Eur</TableCell>
-              <TableCell >{x.time} min</TableCell>
-              <TableCell className="max-w-60">{x.description}</TableCell>
-              <TableCell className="max-w-60">
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger onClick={() => { deleteservice(x) }}>
-                      <Trash2 />                                                </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Dzēst</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-                {open && <Newservice getmessage={getmessage} setOpen={setOpen} selectedservice={selectedservice}  setSelectedservice={setSelectedservice}/>}
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger onClick={() => { Options(x) }}>
-                      <Pencil className="ml-4"/>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Labot</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {services?.data.map((x: serviceObject) => <TableRow key={x.id} >
+                <TableCell>{x.name}</TableCell>
+                <TableCell >{(Number(x.price) / 100).toFixed(2)} Eur</TableCell>
+                <TableCell >{x.time} min</TableCell>
+                <TableCell className="max-w-60">{x.description}</TableCell>
+                <TableCell className="max-w-60">
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger onClick={() => { deleteservice(x) }}>
+                        <Trash2 />                                                </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Dzēst</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                  {open && <Newservice getmessage={getmessage} setOpen={setOpen} selectedservice={selectedservice} setSelectedservice={setSelectedservice} />}
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger onClick={() => { Options(x) }}>
+                        <Pencil className="ml-4" />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Labot</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
 
-              </TableCell>
+                </TableCell>
 
-            </TableRow>)}
-          </TableBody>
-        </Table>
-      </Dialog>
-      <Pagination>
-        <PaginationContent className="pagination flex-wrap w-full">
-          {services?.links?.map((x: any, index: number) => <PaginationItem key={index}>
-            <PaginationLink isActive={services?.current_page == x.label} onClick={() => setCurrent(Number(x.label) ? Number(x.label) : (x.label === "&laquo; Previous" || x.label == "pagination.previous") ? prev : next)}>{(x.label == "&laquo; Previous" || x.label == "pagination.previous" ) ? "<" : (x.label == "Next &raquo;" || x.label == "pagination.next")? ">" : x.label}</PaginationLink>
-         
-          </PaginationItem>
-          )}
-        </PaginationContent>
-      </Pagination>
-    </main>
+              </TableRow>)}
+            </TableBody>
+          </Table>
+        </Dialog>
+        <Pagination>
+          <PaginationContent className="pagination flex-wrap w-full">
+            {services?.links?.map((x: any, index: number) => <PaginationItem key={index}>
+              <PaginationLink isActive={services?.current_page == x.label} onClick={() => setCurrent(Number(x.label) ? Number(x.label) : (x.label === "&laquo; Previous" || x.label == "pagination.previous") ? prev : next)}>{(x.label == "&laquo; Previous" || x.label == "pagination.previous") ? "<" : (x.label == "Next &raquo;" || x.label == "pagination.next") ? ">" : x.label}</PaginationLink>
+
+            </PaginationItem>
+            )}
+          </PaginationContent>
+        </Pagination>
+      </div>
+
+      {/* Mobile View */}
+      <div className="md:hidden">
+        {services?.data?.map((item: serviceObject) => (
+          <div key={item.id} className="bg-white shadow rounded-lg p-4 mb-4">
+            <div className="grid grid-cols-2 gap-2">
+              <span className="font-semibold">Nosaukums:</span>
+              <span>{item.name}</span>
+
+              <span className="font-semibold">Cena:</span>
+              <span>{(Number(item.price) / 100).toFixed(2)}€</span>
+
+              <span className="font-semibold">Ilgums:</span>
+              <span>{item.time}</span>
+
+              <span className="font-semibold">Apraksts:</span>
+              <span>{item.description}</span>
+
+
+            </div>
+            <div className="flex justify-end mt-4 space-x-3">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger onClick={() => { Options(item) }}>
+                    <Pencil className="ml-4" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Labot</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger onClick={() => { deleteservice(item) }}>
+                    <Trash2 />                                                </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Dzēst</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+          </div>
+        ))}
+      </div>
+
+    </main >
   )
 }

@@ -60,8 +60,8 @@ export default function InvoiceTable({ scope }: { scope: string }) {
     }
 
     const getinvoice = (invoice: any) => {
- 
-        let extension =  invoice?.invoice?.split(/[#?]/)[0].split('.').pop().trim() 
+
+        let extension = invoice?.invoice?.split(/[#?]/)[0].split('.').pop().trim()
 
         const link = document.createElement('a');
         if (extension === ("jpg" || "png" || "jpeg")) {
@@ -106,58 +106,98 @@ export default function InvoiceTable({ scope }: { scope: string }) {
                 </CardHeader>
                 <CardContent>
                     <Invoicefilters getdata={getdata} scope={scope} page={current} forcereload={forcereload} />
-                    <Table className="max-h-[750px] mt-4">
-                        <TableCaption>Saraksts ar Jums adresētiem rēķiniem.</TableCaption>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Rēķina nr.</TableHead>
-                                <TableHead>Izrakstīšanas datums</TableHead>
-                                <TableHead>{scope === "all" ? "Pakalpojumu sniedzējs" : "Pakalpojuma saņēmējs"}</TableHead>
-                                <TableHead>Pakalpojums</TableHead>
-                                <TableHead className="text-right">Apmaksas datums</TableHead>
-                                <TableHead className="text-right">Cena</TableHead>
-                                <TableHead className="text-right">Statuss</TableHead>
+                    <div className="hidden md:block">
+                        <Table className="max-h-[750px] mt-4">
+                            <TableCaption>Saraksts ar Jums adresētiem rēķiniem.</TableCaption>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Rēķina nr.</TableHead>
+                                    <TableHead>Izrakstīšanas datums</TableHead>
+                                    <TableHead>{scope === "all" ? "Pakalpojumu sniedzējs" : "Pakalpojuma saņēmējs"}</TableHead>
+                                    <TableHead>Pakalpojums</TableHead>
+                                    <TableHead className="text-right">Apmaksas datums</TableHead>
+                                    <TableHead className="text-right">Cena</TableHead>
+                                    <TableHead className="text-right">Statuss</TableHead>
 
-                                <TableHead>Iespējas</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {data?.data?.map((x: any) => (
-                                <TableRow key={x.id} className={x.status === "cancelled" ? "bg-amber-500" : ""}>
-                                    <TableCell>{x.serial_number}</TableCell>
-                                    <TableCell>{moment(x.created_at).format("DD.MM.yyyy HH:mm")}</TableCell>
-                                    <TableCell className="font-medium">{scope === "all" ? x.specialist?.name : x.customer?.name}</TableCell>
-                                    <TableCell>{x.service}</TableCell>
-                                    <TableCell>{x.paid_date ? moment(x.paid_date).format("DD.MM.yyyy HH:mm") : ""}</TableCell>
-                                    <TableCell className="text-right">{(x.price / 100)?.toFixed(2)} Eur</TableCell>
-                                    <TableCell className="text-right">{x.status === "cancelled" ? "Anulēts" : x.status === "paid" ? "Apmaksāts" : "Neapmaksāts"}</TableCell>
-
-                                    <TableCell><div className="flex flex-row">
-                                        {x.invoice && <TooltipProvider>
-                                            <Tooltip>
-                                                <TooltipTrigger onClick={() => { getinvoice(x) }}>
-                                                    <Download />
-                                                </TooltipTrigger>
-                                                <TooltipContent>
-                                                    <p>Lejupielādēt</p>
-                                                </TooltipContent>
-                                            </Tooltip>
-                                        </TooltipProvider>}
-                                        {scope === "business" && <Button className="ml-4" onClick={() => statusspaid(x)} disabled={x.paid_date}>Apmaksāts</Button>}</div></TableCell>
+                                    <TableHead>Iespējas</TableHead>
                                 </TableRow>
-                            ))}
-                        </TableBody>
+                            </TableHeader>
+                            <TableBody>
+                                {data?.data?.map((x: any) => (
+                                    <TableRow key={x.id} className={x.status === "cancelled" ? "bg-amber-500" : ""}>
+                                        <TableCell>{x.serial_number}</TableCell>
+                                        <TableCell>{moment(x.created_at).format("DD.MM.yyyy HH:mm")}</TableCell>
+                                        <TableCell className="font-medium">{scope === "all" ? x.specialist?.name : x.customer?.name}</TableCell>
+                                        <TableCell>{x.service}</TableCell>
+                                        <TableCell>{x.paid_date ? moment(x.paid_date).format("DD.MM.yyyy HH:mm") : ""}</TableCell>
+                                        <TableCell className="text-right">{(x.price / 100)?.toFixed(2)} Eur</TableCell>
+                                        <TableCell className="text-right">{x.status === "cancelled" ? "Anulēts" : x.status === "paid" ? "Apmaksāts" : "Neapmaksāts"}</TableCell>
 
-                    </Table>
+                                        <TableCell><div className="flex flex-row">
+                                            {x.invoice && <TooltipProvider>
+                                                <Tooltip>
+                                                    <TooltipTrigger onClick={() => { getinvoice(x) }}>
+                                                        <Download />
+                                                    </TooltipTrigger>
+                                                    <TooltipContent>
+                                                        <p>Lejupielādēt</p>
+                                                    </TooltipContent>
+                                                </Tooltip>
+                                            </TooltipProvider>}
+                                            {scope === "business" && <Button className="ml-4" onClick={() => statusspaid(x)} disabled={x.paid_date}>Apmaksāts</Button>}</div></TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
 
-                    <Pagination>
-                        <PaginationContent className="pagination flex-wrap w-full">
-                            {data?.links?.map((x: any, index: number) => <PaginationItem key={index}>
-                                <PaginationLink isActive={data?.current_page == x.label} onClick={() => setCurrent(Number(x.label) ? Number(x.label) : (x.label === "&laquo; Previous" || x.label == "pagination.previous") ? prev : next)}>{(x.label == "&laquo; Previous" || x.label == "pagination.previous" ) ? "<" : (x.label == "Next &raquo;" || x.label == "pagination.next")? ">" : x.label}</PaginationLink>
-                            </PaginationItem>
-                            )}
-                        </PaginationContent>
-                    </Pagination>
+                        </Table>
+
+                        <Pagination>
+                            <PaginationContent className="pagination flex-wrap w-full">
+                                {data?.links?.map((x: any, index: number) => <PaginationItem key={index}>
+                                    <PaginationLink isActive={data?.current_page == x.label} onClick={() => setCurrent(Number(x.label) ? Number(x.label) : (x.label === "&laquo; Previous" || x.label == "pagination.previous") ? prev : next)}>{(x.label == "&laquo; Previous" || x.label == "pagination.previous") ? "<" : (x.label == "Next &raquo;" || x.label == "pagination.next") ? ">" : x.label}</PaginationLink>
+                                </PaginationItem>
+                                )}
+                            </PaginationContent>
+                        </Pagination>
+                    </div>
+                    {/* Mobile View */}
+                    <div className="md:hidden ">
+                        {data?.data?.map((item: any) => (
+                            <div key={item.id} className="bg-white shadow rounded-lg p-4 mb-4">
+                                <div className="grid grid-cols-2 gap-2">
+                                    <span className="font-semibold">Rēķina nr.:</span>
+                                    <span>{item.serial_number}</span>
+
+                                    <span className="font-semibold">Izrakstīšanas datums:</span>
+                                    <span>{moment(item.created_at).format("DD.MM.yyyy HH:mm")}</span>
+
+                                    <span className="font-semibold">{scope === "all" ? "Pakalpojumu sniedzējs" : "Pakalpojuma saņēmējs"}:</span>
+                                    <span>{scope === "all" ? item.specialist?.name : item.customer?.name}</span>
+                                    <span className="font-semibold">Pakalpojums:</span>
+                                    <span>{item.service}</span>
+                                    <span className="font-semibold">Apmaksas datums:</span>
+                                    <span>{item.paid_date ? moment(item.paid_date).format("DD.MM.yyyy HH:mm") : ""}</span>
+                                    <span className="font-semibold">Cena:</span>
+                                    <span>{(item.price / 100)?.toFixed(2)}</span>
+                                    <span className="font-semibold">Statuss:</span>
+                                    <span>{item.status === "cancelled" ? "Anulēts" : item.status === "paid" ? "Apmaksāts" : "Neapmaksāts"}</span>
+
+                                </div>
+                                <div className="flex flex-row">
+                                    {item.invoice && <TooltipProvider>
+                                        <Tooltip>
+                                            <TooltipTrigger onClick={() => { getinvoice(item) }}>
+                                                <Download />
+                                            </TooltipTrigger>
+                                            <TooltipContent>
+                                                <p>Lejupielādēt</p>
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    </TooltipProvider>}
+                                    {scope === "business" && <Button className="ml-4" onClick={() => statusspaid(item)} disabled={item.paid_date}>Apmaksāts</Button>}</div>
+                            </div>
+                        ))}
+                    </div>
 
                 </CardContent>
             </Card>

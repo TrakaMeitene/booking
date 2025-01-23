@@ -47,7 +47,7 @@ export default function Specialists() {
 
             <section id="homefirst" className="justify-center home">
                 <Searchspecialist />
-                <div className="flex flex-wrap flex-row justify-center items-center z-[2]">
+                <div className="flex flex-wrap flex-row justify-center items-center z-[2] mb-[90px]">
                     {specialists.length > 0 ? specialists?.map((x: any) =>
                         <div className="flex border flex-row rounded-2xl bg-white p-5 cursor-pointer hover:scale-105 mr-4 mb-4" key={x.id} onClick={() => topersonalpage(x)}>
                             <Avatar className="h-[100px] w-[100px]" >

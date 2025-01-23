@@ -108,7 +108,9 @@ export default function RootLayout({
             shadowOpacity="0.5"
              cardComponent={CustomCard}
             cardTransition={{ duration: 2, type: "spring" }}>
+              <div className="min-h-[100dvh] bg-[#ffffff99]">
             {children}
+            </div>
             <Toaster richColors />
           </Onborda>
         </OnbordaProvider>

@@ -2,8 +2,8 @@ import  Image  from "next/image"
 
 export default function Footer(){
     return(
-        <footer >
-            <div className={`w-[90%] ml-[100px] flex flex-row justify-between items center p-5 text-[90%] `}>
+        <footer className="absolute bottom-0 w-full" >
+            <div className={` md:ml-[100px] flex flex-row justify-between items center p-5 text-[90%] `}>
                       <a href="/privacy"> Privātuma politika </a>
 
             <p>© 2025 Pieraksts Pie. Visas tiesības aizsargātas. </p>

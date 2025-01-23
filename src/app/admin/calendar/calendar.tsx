@@ -143,7 +143,7 @@ const getuser = () => {
 
 return (
     <>
-    <div style={{ height: "800px" }} className="w-full mb-4">
+    <div  className="w-full mb-[60px]">
       <Dialog open={openaddbooking} onOpenChange={(event) => setOpenaddbooking(event)} >
         <DialogContent className="sm:max-w-[425px] sm:text-center" aria-label="Jauna vizīte" aria-describedby={undefined}>
           <DialogHeader>

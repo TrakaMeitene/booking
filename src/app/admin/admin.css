@@ -45,6 +45,10 @@ padding: 20px;
 
 }
 
+.rbc-time-view{
+    margin-bottom: 60px;
+}
+
 .p-3{
     background-color: white !important;
     border-radius: 8px !important;
@@ -54,7 +58,7 @@ padding: 20px;
 
 @media screen and (max-width: 600px){
 main{
-    transform: translate(0,0);
+    transform: translate(0,0) !important;
 }
 
 }

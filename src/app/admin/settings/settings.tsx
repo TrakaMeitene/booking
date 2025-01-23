@@ -73,7 +73,7 @@ export default function Settings() {
 
     return (
         <>
-            <div >
+            <div className="mb-[60px]">
                 <h1 className="text-3xl w-full border-b-2">Uzstādījumi</h1>
                 <p>Uzstādiet darba laiku un pārtraukumus darba nedēļai!</p>
                 <Button onClick={saveweeksettings} className="mr-2">Saglabāt</Button>

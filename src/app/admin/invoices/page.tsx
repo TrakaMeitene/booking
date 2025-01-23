@@ -74,8 +74,8 @@ export default function Invoices() {
     return (
         <main id="invoices" className="bg-white">
             <h1 className="text-3xl w-full border-b-2">Rēķini</h1>
-            <div className="flex flex-col">
-                <div className="flex flex-row w-full space-x-3.5 mt-2">
+            <div className="flex flex-col mb-[60px]">
+                <div className="flex flex-row w-full space-x-3.5 mt-2 overflow-scroll">
                     <Card className="">
                         <CardHeader>
 

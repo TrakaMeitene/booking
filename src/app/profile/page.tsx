@@ -31,6 +31,7 @@ import { toast } from "sonner";
 import Bookingstable from "./bookingstable";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import InvoiceTable from "./invoicetable";
+import Footer from "../admin/partscomponents/footer";
 
 export default function Prifileall() {
     const hiddenFileInput = useRef<any>(null);
@@ -238,6 +239,7 @@ export default function Prifileall() {
                     </div>
                 </div>
             </section>
+            <Footer/>
         </>
     )
 }

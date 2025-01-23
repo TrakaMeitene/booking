@@ -103,7 +103,7 @@ const router = useRouter()
   }
 
   return (
-    <div className="flex flex-row">
+    <div className="flex flex-row flex-wrap w-[50%]">
       <Select value={month} onValueChange={(value) => {
         setMonth(value)
       }} >
