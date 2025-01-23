@@ -1,6 +1,5 @@
 'use client'
 import React, { useEffect, useState } from "react";
-import Nav from "../../../components/nav";
 import axios from "axios";
 import { usePathname } from 'next/navigation'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -31,7 +30,7 @@ import Link from "next/link";
 import { toast } from "sonner";
 import Custom404 from "@/app/not-found";
 import { Message } from "postcss";
-
+import { useRouter } from "next/navigation";
 interface Times {
     date: Date
     interval: [],
@@ -52,7 +51,7 @@ export default function Specialistpage() {
     const [eventFormOpen, setEventFormOpen] = useState<boolean>(false)
     const [datetopass, setDatetopass] = useState<Date>(new Date())
     const [windowWidth, setWindowWidth] = useState<number>(0)
-
+const router = useRouter()
     const pathname = usePathname()
     let decodedstring = decodeURIComponent(pathname)
     let token = Cookies.get('token')

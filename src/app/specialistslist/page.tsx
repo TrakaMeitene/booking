@@ -32,7 +32,6 @@ export default function Specialists() {
     }
 
     const topersonalpage = (x: User) => {
-        history.pushState({ id: x.id }, "", `/${x.name.toLocaleLowerCase('tr').replace(/ /g, "-")}`);
 
         router.push(`specialist/${x.id}/${x.name.toLocaleLowerCase('tr').replace(/ /g, "-")}` );
 
