@@ -171,7 +171,7 @@ return (
                     </div>
                 </div>
 
-                <div className="flex w-[80%] h-full p-5 flex-col  items-center  ">
+                <div className="flex w-[80%] h-full p-5 flex-col  items-center mb-[60px] ">
                     <div className="grid gap-2 ">
                         <Label htmlFor="service">Izvēlies pakalpojumu</Label>
                         <Select value={selectedservice} onValueChange={(value) => {
@@ -190,13 +190,13 @@ return (
                         </Select>
                         <Button onClick={gettimes} disabled={!selectedservice}>Atlasīt laikus</Button>
                     </div>
-                    <div style={{ height: "auto", backgroundColor: "hsl(32, 25%, 99%)", padding: "10px",  borderRadius: "10px",  marginTop: "20px", border: "1px solid hsl(33, 27%, 92%)"}}>
+                    <div className="w-[95vw] md:w-auto " style={{ height: "auto", backgroundColor: "hsl(32, 25%, 99%)", padding: "10px",  borderRadius: "10px",  marginTop: "20px", border: "1px solid hsl(33, 27%, 92%)"}}>
                     <div className="w-full flex flex-row items-start justify-center mt-4">
                         <ChevronLeft onClick={!isToday ? previousrange : ()=>{}} className="cursor-pointer " color={isToday ? "grey" : "black"}/>
                         <p className="max-[390px]:text-sm">{today.getDate()}  {months[today.getMonth()]} - {rangeEnd.getDate()} {months[rangeEnd.getMonth()]}</p>
                         <ChevronRight onClick={nextrange} className="cursor-pointer" />
                     </div>
-                    <div className="max-[390px]:w-[90%] flex max-[390px]:items-start  items-start">
+                    <div className="max-[390px]:w-[100%] flex max-[390px]:items-start  items-start">
                         <div className="flex flex-row mt-4 w-full items-start justify-center max-[390px]:items-left">
 
                             { times?.map((x, index) =>

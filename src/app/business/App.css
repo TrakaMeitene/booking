@@ -1,3 +1,4 @@
+
 .landingnav {
   width: 100%;
   height: 80px;
@@ -119,7 +120,7 @@ button:hover:not(.search button, #personpage button, .select button), .button:ho
   transform: scale(0.9);
 }
 
-#features, #item1, #pricing, footer{
+#features, #item1, #pricing{
   background-color: rgb(245 245 244 / 1);
   padding: 5%;
 }
@@ -132,6 +133,15 @@ button:hover:not(.search button, #personpage button, .select button), .button:ho
 
 #item1, #pricing{
   margin-top: 0;
+}
+
+#pricing{
+  padding-bottom: 90px;
+}
+
+footer div{
+  height: auto;
+  display: flex;
 }
 
 #item1{
@@ -208,6 +218,15 @@ h6 {
   align-items: center;
   justify-content: center;
 }
+
+footer, footer div{
+  height: 50px;
+}
+
+footer div p{
+  font-size: 15px;
+}
+
 .circle{
   background-color: #e7e5e4;
   border-radius: 50%;
