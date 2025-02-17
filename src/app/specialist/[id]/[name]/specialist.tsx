@@ -200,7 +200,7 @@ return (
                         <div className="flex flex-row mt-4 w-full items-start justify-center max-[390px]:items-left">
 
                             { times?.map((x, index) =>
-                                <div key={index} className={`flex flex-col w-[70px]  mr-2 text-center mb-4 font-bold ${x.isDayFree || x.isDayVacation ? "" : "text-zinc-300 z-index-[-2] hover:bg-white"}`}>{weekdays[new Date(x.date).getUTCDay()]}
+                                <div key={index} className={`flex flex-col w-[70px]  mr-2 text-center mb-4 font-bold ${x.isDayFree || x.isDayVacation ? "" : " z-index-[-2] hover:bg-white"}`}>{weekdays[new Date(x.date).getUTCDay()]}
                                    {x.interval && <div className="font-light text-sm">{new Date(x.date).getDate()}.{new Date(x.date).getMonth() + 1}</div> }
                                     <Dialog open={eventFormOpen}
                                         onOpenChange={(e) => setEventFormOpen(e)}
@@ -219,7 +219,7 @@ return (
                                         <DialogTrigger asChild >
 
 
-                                            {x.interval ? <div className="" >{x.interval?.map(y => <button key={y} className="border-solid border-black border mt-2 p-1.5 rounded-md	w-[70px] hover:bg-stone-400 font-normal" onClick={() => getDate(y)} disabled={!x.isDayFree}>{moment(y).format("HH:mm")}</button>)} 
+                                            {x.interval ? <div className="" >{x.interval?.map(y => <button key={y} className="border-solid border-black border mt-2 p-1.5 rounded-md	w-[70px] hover:bg-stone-400 font-normal" onClick={() => getDate(y)} >{moment(y).format("HH:mm")}</button>)} 
                                             </div> : <h1>Pieraksts aizvērts!</h1>}
                                         </DialogTrigger>
                                     </Dialog>

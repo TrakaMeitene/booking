@@ -51,7 +51,7 @@ const router = useRouter()
   const toggleDay = (day: string, index: number) => {
     console.log(day, index)
     setSelectedDays((prev) =>
-      prev.includes(index) ? prev.filter((d) => d !== index) : [...prev, index]
+      prev.includes(index+1) ? prev.filter((d) => d !== index+1) : [...prev, index+1]
     );
   };
 
