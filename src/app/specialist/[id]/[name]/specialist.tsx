@@ -147,7 +147,7 @@ let id = pathname.slice(12, 13)
     }
 
 const isToday = moment(today).format("DD,MM,YYYY") === moment(new Date()).format("DD,MM,YYYY")
-
+console.log(times)
 return (
         <>
             <section id="personpage" className="flex justify-center items-center flex-col ">

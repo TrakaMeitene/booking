@@ -51,7 +51,7 @@ const router = useRouter()
   const toggleDay = (day: string, index: number) => {
     console.log(day, index)
     setSelectedDays((prev) =>
-      prev.includes(index+1) ? prev.filter((d) => d !== index+1) : [...prev, index+1]
+      prev.includes(index) ? prev.filter((d) => d !== index) : [...prev, index]
     );
   };
 
@@ -70,7 +70,7 @@ const router = useRouter()
 
 
   };
- console.log(selectedDays)
+ console.log(timeFrom, timeTo, specialTimes)
   return (
     <div className="p-4">
       <h2 className="text-xl font-semibold">Īpašie laiki pakalpojumiem</h2>
@@ -85,7 +85,7 @@ const router = useRouter()
               <span className="text-lg font-medium">{entry.service?.name}</span>
               <span className="text-gray-600">{entry.from} - {entry.to}</span>
               <span className="flex flex-row">
-             {entry.days.map(day => ( <span key={day} className="text-gray-500 text-sm mr-2">{weekDays[day]}</span>))}
+             {entry.days.map(day => ( <span key={day} className="text-gray-500 text-sm mr-2">{weekDays[day-1]}</span>))}
            </span>
             </CardContent>
           </Card>
