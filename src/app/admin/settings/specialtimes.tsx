@@ -70,13 +70,13 @@ const router = useRouter()
 
 
   };
- console.log(timeFrom, timeTo, specialTimes)
+
   return (
     <div className="p-4">
       <h2 className="text-xl font-semibold">Īpašie laiki pakalpojumiem</h2>
-      <p className="text-sm text-gray-500">Iestatiet konkrētus laikus specifiskiem pakalpojumiem.</p>
+      <p className="text-sm text-gray-500">Iestatiet konkrētus laikus specifiskiem pakalpojumiem. Ja izmantojat šos laikus, nedēļas darba laika uzstādījumi netiek ņemti vērā. </p>
 
-      <Button className="mt-4" onClick={() => setOpen(true)}>+ Pievienot pakalpojumu</Button>
+      <Button className="mt-4" onClick={() => setOpen(true)}>+ Pievienot pakalpojuma laikus</Button>
 
       <div className="mt-4 flex flex-col">
         {specialTimes.map((entry, index) => (
