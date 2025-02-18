@@ -10,7 +10,7 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 
 interface SpecialTime {
-  service: number;
+  service: any;
   from: string;
   to: string;
   days: number[];
@@ -18,12 +18,12 @@ interface SpecialTime {
 
 export default function SpecialAvailability() {
   const [open, setOpen] = useState<boolean>(false);
-  const [selectedService, setSelectedService] = useState<number>();
+  const [selectedService, setSelectedService] = useState<number|any>();
   const [timeFrom, setTimeFrom] = useState<string>("");
   const [timeTo, setTimeTo] = useState<string>("");
   const [selectedDays, setSelectedDays] = useState<number[]>([]);
   const [specialTimes, setSpecialTimes] = useState<SpecialTime[]>([]);
-  const [services, setservices] = useState<Service[] | any>()
+  const [services, setservices] = useState<Service[]|any>()
 const router = useRouter()
 
   const weekDays: string[] = ["P", "O", "T", "C", "Pk", "S", "Sv"];
@@ -79,7 +79,7 @@ const router = useRouter()
       <Button className="mt-4" onClick={() => setOpen(true)}>+ Pievienot pakalpojuma laikus</Button>
 
       <div className="mt-4 flex flex-col">
-        {specialTimes.map((entry, index) => (
+        {specialTimes.map((entry:SpecialTime, index) => (
           <Card key={index} className="p-4 flex justify-between items-center w-fit mb-2">
             <CardContent className="flex flex-col">
               <span className="text-lg font-medium">{entry.service?.name}</span>

@@ -37,7 +37,7 @@ import { Message } from "../profile/page";
 
 export interface Service {
   map(arg0: (x: serviceObject) => React.JSX.Element): React.ReactNode;
-  id: number, name: string, price: string, time: number, description: string,
+  id: number|any, name: string, price: string, time: number, description: string,
 }
 
 export default function Services() {
