@@ -12,6 +12,7 @@ import { Trash } from "lucide-react";
 import { toast } from "sonner"
 
 interface SpecialTime {
+  id: number;
   service: any;
   from: string;
   to: string;
@@ -58,11 +59,11 @@ export default function SpecialAvailability() {
 
   const addSpecialTime = () => {
     if (selectedService && timeFrom && timeTo && selectedDays.length > 0) {
-      setSpecialTimes([...specialTimes, { service: selectedService, from: timeFrom, to: timeTo, days: selectedDays }]);
+      setSpecialTimes([...specialTimes, { id: specialTimes.length +1, service: selectedService, from: timeFrom, to: timeTo, days: selectedDays }]);
       setOpen(false);
       setSelectedDays([]);
 
-      const data: SpecialTime = { service: selectedService, from: timeFrom, to: timeTo, days: selectedDays }
+      const data: SpecialTime = { id: specialTimes.length +1, service: selectedService, from: timeFrom, to: timeTo, days: selectedDays }
 
       axios.post(`${process.env.NEXT_PUBLIC_REQUEST_URL}/saveSpecialtimes`, { data }, { headers })
         .then(resp => getspecialtimes())
