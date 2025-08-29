@@ -21,9 +21,9 @@ This project is a booking application built using Next.js, TypeScript, and Tailw
 
 ## ✨ Features
 
-- **Booking Management:** Create, view, edit, and delete bookings.  (Inferred from project name and file structure)
-- **Component-Based Architecture:** Uses a modular design for easier maintenance and scalability. (Detected from `components.json` and `component1s.json`)
-- **Styling with Tailwind CSS:**  Utilizes Tailwind CSS for rapid UI development. (Detected from `tailwind.config.ts`)
+- **Booking Management:** Create, view, edit, and delete bookings.  
+- **Component-Based Architecture:** Uses a modular design for easier maintenance and scalability.
+- **Styling with Tailwind CSS:**  Utilizes Tailwind CSS for rapid UI development. 
 
 
 
@@ -103,25 +103,11 @@ booking/
 | `npm test`     | Runs tests (If tests exist)                     |
 
 
-## 🧪 Testing
-
-(No testing framework or test files were detected in the provided data. Add testing information if found).
-
-
-## 🚀 Deployment
-
-(No deployment configurations detected. Add deployment information if present, e.g. instructions for Vercel/Netlify, Docker, etc.)
-
-
-
-## 🤝 Contributing
-
-(Add contributing guidelines if a CONTRIBUTING.md file exists).
 
 
 ## 📄 License
 
-(No license information provided. Add license details if available)
+No license 
 
 
 
@@ -131,6 +117,6 @@ booking/
 
 **⭐ Star this repo if you find it helpful!**
 
-Made with ❤️ by [TrakaMeitene] <!-- TODO: Add author name (if different) -->
+Made with ❤️ by TrakaMeitene
 
 </div>
