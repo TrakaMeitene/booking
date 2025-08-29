@@ -2,7 +2,6 @@
 
 <div align="center">
 
-![Logo](path-to-logo) <!-- TODO: Add project logo -->
 
 [![GitHub stars](https://img.shields.io/github/stars/TrakaMeitene/booking?style=for-the-badge)](https://github.com/TrakaMeitene/booking/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/TrakaMeitene/booking?style=for-the-badge)](https://github.com/TrakaMeitene/booking/network)
@@ -11,8 +10,7 @@
 
 **A Next.js application for managing bookings.**
 
-[Live Demo](https://demo-link.com) <!-- TODO: Add live demo link --> |
-[Documentation](https://docs-link.com) <!-- TODO: Add documentation link -->
+
 
 </div>
 
